@@ -2,7 +2,7 @@
 # Installe la tâche planifiée pour l'utilisateur courant
 
 $TaskName = "ATARYS_V2_Sauvegarde_Auto"
-$ScriptPath = "C:\DEV\APP_ATARYS V2\.bat\sauvegarde-auto.ps1"
+$ScriptPath = "C:\DEV\APP_ATARYS V2\.bat\sauvegarde-securisee.ps1"
 $WorkingDirectory = "C:\DEV\APP_ATARYS V2"
 
 Write-Host "=== Installation Sauvegarde Quotidienne 21h (Utilisateur) ===" -ForegroundColor Green

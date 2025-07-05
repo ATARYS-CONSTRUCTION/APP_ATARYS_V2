@@ -60,7 +60,8 @@ try {
         $BackupFolder = "$BackupPath\ATARYS_V2_$BackupDate"
         
         # Copier les fichiers importants (exclure .git, node_modules, etc.)
-        robocopy $ProjectPath $BackupFolder /E /XD .git node_modules .vite dist __pycache__ /XF *.log *.tmp /R:3 /W:1 /MT:8 /LOG+:$LogFile
+        # ATTENTION : Robocopy en mode COPIE SEULEMENT, pas de suppression !
+        robocopy $ProjectPath $BackupFolder /E /XD .git node_modules dist __pycache__ /XF *.log *.tmp /R:3 /W:1 /MT:8 /LOG+:$LogFile
         
         Write-Log "✅ Sauvegarde locale créée : $BackupFolder" "SUCCESS"
     }
