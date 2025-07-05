@@ -35,6 +35,85 @@
 - UI/UX : Padding 16px, gap-3, responsive
 - API : Format standardisé {success, data, message}
 
+## 🔧 STANDARDS TECHNIQUES ATARYS V2
+
+### STACK TECHNOLOGIQUE OBLIGATOIRE :
+- **Backend** : Flask 3.0+ + SQLAlchemy 2.0+ + Factory pattern
+- **Frontend** : React 18.2.0 + Vite 5.4.19 + Tailwind CSS 3.4.1
+- **Base de données** : SQLite avec BaseModel pattern
+- **API** : REST format `{success, data, message}`
+
+### MODÈLES SQLALCHEMY - Standards obligatoires :
+```python
+# TOUJOURS utiliser BaseModel comme parent
+class ExampleModel(BaseModel):
+    __tablename__ = 'example_table'
+    
+    # OBLIGATOIRE : Montants financiers en Numeric(10, 2)
+    montant_ht = db.Column(db.Numeric(10, 2), default=0.00)
+    
+    # OBLIGATOIRE : Strings avec longueur max
+    nom = db.Column(db.String(100), nullable=False)
+    
+    # OBLIGATOIRE : Méthode __repr__ explicite
+    def __repr__(self):
+        return f"<{self.__class__.__name__} {self.nom}>"
+```
+
+### CONFIGURATION FLASK - Pattern obligatoire :
+```python
+# TOUJOURS utiliser Factory pattern
+def create_app(config_name='development'):
+    app = Flask(__name__)
+    app.config.from_object(config[config_name])
+    
+    db.init_app(app)
+    migrate.init_app(app, db)
+    
+    return app
+```
+
+### API REST - Format standardisé obligatoire :
+```json
+{
+  "success": true,
+  "data": [...],
+  "message": "Opération réussie",
+  "pagination": {
+    "page": 1,
+    "per_page": 50,
+    "total": 100,
+    "has_next": true
+  }
+}
+```
+
+### TYPES DE DONNÉES - Règles strictes :
+- **Montants financiers** : `db.Numeric(10, 2)` OBLIGATOIRE
+- **Mesures techniques** : `db.Float` autorisé
+- **Textes courts** : `db.String(longueur_max)` avec limite
+- **Textes longs** : `db.Text` pour descriptions
+- **Dates** : `db.DateTime` avec `default=datetime.utcnow`
+
+### URLS ET PORTS - Standards fixes :
+- **Frontend** : http://localhost:3000 (React + Vite)
+- **Backend** : http://localhost:5000 (Flask + SQLAlchemy)
+- **Proxy API** : `/api/*` → `localhost:5000`
+
+### CONVENTIONS NOMMAGE - Règles strictes :
+- **Modules** : Numérotation 1-13 selon ATARYS_MODULES.md
+- **Sous-modules** : X.Y (ex: 1.1, 1.2)
+- **Composants React** : PascalCase (`Module3_1.jsx`)
+- **Fichiers backend** : snake_case (`module_3_1.py`)
+- **APIs** : kebab-case (`/api/calcul-ardoises`)
+- **Tables** : snake_case (`chantiers_etats`)
+
+### VALIDATION - Standards obligatoires :
+- **Pagination** : 50 éléments par page par défaut
+- **Validation** : Marshmallow pour tous les endpoints
+- **Erreurs** : Middleware centralisé avec codes HTTP
+- **Logging** : Logs structurés dans logs/atarys.log
+
 ## 📁 ORGANISATION DOSSIERS OBLIGATOIRE
 
 ### CRÉATION FICHIERS - Règles strictes :
@@ -52,6 +131,10 @@
 ❌ **JAMAIS mélanger backend/frontend** dans le même dossier
 ❌ **JAMAIS de scripts Python** dans frontend/
 ❌ **JAMAIS de fichiers React** dans backend/
+❌ **JAMAIS utiliser Float pour les montants** (toujours Numeric)
+❌ **JAMAIS créer de modèles sans BaseModel** 
+❌ **JAMAIS d'APIs sans format {success, data, message}**
+❌ **JAMAIS de String sans longueur max** dans les modèles
 
 ## 🚨 RÈGLES D'OR CURSOR
 
@@ -60,6 +143,7 @@
 3. **RESPECTER l'architecture et nomenclature ATARYS (modules 1.1 à 13.x)**
 4. **METTRE À JOUR la documentation après développement**
 5. **JAMAIS affirmer que "ça marche" ou "c'est opérationnel" sans test réel et validation concrète**
+6. **TOUJOURS utiliser les standards techniques V2** (BaseModel, Numeric, Factory pattern)
 
 ## 📚 RACCOURCIS DOCUMENTATION
 
@@ -70,7 +154,7 @@
 - docs/03-regles-standards/REGLES METIERS.md - Règles business
 - docs/02-architecture/API_ENDPOINTS.md - Toutes les APIs
 - docs/02-architecture/DATABASE_SCHEMA.md - Structure complète
-- docs/02-architecture/ARCHITECTURE.md - Architecture globale
+- docs/02-architecture/ATARYS_ARCHITECTURE.md - Architecture technique
 
 ## 🔧 RÉSOLUTION PROBLÈMES
 
@@ -93,6 +177,13 @@
 3. ✅ Vérifier docs/02-architecture/ATARYS_ARCHITECTURE.md
 4. ✅ Suivre workflow backend → frontend → tests
 
+### Création d'un modèle SQLAlchemy :
+1. ✅ Hériter de BaseModel OBLIGATOIRE
+2. ✅ Utiliser db.Numeric(10, 2) pour les montants
+3. ✅ Définir __tablename__ et __repr__
+4. ✅ Ajouter validations Marshmallow
+5. ✅ Créer le service associé
+6. ✅ Créer les routes API REST
 
 A la fin d'une opération les fichiers test et tous les fichiers inutiles pour l'app doivent être supprimés.
 

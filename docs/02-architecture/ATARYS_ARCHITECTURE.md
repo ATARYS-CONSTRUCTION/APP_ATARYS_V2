@@ -75,49 +75,67 @@
 
 ## 📋 **Architecture Fonctionnelle - 13 Modules ATARYS**
 
-### **✅ Modules 100% Opérationnels**
-- **Module 9.1** - Liste Salariés (API + Interface complète)
-- **Module 10.1** - Calcul Ardoises (Workflow complet fonctionnel)
-- **Architecture Backend** - Flask + SQLAlchemy + 13 tables
+### **✅ Éléments 100% Opérationnels V2**
+- **Frontend React** - Structure complète fonctionnelle (port 3000)
+- **Documentation** - Architecture complète et cohérente
+- **Nomenclature** - 13 modules ATARYS avec sous-modules définis
+- **Standards** - Méthodologie Cursor stricte appliquée
 
-### **🔄 Modules 80-95% Opérationnels**
-- **Module 3.1** - Liste Chantiers (95% - PRIORITÉ 1)
-- **Module 1.1** - Planning Salariés (90%)
-- **Module 1.2** - Planning Chantiers (90%)
-- **Module 5.3** - Devis MEXT (90% - Extraction Excel)
+### **📋 Référence Technique V1 Conservée**
+- **Dossiers V1** - `0 APP ATARYS/` et `0 APP ATARYS - Copie/` pour référence
+- **Scripts d'import** - Logique d'extraction Excel/CSV à adapter
+- **Structure BDD** - Modèles SQLAlchemy comme base de réflexion
+
+### **🔄 À Créer Entièrement en V2**
+- **Backend Flask** - API REST structurée selon modules ATARYS (PRIORITÉ 1)
+- **Base de données** - SQLite V2 propre à partir d'Excel à jour (PRIORITÉ 3)
+- **Module 3.1** - LISTE CHANTIERS (interface + API)
+- **Module 9.1** - Liste_salaries (interface + API)
+- **Module 10.1** - CALCUL_ARDOISES (interface + API)
 
 ### **📋 Nomenclature Complète**
 ```
-1. PLANNING          → 1.1 Salariés, 1.2 Chantiers
+1. PLANNING          → 1.1 Planning Salariés, 1.2 Planning Chantier
 2. LISTE DES TÂCHES  → 2.1 Yann, 2.2 Julien
-3. LISTE CHANTIERS   → 3.1 Liste, 3.2 Projets, 3.3 Signés, 3.4 En cours, 3.5 Archives
-4. CHANTIERS         → 4.1 Suivi, 4.2 Notes, 4.3 Commandes, 4.4 Documents
-5. DEVIS-FACTURATION → 5.1 BATAPPLI, 5.2 Fiche Mètres, 5.3 MEXT, 5.4 Type
-6. ATELIER           → 6.1-6.5 Quincaillerie, Consommables, Camion, Matériel, Échafaudage
-7. GESTION           → 7.1-7.3 Prévisionnel, Synthèse, Bilans
-8. COMPTABILITÉ      → 8.1-8.2 TVA, Tableau de bord
-9. SOCIAL            → 9.1-9.3 Salariés, Fiche mensuelle, Récap
-10. OUTILS           → 10.1-10.5 Ardoises, Structures, Staravina, Domaine, Documents
+3. LISTE CHANTIERS   → 3.1 Liste Chantiers, 3.2 Chantiers Projets, 3.3 Chantiers Signés, 3.4 Chantiers En Cours, 3.5 Chantiers Archives
+4. CHANTIERS         → 4.1 Suivi de Chantier, 4.2 Notes de Chantier, 4.3 Commandes, 4.4 Documents
+5. DEVIS-FACTURATION → 5.1 Ouvrages et articles BATAPPLI, 5.2 Fiche Mètres, 5.3 Devis MEXT, 5.4 Devis Type
+6. ATELIER           → 6.1 Quincaillerie, 6.2 Consommables, 6.3 Camions, 6.4 Matériel, 6.5 Échafaudage
+7. GESTION           → 7.1 Prévisionnel, 7.2 Synthèse Prévisionnelle, 7.3 Bilans
+8. COMPTABILITÉ      → 8.1 TVA, 8.2 Tableau de Bord
+9. SOCIAL            → 9.1 Liste_salaries, 9.2 Fiche mensuelle, 9.3 Récap et calculs
+10. OUTILS           → 10.1 Calcul_Ardoises, 10.2 Calcul_structures, 10.3 Staravina, 10.4 Documents types
 11. ARCHIVES         → Archivage automatique
-12. PARAMÈTRES       → Configuration système
-13. AIDE             → Nomenclature + Documentation
+12. PARAMÈTRES       → 12.1 Base de Données
+13. AIDE             → 13.1 Documentation
 ```
 
 ---
 
 ## 🗄️ **Base de Données SQLAlchemy**
 
-### **13 Tables Principales**
-- **`chantiers`** : Projets chantier (19 colonnes)
-- **`devis`** : Devis clients (17 colonnes)
-- **`liste_salaries`** : Employés (10 entrées)
-- **`villes`** : Communes Bretagne (332 entrées)
-- **`calcul_modele_ardoises`** : Calculs ardoises (194 entrées)
-- **`planning`** : Planning général (5 entrées)
-- **`etats_chantier`** : États workflow
-- **`familles_ouvrages`** : Classification travaux
-- **`niveaux_qualification`** : Grille salariale
-- **Et 4 autres tables** support
+### **Structure Base de Données V2**
+- **Organisation modulaire** : Selon nomenclature officielle `ATARYS_MODULES.md`
+- **Source données** : Fichier Excel propre et à jour (à importer)
+- **Base SQLite V2** : À créer entièrement selon standards V2
+- **Migration** : Pas de migration V1, création propre depuis Excel
+- **Standards** : SQLAlchemy 2.0+ avec BaseModel pattern
+
+**Modules prioritaires à développer :**
+- **Module 3.1** : LISTE CHANTIERS (priorité 1)
+- **Module 9.1** : Liste_salaries (priorité 2)
+- **Module 10.1** : CALCUL_ARDOISES (priorité 3)
+- **Autres modules** : À développer selon roadmap Phase 1-3
+
+### **🏗️ Workflow États Chantiers**
+**9 États Définis :**
+1. **Projet** → 2. **Modification** → 3. **En cours de signature** → 4. **Signature** → 5. **En cours** → 6. **À finir** → 7. **Terminé** ⇄ 8. **SAV** | 9. **Non abouti** (réactivable)
+
+**Automatisation Tâches :**
+- **Changement d'état** → **Génération automatique** des tâches `CHANTIER_RECURRENT`
+- **Service Python** : `backend/app/services/etat_chantier_service.py` (à créer)
+- **Types de tâches** : Administrative, Technique, Commerciale
+- **Liaison** : Table `etats_taches_recurrentes` pour mapping automatique
 
 ### **Architecture Base Model**
 ```python
@@ -170,35 +188,44 @@ class BaseModel(db.Model):
 ## 🚀 **Environnement de Développement**
 
 ### **URLs et Ports**
-- **Frontend React** : http://localhost:3001
-- **Backend Flask** : http://localhost:5000
+- **Frontend React** : http://localhost:3000
+- **Backend Flask** : http://localhost:5000 (à créer)
 - **Proxy API** : `/api/*` → `localhost:5000`
 
 ### **Commandes de Lancement**
 ```powershell
-# Backend (Terminal 1)
-cd backend; python run.py
-
-# Frontend (Terminal 2)  
+# Frontend (Terminal 1) - OPÉRATIONNEL
 cd frontend; npm run dev
+
+# Backend (Terminal 2) - À CRÉER
+cd backend; python run.py
 ```
 
 ### **Vérification APIs**
 ```powershell
-Invoke-RestMethod -Uri "http://localhost:5000/api/chantiers"
-Invoke-RestMethod -Uri "http://localhost:5000/api/villes?per_page=5"
-Invoke-RestMethod -Uri "http://localhost:5000/health"
+# APIs à créer - exemples pour tests futurs
+# Invoke-RestMethod -Uri "http://localhost:5000/api/health"
+# Invoke-RestMethod -Uri "http://localhost:5000/api/status"
+
+# Backend à créer en priorité 1
+echo "Backend Flask à créer selon API_ENDPOINTS.md"
 ```
 
 ---
 
 ## 📊 **Métriques et Performance**
 
-### **État Actuel (02/07/2025)**
-- **Base de données** : 792 enregistrements sur 13 tables
-- **Code Backend** : ~15 000 lignes Python
-- **Code Frontend** : ~8 000 lignes React
-- **Documentation** : Restructurée en 5 thèmes
+### **État Actuel V2 (05/07/2025)**
+- **Frontend React** : Structure complète opérationnelle (port 3000)
+- **Documentation** : Architecture complète et cohérente
+- **Nomenclature** : 13 modules ATARYS définis avec sous-modules
+- **Standards** : Méthodologie Cursor stricte appliquée
+
+### **À Créer V2**
+- **Backend Flask** : Structure complète (priorité 1)
+- **Base SQLite V2** : Import depuis Excel propre (priorité 2)
+- **APIs REST** : Selon spécifications modules prioritaires
+- **Interfaces** : Modules 3.1, 9.1, 10.1
 
 ### **Objectifs Performance**
 - **< 2s** temps de réponse toutes APIs
@@ -231,6 +258,7 @@ Invoke-RestMethod -Uri "http://localhost:5000/health"
 ### **APIs et Données**
 - **[API_ENDPOINTS.md](API_ENDPOINTS.md)** - 30+ endpoints documentés
 - **[DATABASE_SCHEMA.md](DATABASE_SCHEMA.md)** - Schéma SQLAlchemy complet
+- **[ETATS_CHANTIERS_COMPLETS.md](ETATS_CHANTIERS_COMPLETS.md)** - Workflow détaillé des états
 
 ### **Guides Techniques**
 - **[DEPLOYMENT.md](DEPLOYMENT.md)** - Production et staging

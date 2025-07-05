@@ -1,27 +1,25 @@
 # 📚 Modules ATARYS - Nomenclature Officielle
 
-> **Référence unique : organisation par chapitres ATARYS**
-> Dernière mise à jour : 03/07/2025
+> **Référence unique : organisation par chapitres ATARYS**  
+> **Nomenclature mise à jour selon document de référence**  
+> Dernière mise à jour : 05/07/2025
 
 ---
 
 ## 📋 Vue d'ensemble
 
-- **13 chapitres principaux** : Numérotés de 1 à 13
-- **Sous-chapitres** : Format X.Y (ex: 1.1, 1.2, 3.1, etc.)
+- **13 modules principaux** : Numérotés de 1 à 13
+- **Sous-modules** : Format X.Y (ex: 1.1, 1.2, 2.1, 2.2, etc.)
 - **Organisation hiérarchique** : Structure claire et logique
-- **Cohérence avec l'architecture** : Alignement sur les modèles et routes existants
+- **Cohérence avec l'architecture** : Alignement sur les modèles et routes à créer
 
 ---
 
 ## 📅 1. PLANNING
 
-### Sous-chapitres
+### Sous-modules
 - 1.1 PLANNING SALARIÉS
 - 1.2 PLANNING CHANTIER
-
-### Tables Concernées
-- `planning` - Planning des interventions
 
 ### Fonctionnalités
 - Planning des chantiers
@@ -29,19 +27,13 @@
 - Vue calendaire
 - Gestion des interventions
 
-### Routes API
-- `/api/planning` - CRUD planning
-
 ---
 
-## 📋 2. LISTE DES TACHES
+## 📋 2. LISTE DES TÂCHES
 
-### Sous-chapitres
+### Sous-modules
 - 2.1 YANN
 - 2.2 JULIEN
-
-### Tables Concernées
-- `liste_taches` - Tâches personnalisées par utilisateur
 
 ### Fonctionnalités
 - Liste de tâches personnalisées
@@ -52,16 +44,12 @@
 
 ## 🏗️ 3. LISTE CHANTIERS
 
-### Sous-chapitres
+### Sous-modules
 - 3.1 LISTE CHANTIERS
 - 3.2 CHANTIERS PROJETS
-- 3.3 CHANTIERS SIGNES
+- 3.3 CHANTIERS SIGNÉS
 - 3.4 CHANTIERS EN COURS
 - 3.5 CHANTIERS ARCHIVES
-
-### Tables Concernées
-- `chantiers` - Chantiers clients
-- `etats_chantier` - États des chantiers
 
 ### Fonctionnalités
 - Gestion des chantiers clients
@@ -69,176 +57,121 @@
 - Pipeline commercial complet
 - Vue par statut
 
-### Routes API
-- `/api/chantiers` - CRUD chantiers
-
 ---
 
 ## 🏠 4. CHANTIERS
 
-### Sous-chapitres
-- 4.1 FICHE CHANTIER
-- 4.2 PHOTOS CHANTIER
-- 4.3 NOTES CHANTIER
-- 4.4 DOCUMENTS CHANTIER
-
-### Tables Concernées
-- `chantiers` - Détails des chantiers
-- `photos_chantier` - Photos des chantiers
-- `notes_chantier` - Notes et commentaires
-- `documents_chantier` - Documents associés
+### Sous-modules
+- 4.1 SUIVI DE CHANTIER
+- 4.2 NOTES DE CHANTIER
+- 4.3 COMMANDES
+- 4.4 DOCUMENTS
 
 ### Fonctionnalités
-- Fiches détaillées des chantiers
-- Gestion des photos
-- Notes et commentaires
+- Suivi détaillé des chantiers
+- Gestion des notes
+- Gestion des commandes
 - Documents associés
 
 ---
 
 ## 📄 5. DEVIS-FACTURATION
 
-### Sous-chapitres
-- 5.1 DEVIS
-- 5.2 FACTURES
-- 5.3 RECOUVREMENTS
-
-### Tables Concernées
-- `devis` - Devis clients
-- `factures` - Factures émises
-- `recouvrements` - Suivi des paiements
+### Sous-modules
+- 5.1 Ouvrages et articles BATAPPLI
+- 5.2 FICHE MÈTRES
+- 5.3 DEVIS MEXT
+- 5.4 DEVIS TYPE
 
 ### Fonctionnalités
-- Création et gestion des devis
-- Émission des factures
-- Suivi des recouvrements
+- Gestion des ouvrages BATAPPLI
+- Fiches de métrés
+- Devis MEXT
+- Modèles de devis types
 - Calculs automatiques
-
-### Routes API
-- `/api/devis` - CRUD devis
-- `/api/factures` - CRUD factures
 
 ---
 
 ## 🔧 6. ATELIER
 
-### Sous-chapitres
-- 6.1 STOCK MATERIAUX
-- 6.2 COMMANDES FOURNISSEURS
-- 6.3 LIVRAISONS
-- 6.4 INVENTAIRES
-- 6.5 OUTILLAGE
-
-### Tables Concernées
-- `materiaux` - Stock des matériaux
-- `commandes` - Commandes fournisseurs
-- `livraisons` - Livraisons reçues
-- `inventaires` - Inventaires de stock
-- `outillage` - Gestion de l'outillage
+### Sous-modules
+- 6.1 QUINCAILLERIE
+- 6.2 CONSOMMABLES
+- 6.3 CAMIONS
+- 6.4 MATÉRIEL
+- 6.5 ÉCHAFAUDAGE
 
 ### Fonctionnalités
-- Gestion du stock
-- Commandes fournisseurs
-- Suivi des livraisons
-- Inventaires
-- Gestion de l'outillage
+- Gestion de la quincaillerie
+- Suivi des consommables
+- Gestion des camions
+- Matériel d'atelier
+- Gestion de l'échafaudage
 
 ---
 
 ## 📊 7. GESTION
 
-### Sous-chapitres
-- 7.1 TABLEAUX DE BORD
-- 7.2 RAPPORTS
-- 7.3 STATISTIQUES
-
-### Tables Concernées
-- `statistiques` - Données statistiques
-- `rapports` - Rapports générés
-- `indicateurs` - Indicateurs de performance
+### Sous-modules
+- 7.1 PRÉVISIONNEL
+- 7.2 SYNTHÈSE PRÉVISIONNELLE
+- 7.3 BILANS
 
 ### Fonctionnalités
-- Tableaux de bord
-- Rapports personnalisés
-- Statistiques de performance
+- Gestion prévisionnelle
+- Synthèses prévisionnelles
+- Bilans de gestion
 - Indicateurs clés
 
 ---
 
-## 💰 8. COMPTABILITE
+## 💰 8. COMPTABILITÉ
 
-### Sous-chapitres
-- 8.1 COMPTE RESULTAT
-- 8.2 BILAN
-
-### Tables Concernées
-- `compte_resultat` - Compte de résultat
-- `bilan` - Bilan comptable
+### Sous-modules
+- 8.1 TVA
+- 8.2 TABLEAU DE BORD
 
 ### Fonctionnalités
-- Compte de résultat
-- Bilan comptable
+- Gestion de la TVA
+- Tableaux de bord comptables
 - Analyse financière
 
 ---
 
 ## 👥 9. SOCIAL
 
-### Sous-chapitres
-- 9.1 SALARIES
-- 9.2 CONGES
-- 9.3 FORMATIONS
-
-### Tables Concernées
-- `salaries` - Salariés de l'entreprise
-- `conges` - Gestion des congés
-- `formations` - Formations suivies
+### Sous-modules
+- 9.1 Liste_salaries
+- 9.2 Fiche mensuelle
+- 9.3 Récap et calculs
 
 ### Fonctionnalités
 - Gestion des salariés
-- Planning des congés
-- Suivi des formations
-
-### Routes API
-- `/api/salaries` - CRUD salariés
+- Fiches mensuelles
+- Récapitulatifs et calculs sociaux
 
 ---
 
 ## 🛠️ 10. OUTILS
 
-### Sous-chapitres
-- 10.1 CALCULS ARDOISES
-- 10.2 CALCULS ZINGUERIE
-- 10.3 CALCULS COUVERTURE
-
-### Tables Concernées
-- `ardoise` - Calculs ardoises
-- `ardoise_complet` - Calculs complets
-- `pente` - Calculs de pente
-- `surface` - Calculs de surface
-- `materiau_ardoise` - Matériaux ardoises
-- `calcul_ardoise` - Résultats calculs
+### Sous-modules
+- 10.1 CALCUL_ARDOISES
+- 10.2 Calcul_structures
+- 10.3 Staravina (base de données avec mots-clés de la documentation)
+- 10.4 Documents types
 
 ### Fonctionnalités
 - Calculs automatiques ardoises
-- Calculs zinguerie
-- Calculs couverture
-- Outils de dimensionnement
-
-### Routes API
-- `/api/ardoises` - Calculs ardoises
+- Calculs de structures
+- Base de données Staravina avec mots-clés
+- Gestion des documents types
 
 ---
 
 ## 📁 11. ARCHIVES
 
-### Sous-chapitres
-- 11.1 ARCHIVES CHANTIERS
-- 11.2 ARCHIVES DEVIS
-- 11.3 ARCHIVES FACTURES
-
-### Tables Concernées
-- `archives` - Archives générales
+### Sous-modules
+- (Pas de sous-modules définis dans le document de référence)
 
 ### Fonctionnalités
 - Archivage des chantiers
@@ -248,18 +181,13 @@
 
 ---
 
-## ⚙️ 12. PARAMETRES
+## ⚙️ 12. PARAMÈTRES
 
-### Sous-chapitres
-- 12.1 PARAMETRES GENERAUX
-- 12.2 CONFIGURATION
-
-### Tables Concernées
-- `parametres` - Paramètres système
-- `configuration` - Configuration application
+### Sous-modules
+- 12.1 BASE DE DONNÉES
 
 ### Fonctionnalités
-- Paramètres généraux
+- Paramètres de base de données
 - Configuration système
 - Personnalisation
 
@@ -267,39 +195,37 @@
 
 ## ❓ 13. AIDE
 
-### Sous-chapitres
-- 13.1 GUIDE UTILISATEUR
-- 13.2 FAQ
-
-### Tables Concernées
-- `aide` - Contenu d'aide
-- `faq` - Questions fréquentes
+### Sous-modules
+- 13.1 DOCUMENTATION
 
 ### Fonctionnalités
+- Documentation système
 - Guide utilisateur
-- FAQ interactive
 - Support utilisateur
 
 ---
 
-## 📊 Statistiques
+## 📊 Organisation Modulaire
 
-- **1. PLANNING** : 1 table
-- **2. LISTE DES TACHES** : 1 table
-- **3. LISTE CHANTIERS** : 2 tables
-- **4. CHANTIERS** : 4 tables
-- **5. DEVIS-FACTURATION** : 3 tables
-- **6. ATELIER** : 5 tables
-- **7. GESTION** : 3 tables
-- **8. COMPTABILITE** : 2 tables
-- **9. SOCIAL** : 3 tables
-- **10. OUTILS** : 6 tables
-- **11. ARCHIVES** : 1 table
-- **12. PARAMETRES** : 2 tables
-- **13. AIDE** : 2 tables
+### **Modules Prioritaires V2**
+- **Module 3.1** : LISTE CHANTIERS (priorité 1)
+- **Module 9.1** : Liste_salaries (priorité 2)
+- **Module 10.1** : CALCUL_ARDOISES (priorité 3)
 
-**Total** : 35 tables organisées en 13 chapitres
+### **Modules Phase 1**
+- **Modules 1.1/1.2** : Planning
+- **Modules 2.1/2.2** : Listes de tâches
+- **Modules 7.1/7.2** : Gestion et tableaux de bord
+
+### **Modules Phase 2**
+- **Modules 5.x** : Devis-Facturation complet
+- **Modules 6.x** : Atelier
+- **Modules 8.x** : Comptabilité
+
+### **Modules Phase 3**
+- **Modules 4.x** : Chantiers détaillés
+- **Modules 11-13** : Archives, Paramètres, Aide
 
 ---
 
-**✅ Nomenclature officielle ATARYS - 13 chapitres organisés !** 
+**✅ Nomenclature officielle ATARYS - 13 modules organisés selon document de référence !** 

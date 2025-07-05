@@ -1,55 +1,22 @@
-# 🗄️ Schéma Base de Données ATARYS
+# 🗄️ Schéma Base de Données ATARYS V2
 
-> **Structure technique complète des tables SQLite + Architecture SQLAlchemy + Flask-Admin**
-> Dernière mise à jour : 03/07/2025
+> **Structure technique complète des tables SQLite organisée par Modules ATARYS**  
+> Architecture SQLAlchemy + Flask-Admin + Organisation modulaire  
+> **VERSION 2** : Base propre créée depuis Excel à jour  
+> Dernière mise à jour : 05/07/2025
 
 ---
 
 ## 📋 Vue d'ensemble
 
-Base de données SQLite : `data/atarys_data.db`
-- **23 tables** principales
-- **792+ enregistrements** de données
-- **Relations** : Clés étrangères et contraintes
+Base de données SQLite V2 : `data/atarys_v2.db` (à créer)
+- **Structure modulaire** : Selon `ATARYS_MODULES.md`
+- **Source données** : Fichier Excel propre et à jour
+- **Approche V2** : Création propre, pas de migration V1
+- **Relations** : Clés étrangères et contraintes à définir
 - **Index** : Optimisation des performances
-- **ORM** : SQLAlchemy pour l'abstraction
-- **Admin** : Flask-Admin pour la gestion
-
----
-
-## 🔢 Types de Données Numériques
-
-### **FLOAT vs NUMERIC - Recommandations ATARYS**
-
-**Situation Actuelle :**
-- Les modèles utilisent `db.Float` (REAL en SQLite)
-- Script d'import utilise `NUMERIC` pour validation
-
-**Problème Identifié :**
-```python
-# Exemple d'erreur de précision avec FLOAT
-0.1 + 0.2  # = 0.30000000000000004 (incorrect)
-```
-
-**Recommandation :**
-Pour les montants financiers, utiliser `NUMERIC` avec précision fixe :
-
-```python
-# Recommandé pour ATARYS
-montant_ht = db.Column(db.Numeric(10, 2), nullable=True, default=0.00)
-# 10 chiffres total, 2 décimales (ex: 12345678.90)
-```
-
-**Avantages NUMERIC :**
-- ✅ Précision exacte pour les calculs financiers
-- ✅ Pas d'erreurs d'arrondi
-- ✅ Validation stricte des données
-- ✅ Conformité comptable
-
-**Migration Recommandée :**
-1. Changer `db.Float` → `db.Numeric(10, 2)` pour les montants
-2. Garder `db.Float` pour les mesures techniques (longueurs, angles)
-3. Mettre à jour les validations
+- **ORM** : SQLAlchemy 2.0+ pour l'abstraction
+- **Admin** : Flask-Admin organisé par modules
 
 ---
 
@@ -57,23 +24,25 @@ montant_ht = db.Column(db.Numeric(10, 2), nullable=True, default=0.00)
 
 ### Stack Technologique
 - **Base de données** : SQLite 3
-- **ORM** : SQLAlchemy 2.x
+- **ORM** : SQLAlchemy 2.0+
 - **Framework Web** : Flask 3.x
 - **Interface Admin** : Flask-Admin
 - **Frontend** : React + Vite
 - **API** : RESTful avec blueprints
 
-### Structure de l'Application
+### Structure de l'Application V2 (à créer)
 ```
-backend/
+backend/                 # À CRÉER
 ├── app/
-│   ├── models/          # Modèles SQLAlchemy
-│   ├── services/        # Logique métier
-│   ├── routes/          # API endpoints
+│   ├── models/          # Modèles SQLAlchemy selon modules ATARYS
+│   ├── services/        # Logique métier par module
+│   ├── routes/          # API endpoints par module
 │   ├── middleware/      # Middleware (logging, errors)
 │   └── config/          # Configuration
 ├── admin_atarys.py      # Interface Flask-Admin
-└── run.py              # Serveur principal
+├── run.py              # Serveur principal
+├── migrations/          # Flask-Migrate
+└── scripts/            # Scripts d'import Excel → SQLite V2
 ```
 
 ### Configuration SQLAlchemy
@@ -97,380 +66,217 @@ def create_app(config_name='development'):
 
 ---
 
-## 🏗️ Tables Principales
+## 🔢 Types de Données Numériques
 
-### `chantiers`
-Table principale des chantiers clients
+### **Standard V2 pour les Montants Financiers**
 
-| Colonne | Type | Contraintes | Description |
-|---------|------|-------------|-------------|
-| id | INTEGER | PRIMARY KEY | Identifiant unique du chantier |
-| civilite | TEXT | NULL | Civilité du client (M., Mme, etc.) |
-| nom | TEXT | NULL | Nom du client |
-| prenom | TEXT | NULL | Prénom du client |
-| email | TEXT | NULL | Email du client |
-| telephone | TEXT | NULL | Téléphone du client |
-| adresse | TEXT | NULL | Adresse du chantier |
-| code_postal | TEXT | NULL | Code postal |
-| ville | TEXT | NULL | Ville du chantier |
-| description | TEXT | NULL | Description du chantier |
-| reference_chantier | TEXT | UNIQUE | Référence unique du chantier |
-| montant_ht_devis | REAL | DEFAULT 0.0 | Montant HT total (somme des devis) |
-| nombre_heures_total | REAL | DEFAULT 0.0 | Nombre d'heures total (somme des devis) |
-| famille_ouvrages | TEXT | NULL | JSON des familles d'ouvrages |
-| dossier_onedrive | TEXT | NULL | Lien vers dossier OneDrive |
-| etat_id | INTEGER | NOT NULL | Référence vers `etats_chantier` |
-| actif | INTEGER | DEFAULT 1 | Chantier actif (1) ou archivé (0) |
-| date_creation | TEXT | NOT NULL | Date de création (YYYY-MM-DD HH:MM:SS) |
+Pour les montants financiers, utiliser `NUMERIC` avec précision fixe :
 
-**Modèle SQLAlchemy :**
 ```python
-class Chantier(db.Model):
-    __tablename__ = '🏗️ Module 3: Chantiers & Devis'
-    
-    id = db.Column(db.Integer, primary_key=True)
-    civilite = db.Column(db.String(10))
-    nom = db.Column(db.String(100))
-    prenom = db.Column(db.String(100))
-    email = db.Column(db.String(150))
-    telephone = db.Column(db.String(20))
-    adresse = db.Column(db.Text)
-    code_postal = db.Column(db.String(10))
-    ville = db.Column(db.String(100))
-    description = db.Column(db.Text)
-    reference_chantier = db.Column(db.String(50), unique=True)
-    montant_ht_devis = db.Column(db.Float, default=0.0)
-    nombre_heures_total = db.Column(db.Float, default=0.0)
-    famille_ouvrages = db.Column(db.Text)
-    dossier_onedrive = db.Column(db.Text)
-    etat_id = db.Column(db.Integer, db.ForeignKey('🏗️ Module 3: Chantiers & Devis_chantier.id'), nullable=False)
-    actif = db.Column(db.Integer, default=1)
-    date_creation = db.Column(db.String(20), nullable=False)
-    
-    # Relations
-    etat = db.relationship('EtatChantier', backref='🏗️ Module 3: Chantiers & Devis')
-    devis = db.relationship('🏗️ Module 3: Chantiers & Devis', backref='🏗️ Module 3: Chantiers & Devis', lazy='dynamic')
+# Standard ATARYS V2
+montant_ht = db.Column(db.Numeric(10, 2), nullable=True, default=0.00)
+# 10 chiffres total, 2 décimales (ex: 12345678.90)
 ```
 
-**Règles Métier :**
-- `reference_chantier` est obligatoire et unique
-- `montant_ht_devis` et `nombre_heures_total` sont calculés automatiquement
-- `famille_ouvrages` contient un JSON des types d'ouvrages
-- `actif = 1` pour les chantiers en cours, `0` pour archivés
+**Avantages NUMERIC :**
+- ✅ Précision exacte pour les calculs financiers
+- ✅ Pas d'erreurs d'arrondi
+- ✅ Validation stricte des données
+- ✅ Conformité comptable
 
-### `etats_chantier`
-États des chantiers
+**Implémentation V2 :**
+1. Utiliser `db.Numeric(10, 2)` pour tous les montants dès la création
+2. Garder `db.Float` pour les mesures techniques (longueurs, angles)
+3. Appliquer les validations dès la conception
 
-| Colonne | Type | Contraintes | Description |
-|---------|------|-------------|-------------|
-| id | INTEGER | PRIMARY KEY | Identifiant unique de l'état |
-| libelle | TEXT | NOT NULL | Libellé de l'état |
-| couleur | TEXT | NULL | Couleur associée (hex) |
-| ordre | INTEGER | DEFAULT 0 | Ordre d'affichage |
+---
 
-**Modèle SQLAlchemy :**
+## 🏗️ Pattern BaseModel Standard
+
+### **Modèle de Base pour Tous les Modèles**
+
 ```python
-class EtatChantier(db.Model):
-    __tablename__ = '🏗️ Module 3: Chantiers & Devis_chantier'
+# backend/app/models/base.py
+from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
+class BaseModel(db.Model):
+    __abstract__ = True
     
     id = db.Column(db.Integer, primary_key=True)
-    libelle = db.Column(db.String(50), nullable=False)
-    couleur = db.Column(db.String(7))  # #RRGGBB
-    ordre = db.Column(db.Integer, default=0)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    def save(self):
+        """Sauvegarder l'objet en base"""
+        db.session.add(self)
+        db.session.commit()
+        return self
+    
+    def delete(self):
+        """Supprimer l'objet de la base"""
+        db.session.delete(self)
+        db.session.commit()
+        return self
+    
+    def to_dict(self):
+        """Convertir l'objet en dictionnaire"""
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+    
+    def __repr__(self):
+        return f"<{self.__class__.__name__} {self.id}>"
 ```
 
-**États Standards :**
-- 1: "En cours"
-- 2: "Terminé"
-- 3: "En attente"
-- 4: "Annulé"
+### **Utilisation dans les Modèles**
 
-### `devis`
-Devis clients
-
-| Colonne | Type | Contraintes | Description |
-|---------|------|-------------|-------------|
-| id | INTEGER | PRIMARY KEY | Identifiant unique du devis |
-| chantier_id | INTEGER | NOT NULL | Référence vers `chantiers` |
-| numero_devis | TEXT | UNIQUE | Numéro unique du devis |
-| date_devis | TEXT | NOT NULL | Date du devis |
-| montant_ht | REAL | DEFAULT 0.0 | Montant HT du devis |
-| nombre_heures | REAL | DEFAULT 0.0 | Nombre d'heures estimé |
-| description | TEXT | NULL | Description du devis |
-| statut | TEXT | DEFAULT 'Brouillon' | Statut du devis |
-| date_creation | TEXT | NOT NULL | Date de création |
-
-**Modèle SQLAlchemy :**
 ```python
-class Devis(db.Model):
-    __tablename__ = '🏗️ Module 3: Chantiers & Devis'
+# backend/app/models/module_3_1.py
+from .base import BaseModel
+
+class ExampleModel(BaseModel):
+    __tablename__ = 'example_table'
     
-    id = db.Column(db.Integer, primary_key=True)
-    chantier_id = db.Column(db.Integer, db.ForeignKey('🏗️ Module 3: Chantiers & Devis.id'), nullable=False)
-    numero_devis = db.Column(db.String(50), unique=True)
-    date_devis = db.Column(db.String(10), nullable=False)
-    montant_ht = db.Column(db.Float, default=0.0)
-    nombre_heures = db.Column(db.Float, default=0.0)
-    description = db.Column(db.Text)
-    statut = db.Column(db.String(20), default='Brouillon')
-    date_creation = db.Column(db.String(20), nullable=False)
-```
-
-### `villes`
-Référentiel des villes
-
-| Colonne | Type | Contraintes | Description |
-|---------|------|-------------|-------------|
-| id | INTEGER | PRIMARY KEY | Identifiant unique |
-| nom | TEXT | NOT NULL | Nom de la ville |
-| code_postal | TEXT | NOT NULL | Code postal |
-| departement | TEXT | NULL | Département |
-| region | TEXT | NULL | Région |
-
-**Modèle SQLAlchemy :**
-```python
-class Ville(db.Model):
-    __tablename__ = '🌍 Module 11: Géographie'
-    
-    id = db.Column(db.Integer, primary_key=True)
     nom = db.Column(db.String(100), nullable=False)
-    code_postal = db.Column(db.String(10), nullable=False)
-    departement = db.Column(db.String(50))
-    region = db.Column(db.String(50))
-```
-
-### `salaries`
-Salariés de l'entreprise
-
-| Colonne | Type | Contraintes | Description |
-|---------|------|-------------|-------------|
-| id | INTEGER | PRIMARY KEY | Identifiant unique |
-| nom | TEXT | NOT NULL | Nom du salarié |
-| prenom | TEXT | NOT NULL | Prénom du salarié |
-| poste | TEXT | NULL | Poste occupé |
-| telephone | TEXT | NULL | Téléphone |
-| email | TEXT | NULL | Email |
-| actif | INTEGER | DEFAULT 1 | Salarié actif (1) ou inactif (0) |
-
-**Modèle SQLAlchemy :**
-```python
-class Salarie(db.Model):
-    __tablename__ = '👷 Module 9: Salariés'
-    
-    id = db.Column(db.Integer, primary_key=True)
-    nom = db.Column(db.String(100), nullable=False)
-    prenom = db.Column(db.String(100), nullable=False)
-    poste = db.Column(db.String(100))
-    telephone = db.Column(db.String(20))
-    email = db.Column(db.String(150))
-    actif = db.Column(db.Integer, default=1)
-```
-
-### `planning`
-Planning des interventions
-
-| Colonne | Type | Contraintes | Description |
-|---------|------|-------------|-------------|
-| id | INTEGER | PRIMARY KEY | Identifiant unique |
-| chantier_id | INTEGER | NULL | Référence vers `chantiers` |
-| salarie_id | INTEGER | NULL | Référence vers `salaries` |
-| date_debut | TEXT | NOT NULL | Date de début |
-| date_fin | TEXT | NULL | Date de fin |
-| description | TEXT | NULL | Description de l'intervention |
-| statut | TEXT | DEFAULT 'Planifié' | Statut de l'intervention |
-
-**Modèle SQLAlchemy :**
-```python
-class Planning(db.Model):
-    __tablename__ = '📅 Module 8: Planning'
-    
-    id = db.Column(db.Integer, primary_key=True)
-    chantier_id = db.Column(db.Integer, db.ForeignKey('🏗️ Module 3: Chantiers & Devis.id'))
-    salarie_id = db.Column(db.Integer, db.ForeignKey('👷 Module 9: Salariés.id'))
-    date_debut = db.Column(db.String(10), nullable=False)
-    date_fin = db.Column(db.String(10))
     description = db.Column(db.Text)
-    statut = db.Column(db.String(20), default='Planifié')
+    montant_ht = db.Column(db.Numeric(10, 2), default=0.00)
     
-    # Relations
-    chantier = db.relationship('🏗️ Module 3: Chantiers & Devis', backref='📅 Module 8: Planning')
-    salarie = db.relationship('👷 Module 9: Salariés', backref='📅 Module 8: Planning')
+    def __repr__(self):
+        return f"<ExampleModel {self.nom}>"
 ```
 
 ---
 
-## 🛠️ Tables Techniques (Calculs Ardoises)
+## 📊 Organisation par Modules ATARYS
 
-### `ardoise`
-Calculs ardoises de base
+### **Modules Prioritaires V2**
 
-| Colonne | Type | Contraintes | Description |
-|---------|------|-------------|-------------|
-| id | INTEGER | PRIMARY KEY | Identifiant unique |
-| longueur | REAL | NOT NULL | Longueur en mètres |
-| largeur | REAL | NOT NULL | Largeur en mètres |
-| surface | REAL | NOT NULL | Surface calculée |
-| pente | REAL | NULL | Pente en degrés |
-| type_ardoise | TEXT | NULL | Type d'📐 Module 10: Outils Ardoises |
+#### **Module 3.1 - LISTE CHANTIERS** (PRIORITÉ 1)
+- **Objectif** : Remplacer "LISTE DES TACHES" + "Liste_Chantiers" Excel
+- **Tables** : À créer selon besoins métier
+- **Modèles** : À développer avec BaseModel
 
-### `ardoise_complet`
-Calculs ardoises complets
+#### **Module 9.1 - LISTE SALARIÉS** (PRIORITÉ 2)
+- **Objectif** : Gestion des salariés de l'entreprise
+- **Tables** : À créer selon besoins RH
+- **Modèles** : À développer avec BaseModel
 
-| Colonne | Type | Contraintes | Description |
-|---------|------|-------------|-------------|
-| id | INTEGER | PRIMARY KEY | Identifiant unique |
-| chantier_id | INTEGER | NULL | Référence vers `chantiers` |
-| surface_totale | REAL | NOT NULL | Surface totale |
-| nombre_ardoises | INTEGER | NOT NULL | Nombre d'📐 Module 10: Outils Ardoises calculé |
-| marge_securite | REAL | DEFAULT 0.1 | Marge de sécurité (10%) |
-| prix_unitaire | REAL | NULL | Prix unitaire |
-| prix_total | REAL | NULL | Prix total calculé |
-
-### `pente`
-Calculs de pente
-
-| Colonne | Type | Contraintes | Description |
-|---------|------|-------------|-------------|
-| id | INTEGER | PRIMARY KEY | Identifiant unique |
-| hauteur | REAL | NOT NULL | Hauteur en mètres |
-| longueur | REAL | NOT NULL | Longueur en mètres |
-| angle_degres | REAL | NOT NULL | Angle en degrés |
-| pourcentage | REAL | NOT NULL | Pente en pourcentage |
-
-### `surface`
-Calculs de surface
-
-| Colonne | Type | Contraintes | Description |
-|---------|------|-------------|-------------|
-| id | INTEGER | PRIMARY KEY | Identifiant unique |
-| longueur | REAL | NOT NULL | Longueur en mètres |
-| largeur | REAL | NOT NULL | Largeur en mètres |
-| surface_brute | REAL | NOT NULL | Surface brute |
-| surface_nette | REAL | NOT NULL | Surface nette (avec déductions) |
-
-### `materiau_ardoise`
-Matériaux ardoises
-
-| Colonne | Type | Contraintes | Description |
-|---------|------|-------------|-------------|
-| id | INTEGER | PRIMARY KEY | Identifiant unique |
-| nom | TEXT | NOT NULL | Nom du matériau |
-| type | TEXT | NOT NULL | Type d'📐 Module 10: Outils Ardoises |
-| prix_unitaire | REAL | NOT NULL | Prix unitaire |
-| unite | TEXT | DEFAULT 'm²' | Unité de mesure |
-
-### `calcul_ardoise`
-Résultats des calculs
-
-| Colonne | Type | Contraintes | Description |
-|---------|------|-------------|-------------|
-| id | INTEGER | PRIMARY KEY | Identifiant unique |
-| chantier_id | INTEGER | NULL | Référence vers `chantiers` |
-| surface_totale | REAL | NOT NULL | Surface totale calculée |
-| nombre_ardoises | INTEGER | NOT NULL | Nombre d'📐 Module 10: Outils Ardoises |
-| prix_total | REAL | NOT NULL | Prix total |
-| date_calcul | TEXT | NOT NULL | Date du calcul |
+#### **Module 10.1 - CALCUL ARDOISES** (PRIORITÉ 3)
+- **Objectif** : Calculateur d'ardoises selon zones climatiques
+- **Tables** : À créer selon besoins techniques
+- **Modèles** : À développer avec BaseModel
 
 ---
 
-## 🔗 Relations et Contraintes
+## 🎛️ Flask-Admin Configuration
 
-### Clés Étrangères
-- `chantiers.etat_id` → `etats_chantier.id`
-- `devis.chantier_id` → `chantiers.id`
-- `planning.chantier_id` → `chantiers.id`
-- `planning.salarie_id` → `salaries.id`
-- `ardoise_complet.chantier_id` → `chantiers.id`
-- `calcul_ardoise.chantier_id` → `chantiers.id`
-
-### Index Recommandés
-```sql
-CREATE INDEX idx_chantiers_etat ON chantiers(etat_id);
-CREATE INDEX idx_chantiers_reference ON chantiers(reference_chantier);
-CREATE INDEX idx_devis_chantier ON devis(chantier_id);
-CREATE INDEX idx_planning_chantier ON planning(chantier_id);
-CREATE INDEX idx_planning_salarie ON planning(salarie_id);
-CREATE INDEX idx_villes_code_postal ON villes(code_postal);
-```
-
----
-
-## 🎛️ Interface Flask-Admin
-
-### Configuration
+### **Configuration Générale**
 ```python
 # backend/admin_atarys.py
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 
-admin = Admin(app, name='ATARYS Admin', template_mode='bootstrap3')
-
-# Vues par module
-admin.add_view(ChantierView(name='🏗️ Module 3: Chantiers & Devis', endpoint='⚙️ Module 12: Paramètres_chantiers', category='🏗️ Module 3: Chantiers'))
-admin.add_view(DevisView(name='🏗️ Module 3: Chantiers & Devis', endpoint='⚙️ Module 12: Paramètres_devis', category='🏗️ Module 3: Chantiers'))
-admin.add_view(SalarieView(name='Salariés', endpoint='⚙️ Module 12: Paramètres_salaries', category='👥 Module 9: Salariés'))
-admin.add_view(PlanningView(name='📅 Module 8: Planning', endpoint='⚙️ Module 12: Paramètres_planning', category='📅 Module 8: Planning'))
-admin.add_view(VilleView(name='🌍 Module 11: Géographie', endpoint='⚙️ Module 12: Paramètres_villes', category='🌍 Module 11: Géographie'))
+def create_admin(app, db):
+    admin = Admin(app, name='ATARYS Admin V2', template_mode='bootstrap4')
+    
+    # Les vues seront ajoutées au fur et à mesure du développement
+    # selon les modules ATARYS créés
+    
+    return admin
 ```
 
-### Modules Disponibles dans Flask-Admin
-- **🏗️ Module 3: Chantiers** - Chantiers, États, Devis
-- **📅 Module 8: Planning** - Planning des interventions
-- **👥 Module 9: Salariés** - Gestion des salariés
-- **📐 Module 10: Outils** - Calculs ardoises (6 tables)
-- **🌍 Module 11: Géographie** - Référentiel villes
-
-### URL d'Accès
-- **Interface Admin** : `http://localhost:5001/admin/`
-- **Port** : 5001 (différent du serveur principal)
-- **Mode** : Développement avec debug activé
+### **Avantages de cette approche :**
+- **Navigation intuitive** par module
+- **Cohérence** avec l'architecture ATARYS
+- **Maintenance facilitée** des données
+- **Formation utilisateur** simplifiée
 
 ---
 
-## 📊 Statistiques Base de Données
+## 🔧 Scripts d'Import Excel → SQLite V2
 
-- **Tables principales** : 23
-- **Enregistrements** : 792+
-- **Relations** : 6 clés étrangères
-- **Index** : 6 index recommandés
-- **Taille** : ~2.5 MB
+### **Structure des Scripts**
+```
+backend/scripts/
+├── import_excel_v2.py      # Script principal d'import
+├── validators.py           # Validation des données
+├── transformers.py         # Transformation des données
+└── utils.py               # Utilitaires communs
+```
+
+### **Exemple de Script d'Import**
+```python
+# backend/scripts/import_excel_v2.py
+import pandas as pd
+from sqlalchemy import create_engine
+from app import create_app, db
+
+def import_from_excel(excel_file_path, table_name):
+    """
+    Importer des données Excel vers SQLite V2
+    
+    Args:
+        excel_file_path (str): Chemin vers le fichier Excel
+        table_name (str): Nom de la table de destination
+    """
+    app = create_app('development')
+    
+    with app.app_context():
+        # Lecture du fichier Excel
+        df = pd.read_excel(excel_file_path)
+        
+        # Validation des données
+        # À implémenter selon les besoins
+        
+        # Import vers SQLite
+        df.to_sql(table_name, db.engine, if_exists='append', index=False)
+        
+        print(f"Import terminé : {len(df)} enregistrements dans {table_name}")
+
+if __name__ == '__main__':
+    # Exemple d'utilisation
+    import_from_excel('data/excel_propre.xlsx', 'example_table')
+```
 
 ---
 
-## 📚 Organisation en Modules ATARYS
+## 🚀 Prochaines Étapes
 
-> **Note importante** : La base de données `atarys_data.db` est organisée selon la nomenclature officielle ATARYS en **13 modules principaux** (chapitres 1 à 13).
+### **Phase 1 : Création Backend (1-2 semaines)**
+1. **Structure Flask** : Factory pattern + configuration
+2. **BaseModel** : Modèle de base avec méthodes communes
+3. **Modèles prioritaires** : Modules 3.1, 9.1, 10.1
+4. **Flask-Admin** : Interface d'administration
+5. **Scripts d'import** : Excel → SQLite V2
 
-### Structure Modulaire
-- **Chaque module** correspond à un chapitre de l'application ATARYS
-- **Sous-modules** : Format X.Y (ex: 3.1, 3.2, etc.)
-- **Tables groupées** par fonctionnalité métier
-- **Cohérence** avec l'interface utilisateur et les workflows
+### **Phase 2 : Intégration (1 semaine)**
+1. **APIs REST** : Endpoints selon modules
+2. **Validation** : Marshmallow + contraintes SQLAlchemy
+3. **Tests** : Tests unitaires des modèles
+4. **Documentation** : Mise à jour selon développement
 
-### Modules Principaux
-1. **PLANNING** - Planning et interventions
-2. **LISTE DES TACHES** - Tâches personnalisées
-3. **LISTE CHANTIERS** - Gestion des chantiers clients
-4. **CHANTIERS** - Détails et documents chantiers
-5. **DEVIS-FACTURATION** - Devis, factures, recouvrements
-6. **ATELIER** - Stock, commandes, outillage
-7. **GESTION** - Tableaux de bord et rapports
-8. **COMPTABILITE** - Comptabilité et bilan
-9. **SOCIAL** - Salariés, congés, formations
-10. **OUTILS** - Calculs techniques (ardoises, etc.)
-11. **ARCHIVES** - Archivage légal
-12. **PARAMETRES** - Configuration système
-13. **AIDE** - Documentation et support
-
-### Avantages de cette Organisation
-- **Navigation intuitive** dans l'interface
-- **Séparation claire** des responsabilités
-- **Évolutivité** : ajout facile de nouveaux modules
-- **Maintenance** : isolation des problèmes par module
-- **Formation** : apprentissage progressif par chapitre
-
-> **Voir** `docs/02-architecture/ATARYS_MODULES.md` pour la nomenclature détaillée des modules.
+### **Phase 3 : Optimisation (1 semaine)**
+1. **Index** : Optimisation des performances
+2. **Relations** : Clés étrangères et contraintes
+3. **Migration** : Flask-Migrate pour évolution
+4. **Monitoring** : Logs et métriques
 
 ---
 
-**✅ Schéma technique complet de la base de données ATARYS avec architecture SQLAlchemy et Flask-Admin !** 
+## ⚠️ Notes Importantes
+
+### **Cohérence avec V1**
+- **Référence technique** : `0 APP ATARYS/` conservé pour logique métier
+- **Pas de migration** : Création propre V2 depuis Excel à jour
+- **Standards V2** : SQLAlchemy 2.0 + `db.Numeric(10, 2)` pour montants
+
+### **Évolutivité**
+- **PostgreSQL** : Migration prévue pour production
+- **Authentification** : JWT à implémenter
+- **Scaling** : Architecture modulaire extensible
+- **Maintenance** : Flask-Admin pour gestion des données
+
+---
+
+**✅ Base de données ATARYS V2 - Architecture modulaire prête pour le développement !** 

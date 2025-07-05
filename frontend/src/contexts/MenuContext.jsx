@@ -1,25 +1,25 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react';
 
-const MenuContext = createContext()
+const MenuContext = createContext();
 
-export const useMenu = () => {
-  const context = useContext(MenuContext)
-  if (!context) {
-    throw new Error('useMenu must be used within a MenuProvider')
-  }
-  return context
-}
-
-export const MenuProvider = ({ children }) => {
-  const [menuOpen, setMenuOpen] = useState(true)
+export function MenuProvider({ children }) {
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen)
-  }
+    setMenuOpen(!menuOpen);
+  };
 
   return (
     <MenuContext.Provider value={{ menuOpen, setMenuOpen, toggleMenu }}>
       {children}
     </MenuContext.Provider>
-  )
+  );
+}
+
+export function useMenu() {
+  const context = useContext(MenuContext);
+  if (context === undefined) {
+    throw new Error('useMenu must be used within a MenuProvider');
+  }
+  return context;
 } 

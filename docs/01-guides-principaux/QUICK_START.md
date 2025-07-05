@@ -103,12 +103,31 @@ curl http://localhost:5000              # ❌ curl n'existe pas
 
 ## 🎯 **Modules ATARYS Prioritaires**
 
+> **Référence** : Selon `docs/02-architecture/ATARYS_MODULES.md`
+
 ### **✅ Modules Opérationnels**
-- **Module 9.1** - Liste Salariés (http://localhost:3001/salaries)
-- **Module 10.1** - Calcul Ardoises (http://localhost:3001/calcul-ardoises)
+- **Module 9.1** - Liste_salaries (http://localhost:3000/salaries)
+- **Module 10.1** - CALCUL_ARDOISES (http://localhost:3000/calcul-ardoises)
 
 ### **🔄 Module en Développement**  
-- **Module 3.1** - Liste Chantiers (http://localhost:3001/chantiers) - PRIORITÉ 1
+- **Module 3.1** - LISTE CHANTIERS (http://localhost:3000/chantiers) - PRIORITÉ 1
+
+### **📋 Nomenclature Complète**
+```
+1. PLANNING          → 1.1 Planning Salariés, 1.2 Planning Chantier
+2. LISTE DES TÂCHES  → 2.1 Yann, 2.2 Julien
+3. LISTE CHANTIERS   → 3.1-3.5 Liste, Projets, Signés, En Cours, Archives
+4. CHANTIERS         → 4.1-4.4 Suivi, Notes, Commandes, Documents
+5. DEVIS-FACTURATION → 5.1-5.4 BATAPPLI, Fiche Mètres, MEXT, Type
+6. ATELIER           → 6.1-6.5 Quincaillerie, Consommables, Camions, Matériel, Échafaudage
+7. GESTION           → 7.1-7.3 Prévisionnel, Synthèse, Bilans
+8. COMPTABILITÉ      → 8.1-8.2 TVA, Tableau de Bord
+9. SOCIAL            → 9.1-9.3 Liste_salaries, Fiche mensuelle, Récap et calculs
+10. OUTILS           → 10.1-10.4 CALCUL_ARDOISES, Calcul_structures, Staravina, Documents types
+11. ARCHIVES         → Archivage automatique
+12. PARAMÈTRES       → 12.1 Base de Données
+13. AIDE             → 13.1 Documentation
+```
 
 ---
 
