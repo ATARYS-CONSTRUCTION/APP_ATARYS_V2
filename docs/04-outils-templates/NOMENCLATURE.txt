@@ -1,0 +1,85 @@
+CHAPITRE	SOUS CHAPITRE	"DESCRIPTION 
+Constat / Objectif / Actions / Résultat"
+		
+		Interface ATARYS 
+		
+		Automatiser des tâches informatiques récurrentes et indispensables ou utile
+		Remplacer tous les fichiers excel par une application qui archive, calcule et organise
+		Créer des process de travail efficaces et plus ludiques sur les taches rébarbatives (les devis, la facturation, le planning, les commandes, la compta… pour se concentrer sur les taches intéressantes (la conception technique, l'organisation, la formation, la fabrication..)
+		Organiser le travail du bureau en binôme
+		Renforcer la protection juridique de l'entreprise (process administratif mieux maitrisés)
+		Réduire le niveau de stress par une meilleure maitrise des délais
+		Augmenter le temps de présence sur les chantiers (ambitieux)
+		Augmenter la rentabilité par une meilleure organisation
+		
+		A FAIRE EN AMONT
+		Rangement ONEDRIVE et mise à jour architecture dans un seul fichier excel, travail sur le chapitrage des dossiers IA
+		Création chartre graphique: voir avec template tailwind (comprendre exactement a quoi ça sert)
+		Fichier data_atarys en sqlite. Créer un tableau excel avec sommaire et 100 feuilles, chapitrage évolutif avec sous chapitre
+		Insertion planning selon modèle CSS
+		Définition et architecture des fonctions
+		Création maquette sur Autocad, selon grid
+		Créer une liste de fonctions pour faire travailler windsurf: faire une liste de fonctions et définir des requêtes type. Créer des fichiers d'instructions mds.
+		FInir l'outil calcul ardoises
+		
+1	PLANNING
+	1.1	PLANNING SALARIES
+	1.2	PLANNING CHANTIER
+
+2	LISTE DES TACHES
+	2.2	JULIEN
+	2.1	YANN
+
+3	LISTE CHANTIERS
+	3.1	LISTE CHANTIERS
+	3.2	CHANTIERS PROJETS
+	3.3	CHANTIERS SIGNES
+	3.4	CHANTIERS EN COURS
+	3.5	CHANTIERS ARCHIVES
+
+4	CHANTIERS
+	4.1	SUIVI DE CHANTIER
+	4.2	NOTES DE CHANTIER
+	4.3	COMMANDES
+	4.4	DOCUMENTS
+
+5	DEVIS-FACTURATION
+	5.1	Ouvrages et articles BATAPPLI
+	5.2	FICHE METRES
+	5.3	DEVIS MEXT
+	5.4	DEVIS TYPE
+
+6	ATELIER
+	6.1	QUINCAILLERIE
+	6.2	CONSOMMABLES
+	6.3	CAMION
+	6.4	MATERIEL
+	6.5	ECHAFAUDAGE
+
+7	GESTION
+	7.1	PREVISIONNEL
+	7.2	SYNTHESE PREVISIONNELLE
+	7.3	BILANS
+
+8	COMPTABILITE
+	8.1	TVA
+	8.2	TABLEAU DE BORD
+
+9	SOCIAL
+	9.1	Liste_salaries
+	9.2	Fiche mensuelle
+	9.3	Récap et calculs
+
+10	OUTILS
+	10.1	CALCUL_ARDOISES
+	10.2	Calcul_structures
+	10.3	Staravina (base de données avec mots-clés de la documentation)
+	10.4	Documents types
+
+11	ARCHIVES
+
+12	PARAMETRES
+
+13	AIDE
+	NOMENCLATURE
+		

@@ -1,0 +1,151 @@
+﻿Unnamed: 0;Unnamed: 1;Unnamed: 2;Unnamed: 3;Unnamed: 4;Unnamed: 5;Unnamed: 6;Unnamed: 7;Unnamed: 8;Unnamed: 9;Unnamed: 10
+;M. et Mme Baptiste et Florie BONHOMME;;M. et Mme Baptiste et Florie BONHOMME;;;;;;Numéro;25436
+;50 rue claude Bernard;;7 allée du Courtil;;;;;;Date de création;23/05/2025
+;35000 RENNES;; 35132 vezin le coquet;;;;;;Date de validité;22/06/2025
+;France;;France;;;;;;;
+;;;;;;;;;;
+;;;;;;;;;;
+;Devis fenetre de toit;;;;;;;;;
+;;;;;;;;;;
+;Référence;Libellé;Prix Achat;Coef;Prix Unitaire;Quantité;U;% rem;% tva;PrixTotal
+;3x;FENETRE DE TOIT;;;;;;;;
+;;;;;;;;;;
+;;Non compris étanchéité à l'air (frein-vapeur au lot placo);;;;;;;;
+;;"Vélux SDB: au vu de la proximité de la noue, une pose ""traditionnelle"" est envisagée. Pose encastrée sur les autres chassis.";;;;;;;;
+;;Coordination à prévoir avec le lot charpente pour la pose des vélux au dessus de l'escalier et les combles (accès et sécurité);;;;;;;;
+;;;;;;;;;;
+;1.3 016;Dépose Fenêtre de toit et nettoyage.;48;1.3;62.4;3;U;;5.5;187.2
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;3;H;;5.5;187.2
+;1.4 001;Evacuation de déchets, compris location de benne et traitement: GRAVATS (ardoises, tuiles, béton...);161.15;1.3;209.5;0.15;T;;5.5;31.43
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;0.3;H;;5.5;18.72
+;DECHET001;EVAC GRAVATS BENNE (ardoises, béton, carrelage);15.85;1.3;20.61;0.15;T;;5.5;3.09
+;DECHET008;DEPOT, ROTATION, RETRAIT camion multi-benne, L'unité;98.6;1.3;128.18;0.075;U;;5.5;9.61
+;1.4 002;Evacuation de déchets, compris location de benne et traitement: DIB mélangés. Compris TGAP taxe générale sur les activités polluantes.;254;1.3;330.2;0.2;T;;5.5;66.04
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;0.2;H;;5.5;12.48
+;DECHET004;EVAC DECHETS BENNES DIB;154;1.3;200.2;0.2;T;;5.5;40.04
+;DECHET007;TGAP taxe générale sur les activités polluantes;52;1.3;67.6;0.2;T;;5.5;13.52
+;1.6 001;Nettoyage en fin de chantier comprenant le ramassage et la sortie des déchets et emballages;96;1.3;124.8;1;F;;5.5;124.8
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;2;H;;5.5;124.8
+;;;;;;;;;;
+;2.4 023B;Modification de chevêtre pour fenêtre de toit. Chevrons 44x63 mm. Passage entre pannes.;123.82;1.3;160.98;3;U;;5.5;482.94
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;6;H;;5.5;374.4
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;9;F;;5.5;17.01
+;22030657;CHARPENTE DOUGLAS 63X44X5,00;782.34;1.3;1017.04;0.09;M3;;5.5;91.53
+;2.4 023B;Création de chevêtre pour fenêtre de toit. Chevrons 44x63 mm. Passage entre pannes.;171.82;1.3;223.38;1;U;;10;223.38
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;3;H;;10;187.2
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;3;F;;10;5.67
+;22030657;CHARPENTE DOUGLAS 63X44X5,00;782.34;1.3;1017.04;0.03;M3;;10;30.51
+;2.4 023C;Chevêtre pour fenêtre de toit. Chevrons 44x63 mm. Pour vérriere de velux 3 en 1(FFKF08), ;225.42;1.3;293.06;1;U;;10;293.06
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;3.5;H;;10;218.4
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;3;F;;10;5.67
+;22030657;CHARPENTE DOUGLAS 63X44X5,00;782.34;1.3;1017.04;0.03;M3;;10;30.51
+;22031046;63X175X5,10 CHARPENTE SEC C24                                                   TRAITECLASSE2;370.003;1.3;481;0.08;M3;;10;38.48
+;;;;;;;;;;
+;3.5 GGL 2076;*Fourniture et pose d'une fenêtre de toit VELUX GPU MK08 0076  CONFORT A PROJECTION FINITION BLANCHE PU  78 CM X 140 CM. Uw = 1,2W/(m².K) Sw = 0.33. Raccord Encastré EDN;1033.2;1.3;1343.16;1;U;;5.5;1343.16
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;6;H;;5.5;374.4
+;GPUMK080076;FENETRE GPU MK08 0076  CONFORT          A PROJECTION FINITION BLANCHE PU        78 CM X 140 CM;658.08;1.3;855.5;1;UN;;5.5;855.5
+;EDNMK080000;RACCORD EDN MK08 POUR ARDOISES          POSE ENCASTREE                          78 X 140;87.12;1.3;113.26;1;UN;;5.5;113.26
+;3.5 GGU 0076;*Fourniture et pose d'une fenêtre de toit VELUX GPL UK08 2076  CONFORT A PROJECTION FINITION BLANCHE WHITE FINISH 134 CM X 140 CM. Uw = 1,2W/(m².K) Sw = 0.33. Raccord Encastré EDN;1127.52;1.3;1465.78;1;U;;5.5;1465.78
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;6;H;;5.5;374.4
+;EDNUK080000;RACCORD EDN UK08 POUR ARDOISES          POSE ENCASTREE                          134 X 140;113.76;1.3;147.89;1;UN;;5.5;147.89
+;GPLUK082076;FENETRE GPL UK08 2076 CONFORT           PROJECTION FINITION BLANCHE WHITE FINISH134 CM X 140 CM;725.76;1.3;943.49;1;UN;;5.5;943.49
+;3.5 GGL 2057;*Fourniture et pose d'une fenêtre de toit VELUX GGU MK06 005721 INTEGRA TOUT CONFORT , A ROTATION FINITION BLANCHE PU 78 CM X 118 CM. Uw = 1,2W/(m².K) Sw = 0.30.   Raccord traditionnel EDL;1215.36;1.3;1579.97;1;U;;5.5;1579.97
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;6;H;;5.5;374.4
+;EDNMK060000;RACCORD EDN MK06 POUR ARDOISES          POSE ENCASTREE                          78 X 118;79.92;1.3;103.9;1;UN;;5.5;103.9
+;GGUMK06005721;FENETRE GGU MK06 005721 INTEGRA TOUT    CONFORT , A ROTATION FINITION BLANCHE PU78 CM X 118 CM;847.44;1.3;1101.67;1;UN;;5.5;1101.67
+;;Finition PU et tout confort liées au système INTEGRA;;;;;;;;
+;3.5 GGL 2057;*Fourniture et pose d'une fenêtre de toit VELUX  VERRIÈRE ATELIER 3 EN 1 188X140  GPLS FFKF08 2076 WHITE FINISH A PROJECTION. Uw = 1,2W/(m².K) Sw = 0.33. Raccord Encastré EDLS;2126.16;1.3;2764.01;1;U;;10;2764.01
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;12;H;;10;748.8
+;EDLSFFKF082000;RACCORD POUR VERRIERE ATELIER 3 EN 1    EDLS FFKF08 2000 188X140;231.84;1.3;301.39;1;UN;;10;301.39
+;GPLSFFKF082076;VERRIÈRE ATELIER 3 EN 1 188X140         GPLS FFKF08 2076 WHITE FINISH           A PROJECTION;1318.32;1.3;1713.82;1;UN;;10;1713.82
+;3.5 GGU 0076;*Fourniture et pose d'une fenêtre de toit VELUX GPL UK08 2076  CONFORT A PROJECTION FINITION BLANCHE WHITE FINISH 134 CM X 140 CM. Uw = 1,2W/(m².K) Sw = 0.33. Raccord Encastré EDN;1127.52;1.3;1465.78;1;U;;10;1465.78
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;6;H;;10;374.4
+;EDNUK080000;RACCORD EDN UK08 POUR ARDOISES          POSE ENCASTREE                          134 X 140;113.76;1.3;147.89;1;UN;;10;147.89
+;GPLUK082076;FENETRE GPL UK08 2076 CONFORT           PROJECTION FINITION BLANCHE WHITE FINISH134 CM X 140 CM;725.76;1.3;943.49;1;UN;;10;943.49
+;;;;;;;;;;
+;3.5 DKL 1;Fourniture et pose d'un STORE DKL MK08 D'OCCULTATION BEIGE 1085  78 X 140.;132.96;1.3;172.85;1;U;;10;172.85
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;1;H;;10;62.4
+;DKLMK081085S;STORE DKL MK08 D'OCCULTATION BEIGE 1085                                         78 X 140;84.96;1.3;110.45;1;UN;;10;110.45
+;3.5 SML 1;"Fourniture et pose d'un VOLET ROULANT ELECTRIQUE SML MKO8  78 X 140.
+Fourniture boitier KUX  branchement au lot electricité";614.16;1.3;798.41;1;U;;5.5;798.41
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;3;H;;5.5;187.2
+;VELSMLMO80000S;VOLET ROULANT ELECTRIQUE SML MKO8       78 X 140;398.16;1.3;517.61;1;UN;;5.5;517.61
+;VELKUX110;KUX 110 COMMANDE 1 PRODUIT;72;1.3;93.6;1;UN;;5.5;93.6
+;3.5 DKL 2;Fourniture et Pose d'un STORE DKL UK08 D'OCCULTATION BEIGE1085  134 X 140;164.64;1.3;214.03;1;U;;10;214.03
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;1;H;;10;62.4
+;DKLUK081085S;STORE DKL UK08 D'OCCULTATION BEIGE1085                                          134 X 140;116.64;1.3;151.63;1;UN;;10;151.63
+;3.5 SML 2;"Fourniture et pose d'un VOLET ROULANT ELECTRIQUE SML MKO6  78 X 118
+Fourniture boitier KUX  branchement au lot electricité";594;1.3;772.2;1;U;;5.5;772.2
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;3;H;;5.5;187.2
+;VELSMLMO60000S;VOLET ROULANT ELECTRIQUE SML MKO6       78 X 118;378;1.3;491.4;1;UN;;5.5;491.4
+;VELKUX110;KUX 110 COMMANDE 1 PRODUIT;72;1.3;93.6;1;UN;;5.5;93.6
+;3.5 SML 3 et 4;"Fourniture et pose d'un VOLET ROULANT ELECTRIQUE SML UKO8 134 X 140
+Fourniture boitier KUX  branchement au lot electricité";796.32;1.3;1035.22;1;U;;5.5;1035.22
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;3;H;;5.5;187.2
+;VELSMLUO80000S;VOLET ROULANT ELECTRIQUE SML UKO8       134 X 140;508.32;1.3;660.82;1;UN;;5.5;660.82
+;VELKUX110;KUX 110 COMMANDE 1 PRODUIT;72;1.3;93.6;2;UN;;5.5;187.2
+;3.5 SML 3 et 4;"Fourniture et pose d'un VOLET ROULANT ELECTRIQUE SML UKO8 134 X 140
+Fourniture boitier KUX  branchement au lot electricité";796.32;1.3;1035.22;1;U;;10;1035.22
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;3;H;;10;187.2
+;VELSMLUO80000S;VOLET ROULANT ELECTRIQUE SML UKO8       134 X 140;508.32;1.3;660.82;1;UN;;10;660.82
+;VELKUX110;KUX 110 COMMANDE 1 PRODUIT;72;1.3;93.6;2;UN;;10;187.2
+;3.5 SSLS ;Fourniture et pose d'un VOLET ROULANT SOLAIRE SSLS FFKF08   188X140 ;1404.24;1.3;1825.51;1;U;;10;1825.51
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;5;H;;10;312
+;SSLSFFKF08;VOLET ROULANT SOLAIRE SSLS FFKF08       188X140;1164.24;1.3;1513.51;1;UN;;10;1513.51
+;;;;;;;;;;
+;;Sous total :;;;;;;;;15880.99
+;;;;;;;;;;
+;3x;SORTIES DE TOITURE;;;;;;;;
+;;;;;;;;;;
+;1.2 006B;Installation et repliement d'échafaudage roulant larg 1m x 3 m long, pour haut. travail de 2,80 à 5 m;484;1.3;629.2;1;U;;5.5;629.2
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;8;H;;5.5;499.2
+;MAT001;Echafaudage COMABI R200;100;1.3;130;1;F;;5.5;130
+;3.3 020;Pose d'une Sortie de toit de ventilation pour VMC. Fourniture au lot électricité;84.95;1.301;110.49;1;U;;5.5;110.49
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;1.5;H;;5.5;93.6
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.304;1.5;10;U;;5.5;15
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;1;F;;5.5;1.89
+;3.3 019;Sortie de toit ventilation de chute diamètre 125 mm pour couverture ardoise. Chatière VM ZINC INTEGRA zinc anthra. Compris réducteur 125/80.;120.99;1.3;157.34;1;U;;10;157.34
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;1.5;H;;10;93.6
+;UMI220015168;CHATIERE INTEGRA VMC / VENTILATION CHUTEDIAM 125  470X340 ANTHRA;30.544;1.3;39.71;1;UN;;10;39.71
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.304;1.5;10;U;;10;15
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;1;F;;10;1.89
+;UMI220015170;REDUCTEUR P/VENTILATION INTEGRA         125/80;5.4952;1.299;7.14;1;UN;;10;7.14
+;3.3 018;"Ventilation de comble zinc anthra (chatière plate) 335x310.
+Position et nombre à confirmer";57.51;1.301;74.82;10;U;;5.5;748.2
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;5;H;;5.5;312
+;UMI210679000;CHATIERE INTEGRA 335 X 310 ANTHRA       -5% PAR CARTON DE 12 U;20.558;1.3;26.73;10;UN;;5.5;267.3
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.304;1.5;100;U;;5.5;150
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;10;F;;5.5;18.9
+;;;;;;;;;;
+;;Sous total :;;;;;;;;1645.23
+;;;;;;;;;;
+;;;;;;;;;;
+;;;;;;;;;;
+;;;;;;;;;;
+;;;;;;;;;;
+;;;;;;;;;Total HT;17526.22
+;;;;;;;;;Tot. TVA;1330.75
+;;;;;;;;;Total TTC;18856.97

@@ -1,0 +1,99 @@
+# RÈGLES CURSOR - PROJET ATARYS
+# Méthodologie obligatoire pour développement cohérent
+
+## 🔍 CONSULTATION DOCUMENTATION OBLIGATOIRE
+
+### AVANT TOUT DÉVELOPPEMENT, TOUJOURS :
+1. Consulter docs/04-outils-templates/CHECKLIST_DEVELOPPEMENT.md
+2. Lire documentation pertinente selon contexte :
+   - docs/01-guides-principaux/DEV_MASTER.md (Document central - Vision globale)
+   - docs/03-regles-standards/WORKFLOWS.md (Standards et workflow)
+   - docs/03-regles-standards/REGLES METIERS.md (Règles business)
+   - docs/02-architecture/API_ENDPOINTS.md (APIs existantes)
+   - docs/02-architecture/DATABASE_SCHEMA.md (Structure BDD)
+   - docs/02-architecture/ATARYS_ARCHITECTURE.md (Architecture technique)
+
+### QUESTIONS OBLIGATOIRES À SE POSER :
+- Cette fonctionnalité existe-t-elle déjà ?
+- Quel module ATARYS (1.1 à 13.x) est concerné ?
+- Y a-t-il des standards ATARYS à respecter ?
+- Y a-t-il des règles métier spécifiques ?
+- L'architecture actuelle couvre-t-elle ce besoin ?
+
+## 🏗️ WORKFLOW DÉVELOPPEMENT ATARYS
+
+### BACKEND - Ordre obligatoire :
+1. Modèle : backend/app/models/ selon structure SQLite
+2. Service : backend/app/services/ pour logique métier  
+3. Routes : backend/app/routes/ avec blueprint
+4. Tests : backend/tests/ selon template existant
+5. Documentation : Mettre à jour docs concernées
+
+### FRONTEND - Standards ATARYS :
+- Layout : Utiliser PageLayout et GridLayout
+- Nomenclature : Nommage selon module (ex: Module3_1.jsx)
+- UI/UX : Padding 16px, gap-3, responsive
+- API : Format standardisé {success, data, message}
+
+## 📁 ORGANISATION DOSSIERS OBLIGATOIRE
+
+### CRÉATION FICHIERS - Règles strictes :
+- **Scripts Python** → backend/scripts/ (utilitaires, extraction, maintenance)
+- **Modèles/Services/Routes** → backend/app/ (structure Flask)
+- **Pages React** → frontend/src/pages/ (modules ATARYS)
+- **Composants** → frontend/src/components/ (réutilisables)
+- **Documentation** → docs/ (tous les .md)
+- **Données** → data/ (JSON, CSV de référence)
+- **Scripts batch** → .bat/ (PowerShell, batch Windows)
+- **Tests** → backend/tests/ ou frontend/tests/
+
+### INTERDICTIONS ABSOLUES :
+❌ **JAMAIS créer de fichiers à la racine** (sauf configuration)
+❌ **JAMAIS mélanger backend/frontend** dans le même dossier
+❌ **JAMAIS de scripts Python** dans frontend/
+❌ **JAMAIS de fichiers React** dans backend/
+
+## 🚨 RÈGLES D'OR CURSOR
+
+1. **JAMAIS de code sans avoir lu la doc pertinente**
+2. **TOUJOURS vérifier si ça existe déjà**
+3. **RESPECTER l'architecture et nomenclature ATARYS (modules 1.1 à 13.x)**
+4. **METTRE À JOUR la documentation après développement**
+5. **JAMAIS affirmer que "ça marche" ou "c'est opérationnel" sans test réel et validation concrète**
+
+## 📚 RACCOURCIS DOCUMENTATION
+
+- docs/README.md - Point d'entrée navigation
+- docs/01-guides-principaux/QUICK_START.md - Guide 2 minutes
+- docs/01-guides-principaux/DEV_MASTER.md - Document central
+- docs/03-regles-standards/WORKFLOWS.md - Workflow et standards
+- docs/03-regles-standards/REGLES METIERS.md - Règles business
+- docs/02-architecture/API_ENDPOINTS.md - Toutes les APIs
+- docs/02-architecture/DATABASE_SCHEMA.md - Structure complète
+- docs/02-architecture/ARCHITECTURE.md - Architecture globale
+
+## 🔧 RÉSOLUTION PROBLÈMES
+
+1. Logs : Consulter logs/atarys.log
+2. Base données : Vérifier avec analyze_real_db.py
+3. APIs : Tester avec scripts disponibles
+4. Frontend : Vérifier proxy Vite vers backend
+
+## 🎯 EXEMPLES APPLICATION
+
+### Erreur technique (ex: "Unexpected token") :
+1. ✅ Consulter docs/03-regles-standards/WORKFLOWS.md
+2. ✅ Vérifier docs/02-architecture/API_ENDPOINTS.md
+3. ✅ Analyser logs/atarys.log
+4. ✅ Appliquer solution selon standards
+
+### Nouvelle fonctionnalité :
+1. ✅ Identifier module concerné (ex: 3.1 Liste Chantiers)
+2. ✅ Consulter docs/03-regles-standards/REGLES METIERS.md
+3. ✅ Vérifier docs/02-architecture/ATARYS_ARCHITECTURE.md
+4. ✅ Suivre workflow backend → frontend → tests
+
+
+A la fin d'une opération les fichiers test et tous les fichiers inutiles pour l'app doivent être supprimés.
+
+**Cette méthodologie doit être appliquée SYSTÉMATIQUEMENT pour maintenir la cohérence du projet ATARYS !** 

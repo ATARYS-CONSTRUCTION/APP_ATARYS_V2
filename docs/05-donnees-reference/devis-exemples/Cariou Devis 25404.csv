@@ -1,0 +1,533 @@
+﻿Unnamed: 0;Unnamed: 1;Unnamed: 2;Unnamed: 3;Unnamed: 4;Unnamed: 5;Unnamed: 6;Unnamed: 7;Unnamed: 8;Unnamed: 9;Unnamed: 10
+;M. et Mme CARIOU CARVAJAL;;M. et Mme CARIOU CARVAJAL;;;;;;Numéro;25404
+;120B rue d'Antrain;;120B rue d'Antrain;;;;;;Date de création;10/03/2025
+;35000 RENNES;;35000 RENNES;;;;;;Date de validité;09/04/2025
+;;;;;;;;;;
+;Référence;Libellé;Prix Achat;Coef;Prix Unitaire;Quantité;U;% rem;% tva;PrixTotal
+;;COUVERTURE CHARPENTE;;;;;;;;
+;;;;;;;;;;
+;2x;Charpente;;;;;;;;
+;;;;;;;;;;
+;;;;;;;;;;
+;0.0 000A;"Intervention 1
+Pose poteaux contrecollé 120x120 mm sur platine simpsons APB100/150 ET PLAT M2TAL 200X200 (fixation en tête)
+Etaiage de l'escalier pour préparer le coulage de la dalle. Suspention sur la trémie en 45x145 mm. Les poteaux seront enlevés au dernier moment.
+";481.65;1.301;626.39;1;;;10;626.39
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;6;H;;10;356.46
+;OR00210857;PIED DE POTEAU APB100/150                                                       PAGE 96 DU CATALOGUE;19.0485;1.3;24.76;1;UN;;10;24.76
+;222540052;LAMELLE-COLLE EPICEA 140X360X13500 GL24H                                        TRAITECLASSE2;715.0018;1.3;929.5;0.1;M3;;10;92.95
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;50;F;;10;94.5
+;22590132;OSSATURE DOUGLAS SEC/RAB 45X145X6000;3.7;1.3;4.81;12;ML;;10;57.72
+;0.0 000A;"Intervention 2
+Dépose étaiage et pose de poteaux 80x80 mm pour fixation escalier.";225.65;1.301;293.49;1;;;10;293.49
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;3;H;;10;178.23
+;22031235PF;75X200X4,20 CHARPENTE TRAITEE C24 FRAIS PALETTE DE 48 PIÈCES                    TRAITECLASSE2;450.4728;1.3;585.61;0.1;M3;;10;58.56
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;30;F;;10;56.7
+;;;;;;;;;;
+;4.4 001;"Lambourdes terrasse Pin sylvestre traité CL4 marron 45x70mm pour terrasse extérieure. Pose sur structure métallique.
+
+Perçage de la structure au lot métallerie selon nos besoins.
+
+Lambourdes terrasse Pin sylvestre traité CL4 marron 45x70mm";30.97;1.936;59.96;3;M2;;10;179.88
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;2;H;;10;118.8
+;F 001;40X75X4000 CL 4;2.97;1.249;3.71;15;ML;;10;55.65
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;3;F;;10;5.43
+;4.4 023;Lames de terrasse brun CL4 28X145X4500 STRIEE / LISSE. Vis inox.;39.35;2.06;81.08;3;M2;;10;243.24
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;3;H;;10;178.2
+;20182714548V;TERRASSE VERT CL4 4800 STRIEE           27X145X4800 STRIEE / LISSE;14.45;1.25;18.06;3;M2;;10;54.18
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;6;F;;10;10.86
+;4.4 023;"Habillage escalier en Lames de terrasse brun CL4 28X145X4500 STRIEE / LISSE. Vis inox.
+Non compris contremarches";178.25;2.324;414.2;1;F;;10;414.2
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;6;H;;10;356.4
+;20182714548V;TERRASSE VERT CL4 4800 STRIEE           27X145X4800 STRIEE / LISSE;14.4501;1.25;18.06;3;M2;;10;54.18
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;2;F;;10;3.62
+;;;;;;;;;;
+;;Sous total :;;;;;;;;1757.2
+;3x;Couverture;;;;;;;;
+;;Non compris montage de l'échafaudage au lot ITE. Prévoir la pose d'un plateau sur l'ensemble de la périphérie à hauteur de travail (environ 50 à 80 cm en dessous de la gouttière). ;;;;;;;;
+;;;;;;;;;;
+;0.0 000A;Dépose de l'ancienne ventilation et rebouchage en ardoises. Compris reprise du litelage;102.9;1.3;133.82;1;;;10;133.82
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;2;H;;10;118.82
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.304;1.5;10;U;;10;15
+;0.0 000A;Dépose antenne TV et évacuation. ;22;2.7;59.4;1;;;10;59.4
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;1;H;;10;59.4
+;3.3 019;Sortie de toit ventilation de chute diamètre 125 mm pour couverture ardoise. Chatière VM ZINC INTEGRA zinc anthra. Compris réducteur 125/80.;92.99;1.936;180.06;1;U;;10;180.06
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;2;H;;10;118.8
+;UMI220015168;CHATIERE INTEGRA VMC / VENTILATION CHUTEDIAM 125  470X340 ANTHRA;30.544;1.25;38.18;1;UN;;10;38.18
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.252;1.44;10;U;;10;14.4
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;1;F;;10;1.81
+;UMI220015170;REDUCTEUR P/VENTILATION INTEGRA         125/80;5.4952;1.25;6.87;1;UN;;10;6.87
+;3.3 020;Sortie de toit ventilation de chute diamètre 160 mm pour couverture ardoise. Chatière VM ZINC INTEGRA zinc anthra.;104.87;1.859;194.92;1;U;;10;194.92
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;2;H;;10;118.8
+;UMI220015169;CHATIERE INTEGRA POUR VMC DIAM 160;47.9244;1.25;59.91;1;UN;;10;59.91
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.252;1.44;10;U;;10;14.4
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;1;F;;10;1.81
+;3.3 027;Contrôle et révision couverture existante et remplacement d'ardoises. (1/2 journée);125.5;2.267;284.5;1;U;;10;284.5
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;4;H;;10;237.6
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.252;1.44;20;U;;10;28.8
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;10;F;;10;18.1
+;;A confirmer sur site après le montage d'échafaudage;;;;;;;;
+;3.3 031;Démoussage de toiture: produit antimousse DALEP. ;2.68;2.004;5.37;95;M2;;10;510.15
+;130030;ANTIMOUSSE P.E 30 LITRES ( 1L = 5 M² )  ANTIMOUSSE PRET A L'EMPLOI 30 LITRES    LABEL EXCELL+ 2014;54.2263;1.25;67.78;0.95;UN;;10;64.39
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;6;H;;10;356.4
+;LOCDALEP;LOCATION KIT DÉMOUSSAGE DALEP           DURÉE DE 72H00                          CAUTION 500¤;75;1.25;93.75;0.95;UN;;10;89.06
+;;;;;;;;;;
+;3.1 032;Gouttières 1/2 ronde Zinc naturel. Dvp 25, compris déposé ardoises et gouttière existante, changement des liteaux, pose doublis et premier rang d'ardoise.;78.18;1.659;129.7;25;ML;;10;3242.5
+;UMI204665000;GOUTTIERE 1/2 RONDE 25 ZINC NATUREL 4M00-5% PAR 20 U                            PALETTE DE 250 U NOUS CONSULTER;31.8557;1.25;39.82;7.5;UN;;10;298.65
+;20330029;CROCHET VADOT DOS PLAT DE 25  GALVA                                             REF QSFVE25/CZ01;0.5836;1.251;0.73;80;UN;;10;58.4
+;22320087;14X38X4,20M LITEAUX NORD CALIBRE CL2    -15% A LA PALETTE DE 5443,20 ML         TRAITECLASSE2;0.4299;1.256;0.54;87.5;ML;;10;47.25
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.252;1.44;750;U;;10;1080
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;125;F;;10;226.25
+;Q002;Forfait soudure;1.5;1.253;1.88;25;F;;10;47
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;25;H;;10;1485
+;3.1 010;EQUERRE EXTERIEUR 1/2 R DE 25 NATURELLE;44.11;1.974;87.06;3;U;;10;261.18
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;3;H;;10;178.2
+;UMI220010978;EQUERRE EXTERIEUR 1/2 R DE 25 NAT       SANS PINCE;14.6114;1.25;18.26;3;UN;;10;54.78
+;Q002;Forfait soudure;1.5;1.253;1.88;15;F;;10;28.2
+;3.1 009;Joint de dilation pour gouttière >15m;40.09;2.046;82.04;2;U;;10;164.08
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;2;H;;10;118.8
+;UMI220027747;JOINT DE DILATATION TYPE 26 260X3000;105.8732;1.25;132.34;0.2;UN;;10;26.47
+;Q002;Forfait soudure;1.5;1.253;1.88;10;F;;10;18.8
+;3.1 007;Naissance agrafable zinc naturel D=80mm. Compris crapaudine.;15.44;1.663;25.68;3;U;;10;77.04
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;0.6;H;;10;35.64
+;UMI220010739;NAISSANCE UNI AGRAFABLE DIAM  80        ZINC NATUREL;11.0402;1.25;13.8;3;UN;;10;41.4
+;3.1 022;Jeu de coude zinc naturel D80. Compris soudure et raccordement.;29.82;1.785;53.23;3;U;;10;159.69
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;1.5;H;;10;89.1
+;UMI204026000;TUYAU TRONCONIQUE SOUDE D 80  LG 2M     ZINC NATUREL                            -5% PAR 20 U;19.7552;1.25;24.69;0.75;UN;;10;18.52
+;UMI220007726;COUDE CINTRE 90° D 80  ZINC NATUREL     -5% PAR CARTON DE 50 U;4.3509;1.25;5.44;7.5;UN;;10;40.8
+;Q002;Forfait soudure;1.5;1.253;1.88;6;F;;10;11.28
+;3.1 018;Descente EP tuyaux cylindriques zinc naturel D=80. Compris fixation adaptée à l'ITE.;25.87;1.496;38.7;14;ML;;10;541.8
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;2.8;H;;10;166.32
+;UMI204026000;TUYAU TRONCONIQUE SOUDE D 80  LG 2M     ZINC NATUREL                            -5% PAR 20 U;19.7552;1.25;24.69;9.8;UN;;10;241.96
+;20360005;COLLIER D 80  TARAUDE GALVA DESCENTE    , CARTON DE 25U                         REF QSFCF5180/C;0.985;1.249;1.23;35;UN;;10;43.05
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;50;F;;10;90.5
+;4.2 002;Larmier zinc naturel posé en égout pour faciliter la finition de l'ITE. ;19.98;1.761;35.18;25;ML;;10;879.5
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;8;H;;10;475.2
+;UMI200597000;FEUILLE ZINC NATUREL 100X200X0,65       -5% PAR 75 FEUILLES                     PALETTE DE 150U NOUS CONSULTER;57.46;1.25;71.83;5;UN;;10;359.15
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;25;F;;10;45.25
+;;;;;;;;;;
+;;Sous total :;;;;;;;;6688.64
+;;;;;;;;;;
+;6x;MENUISERIES EXTERIEURES;;;;;;;;
+;;;;;;;;;;
+;6 001;"Repère :	A
+PORTE DE GARAGE MEN85
+Gamme :	Acier (Sectionnelle Plafond Ou Latérale)
+Type D Ouverture Porte De Garage Acier :	Sectionnelle Latérale
+Gamme de Coloris Porte De Garage Acier :	Gris Approchant 7039 Deep Mat
+Finition Des Panneaux :	Lisse Sans Rainure
+Largeur Tableau :	2400
+Hauteur Tableau :	2000
+Refoulement :	Vers La Droite (Vue Intérieure)
+Retombé De Linteau :	70
+Ecoinçon Gauche (Vue Intérieur) :	200
+Ecoinçon Droite (Vue Intérieur) :	1050
+Position Portillon Sectionnelle Latérale (Ouverture à la française) :	Sans Portillon
+Type De Manoeuvre Porte Latérale :	Motorisée
+Marque De Motorisation :	Sommer
+Modele De Moteur :	Sommer Duo 500 (Avec 2 Emetteurs 4 Canaux)
+Tube Alu Pour Augmentation Retombée de Linteau :	Tube 20 x 40 mm
+Hauteur Tableau Fini Après Aménagement :	1980
+Angle De Refoulement :	Angle Standard 90°
+Double Courbe (Pour Échapper Un Obstacle) :	Sans
+Montage Motorisation :	Motorisation Au Plafond Avec Bras Articulé
+Refoulement Libre :	5000
+Hublots/Vitrage :	Hublots Classique
+Type Hublots :	Carré 300 x 300 mm
+Nombre De Panneaux :	4
+Implantation de Hublot/Vitrage Sur La Porte :	1 Élément Par Panneau en Partie Haute
+Coloris Hublots :	ALU Couleur Extérieur, PVC Blanc Intérieur
+Type De Vitrage :	Dépoli
+Décors Alunox :	Sans
+Accessoires De Motorisation :	Sans
+Accessoires Divers :	Sans
+Kit De 2 Equerres L300 Epaisseur 5mm RAL 9016 Pour Fixation Du Moteur Au Linteau :	Avec";2705.75;1.344;3637.35;1;U;;5.5;3637.35
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;8;H;;5.5;475.2
+;MEXT A;MEXT Rep A;2508;1.25;3135;1;U;;5.5;3135
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;15;F;;5.5;27.15
+;;"A confirmer
+
+Position de la motorisation
+Fixation en partie haute (isolation)
+
+La retombée en linteau isolation est trop faible, un tube acier RAL 7039 est prévu. Une réservation dans l'isolation pourrait être envisagée.";;;;;;;;
+;;;;;;;;;;
+;6 021;"REP B 
+ENSEMBLE COMPOSÉ - K-LINE - Dormant rénovation
+Cotes fabrication : Largeur 1125 mm x Hauteur 1925 mm
+COULEUR : Monocoloration
+Extérieur/Intérieur : Nuancier K.Line
+Accessoires : Tous les accessoires noirs
+DESCRIPTIF CHASSIS : Ensemble composé de 2 zones,
+assemblage par 1 montant en Profil de 86mm
+Dormant rénovation Pose 1 - avec vérins et avec rainure
+extérieure - Appui standard sans aile de recouvrement intérieure
+Zone 1 : Fixe - Largeur: 375, Hauteur: 1925 - Dessus de Traverse
+intermédiaire de 86mm : 450 - Vitrage depoli 44-6/we 16/TBE 4
+avec argon en partie haute - Panneau 2 faces tôle alu styro (non
+utilisable en garde corps ni en ERP AM8-feu) en partie basse
+Zone 2 : Fixe - Largeur: 750, Hauteur: 1925 - Dessus de Traverse
+intermédiaire de 86mm : 450 - Vitrage depoli 44-6/we 16/TBE 4
+avec argon en partie haute - Panneau 2 faces tôle alu styro (non
+utilisable en garde corps ni en ERP AM8-feu) en partie basse
+FERMETURE : Sans passage de volet roulant
+VENTILATION : Sans
+INFORMATIONS : Gamme : KL-FP
+Nota : Attention réalisable avec 1 montant filant de 86 mm et 2
+traverses de 86 mm -";1437.15;1.284;1844.8;1;U;;5.5;1844.8
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;7;H;;5.5;415.87
+;MEXT U;MEXT rep U;1081;1.28;1383.68;1;U;;5.5;1383.68
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;25;F;;5.5;45.25
+;;;;;;;;;;
+;6 020;"REP C
+
+FRANÇAISE 1 VANTAIL AVEC SERRURE - K-LINE - Dormant rénovation
+
+
+Cotes fabrication : Largeur 1015 mm x Hauteur 1990 mm
+COULEUR : Monocoloration
+Extérieur/Intérieur : Nuancier K.Line
+Accessoires : Tous les accessoires noirs
+SPECIFICITES : Châssis hors offre standard K-Line, réalisation à
+titre exceptionnel
+DESCRIPTIF CHASSIS : Française 1 vantail avec serrure
+Dormant rénovation Pose 16a - en feuillure, vis SFS - Seuil PMR
+20mm
+Ouvrant : Fiche-platine (base tarif) - avec serrure à relevage -
+Béquille double noire extérieur, noire intérieur - Poignée à 1018mm
+du bas de l'ouvrant - Dessus de Traverse intermédiaire de 50mm :
+300 - Vitrage 44-6/we 16/TBE 4 avec argon en partie haute -
+Panneau 2 faces tôle alu styro (non utilisable en garde corps ni en
+ERP AM8-feu) en partie basse
+Accessoires : Barillet 50x30 européen, 3 clés (base tarif)
+FERMETURE : Sans passage de volet roulant
+VENTILATION : Sans
+INFORMATIONS : Gamme : KL-FP - Clair passage = 876
+
+Coefficient de transmission thermique Uw = 1,6 W/(m2.K)
+Facteur solaire Sw = 0,41
+Transmission lumineuse TLw = 53 %";1275.95;1.269;1619.61;1;U;;5.5;1619.61
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;6;H;;5.5;356.46
+;MEXT T;MEXT rep T;980;1.26;1234.8;1;U;;5.5;1234.8
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;5.5;28.35
+;;;;;;;;;;
+;6 004;"Repère : D&E
+
+Description Soufflet K.Line réno.
+
+SOUFFLET - K-LINE - Dormant rénovation
+Cotes fabrication : Largeur 1010 mm x Hauteur 660 mm
+Allège maçonnerie : 1100 mm - Pose sur béton
+
+COULEUR : Monocoloration
+Extérieur/Intérieur : Gris Quartz RAL 7039 Satiné Classe 2
+Accessoires : Tous les accessoires noirs
+
+DESCRIPTIF CHASSIS : Soufflet
+Dormant rénovation Pose 16a - en feuillure, vis SFS - Appui standard sans aile de recouvrement intérieure et avec accroche pour bavette à fixer sur chantier avant mise en oeuvre - Bavette 07633 (60x28 de retombée)
+Ouvrant : Design carré - Système d'ouverture à levier (non posé en usine) - Vitrage 44-6/we 16/TBE 4 avec argon
+
+FERMETURE : Sans passage de volet roulant
+
+VENTILATION : 1 grille 22 m3/h (mortaise 250 x 12) - Attention : si pose en feuillure, recouvrement maxi du dormant 20mm, voir coupe technique 101.905
+
+INFORMATIONS : Gamme : KL-FP
+
+
+Coefficient de transmission thermique Uw = 1,4 W/(m².K) Facteur solaire Sw = 0,49 Transmission lumineuse TLw = 66 % Acoustique non disponible (mortaise pour entrée d’air)";554.75;1.48;821;2;U;;5.5;1642
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;8;H;;5.5;475.2
+;MEXT D;MEXT rep D;445;1.25;556.25;2;U;;5.5;1112.5
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;30;F;;5.5;54.3
+;;Recouvrement maximum du dormant de 20 mm pour entrée d'air;;;;;;;;
+;;;;;;;;;;
+;6 006;"Repère : F
+
+Description Oscillo battant 2 vtx Isolation ext.
+
+OSCILLO-BATTANT 2 VANTAUX - K-LINE - Dormant ossature bois, ITE, monomur
+Cotes fabrication : Largeur 1200 mm x Hauteur 1610 mm
+Allège maçonnerie : 920 mm - Pose sur bois
+
+COULEUR : Monocoloration
+Extérieur/Intérieur : Gris Quartz RAL 7039 Satiné Classe 2
+Accessoires : Tous les accessoires noirs
+
+DESCRIPTIF CHASSIS : Oscillo-battant 2 vantaux
+Dormant ossature bois, ITE, monomur Pose 50 pose entre tableau et fixations par vérins- Appui standard avec aile de recouvrement intérieure
+Ouvrant : Tirant droit - Ferrage invisible, ouverture vantail à 180° - Design carré - Poignée avec embase (Base tarif) - Hauteur de poignée standard (conformité handicap non garantie) - Vitrage 4/we 16/TBE 4 avec argon avec Petits bois de 18 mm intégrés à la lame d’air, 1 Horizontal (hauteur X) Hauteur X=1080
+
+FERMETURE : Sans passage de volet roulant
+
+VENTILATION : Sans
+
+INFORMATIONS : Gamme : KL-FP - Cotes de clair précadre : 1210 x 1620 h - Réservations maçonnerie planche N° 111.310 recto
+
+
+Coefficient de transmission thermique Uw = 1,4 W/(m².K) Facteur solaire Sw = 0,52 Transmission lumineuse TLw = 64 % Acoustique RA,tr = 29 dB (RE1335)";1030.75;1.436;1479.8;1;U;;5.5;1479.8
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;6;H;;5.5;356.4
+;MEXT F;MEXT rep F;877;1.25;1096.25;1;U;;5.5;1096.25
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;15;F;;5.5;27.15
+;;;;;;;;;;
+;6 007;"Repère : G
+
+Description Oscillo battant 2 vtx Isolation ext.
+
+OSCILLO-BATTANT 2 VANTAUX - K-LINE - Dormant ossature bois, ITE, monomur
+Cotes fabrication : Largeur 1200 mm x Hauteur 1660 mm
+Allège maçonnerie : 920 mm - Pose sur bois
+
+COULEUR : Monocoloration
+Extérieur/Intérieur : Gris Quartz RAL 7039 Satiné Classe 2
+Accessoires : Tous les accessoires noirs
+
+DESCRIPTIF CHASSIS : Oscillo-battant 2 vantaux
+Dormant ossature bois, ITE, monomur Pose 50 pose entre tableau et fixations par vérins - Appui standard avec aile de recouvrement intérieure
+Ouvrant : Tirant droit - Ferrage invisible, ouverture vantail à 180° - Design carré - Poignée avec embase (Base tarif) - Hauteur de poignée standard (conformité handicap non garantie) - Vitrage 4/we 16/TBE 4 avec argon avec Petits bois de 18 mm intégrés à la lame d’air, 1 Horizontal (hauteur X) Hauteur X=1080
+
+FERMETURE : Sans passage de volet roulant
+
+VENTILATION : Sans
+
+INFORMATIONS : Gamme : KL-FP - Cotes de clair précadre : 1210 x 1670 h - Réservations maçonnerie planche N° 111.310 recto
+
+
+Coefficient de transmission thermique Uw = 1,4 W/(m².K) Facteur solaire Sw = 0,52 Transmission lumineuse TLw = 64 % Acoustique RA,tr = 29 dB (RE1335)";1043.75;1.433;1496.05;1;U;;5.5;1496.05
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;6;H;;5.5;356.4
+;MEXT G;MEXT rep G;890;1.25;1112.5;1;U;;5.5;1112.5
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;15;F;;5.5;27.15
+;;;;;;;;;;
+;6 008;"Repère H
+
+Description Française 1 vtl Isolation ext.
+
+FRANÇAISE 1 VANTAIL - K-LINE - Dormant ossature bois, ITE, monomur
+Cotes fabrication : Largeur 350 mm x Hauteur 1070 mm
+Allège maçonnerie : 920 mm - Pose sur bois
+
+COULEUR : Monocoloration
+Extérieur/Intérieur : Gris Quartz RAL 7039 Satiné Classe 2
+Accessoires : Tous les accessoires noirs
+
+DESCRIPTIF CHASSIS : Française 1 vantail
+Dormant ossature bois, ITE, monomur Pose 40 - Isolation par extérieur ou ossature bois, pose avec vérins - Appui standard avec aile de recouvrement intérieure
+Ouvrant : Tirant droit - Fiche-platine (base tarif) - Design carré - Poignée avec embase (Base tarif) - Hauteur de poignée standard (conformité handicap non garantie) - Vitrage 4/we 16/TBE 4 avec argon avec Petits bois de 18 mm intégrés à la lame d’air, 1 Horizontal (hauteur X) Hauteur X=700 avec film de protection
+
+FERMETURE : Sans passage de volet roulant
+
+VENTILATION : Sans
+
+INFORMATIONS : Gamme : KL-FP - Cotes de clair précadre : 360 x 1080 h - Réservations maçonnerie planche N° 111.310 recto
+
+
+Coefficient de transmission thermique Uw = 1,3 W/(m².K) Facteur solaire Sw = 0,54 Transmission lumineuse TLw = 68 % Acoustique RA,tr = 29 dB (RE1335)
+
+INFORMATIONS : Gamme : KL-FP - Cotes de clair précadre : 360 x 1080 h - Réservations maçonnerie planche N° 111.310 recto
+
+
+Coefficient de transmission thermique Uw = 1,3 W/(m².K) Facteur solaire Sw = 0,56 Transmission lumineuse TLw = 69 % Acoustique RA,tr = 29 dB (RE1335)
+";415.75;1.557;647.25;1;U;;5.5;647.25
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;4;H;;5.5;237.6
+;MEXT H;MEXT rep H;306;1.25;382.5;1;U;;5.5;382.5
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;15;F;;5.5;27.15
+;;;;;;;;;;
+;6 009;"Repère : I
+
+Description Française 1 vtl Isolation ext.
+
+FRANÇAISE 1 VANTAIL - K-LINE - Dormant ossature bois, ITE, monomur
+Cotes fabrication : Largeur 350 mm x Hauteur 1070 mm
+Allège maçonnerie : 920 mm - Pose sur bois
+
+COULEUR : Monocoloration
+Extérieur/Intérieur : Gris Quartz RAL 7039 Satiné Classe 2
+Accessoires : Tous les accessoires noirs
+
+DESCRIPTIF CHASSIS : Française 1 vantail
+Dormant ossature bois, ITE, monomur Pose 50 pose entre tableau et fixations par vérins - Appui standard avec aile de recouvrement intérieure
+Ouvrant : Tirant droit - Fiche-platine (base tarif) - Design carré - Poignée avec embase (Base tarif) - Hauteur de poignée standard (conformité handicap non garantie) - Vitrage 4/we 16/TBE 4 avec argon avec Petits bois de 18 mm intégrés à la lame d’air, 1 Horizontal (hauteur X) Hauteur X=700
+
+FERMETURE : Sans passage de volet roulant
+
+VENTILATION : Sans
+
+INFORMATIONS : Gamme : KL-FP - Cotes de clair précadre : 360 x 1080 h - Réservations maçonnerie planche N° 111.310 recto
+
+
+Coefficient de transmission thermique Uw = 1,3 W/(m².K) Facteur solaire Sw = 0,54 Transmission lumineuse TLw = 68 % Acoustique RA,tr = 29 dB (RE1335)";415.75;1.557;647.25;1;U;;5.5;647.25
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;4;H;;5.5;237.6
+;MEXT I;MEXT rep I;306;1.25;382.5;1;U;;5.5;382.5
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;15;F;;5.5;27.15
+;;;;;;;;;;
+;6 008;"Repère J
+
+Description Oscillo battant 2 vtx Isolation ext.
+
+OSCILLO-BATTANT 2 VANTAUX - K-LINE - Dormant ossature bois, ITE, monomur
+Cotes fabrication : Largeur 1200 mm x Hauteur 1710 mm
+Allège maçonnerie : 920 mm - Pose sur bois
+
+COULEUR : Monocoloration
+Extérieur/Intérieur : Gris Quartz RAL 7039 Satiné Classe 2
+Accessoires : Tous les accessoires noirs
+
+DESCRIPTIF CHASSIS : Oscillo-battant 2 vantaux
+Dormant ossature bois, ITE, monomur Pose 40 - Isolation par extérieur ou ossature bois, pose avec vérins - Appui standard avec aile de recouvrement intérieure
+Ouvrant : Tirant droit - Ferrage invisible, ouverture vantail à 180° - Design carré - Poignée avec embase (Base tarif) - Hauteur de poignée standard (conformité handicap non garantie) - Vitrage 44-6/we 16/TBE 4 avec argon avec Petits bois de 18 mm intégrés à la lame d’air, 1 Horizontal (hauteur X) Hauteur X=1080
+
+FERMETURE : Sans passage de volet roulant
+
+VENTILATION : Sans
+
+INFORMATIONS : Gamme : KL-FP - Cotes de clair précadre : 1210 x 1720 h - Réservations maçonnerie planche N° 111.310 recto
+
+
+Coefficient de transmission thermique Uw = 1,5 W/(m².K) Facteur solaire Sw = 0,47 Transmission lumineuse TLw = 63 % Acoustique RA,tr = 32 dB (RE1370)
+
+INFORMATIONS : Gamme : KL-FP - Cotes de clair précadre : 1210 x 1720 h - Réservations maçonnerie planche N° 111.310 recto
+
+
+Coefficient de transmission thermique Uw = 1,5 W/(m².K) Facteur solaire Sw = 0,47 Transmission lumineuse TLw = 63 % Acoustique RA,tr = 34 dB (RE1338)";1202.75;1.409;1694.8;1;U;;5.5;1694.8
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;6;H;;5.5;356.4
+;MEXT H;MEXT rep H;1049;1.25;1311.25;1;U;;5.5;1311.25
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;15;F;;5.5;27.15
+;;;;;;;;;;
+;6 011;"Repère : K
+
+Description Française 2 vtx Isolation ext. avec serrure
+
+FRANÇAISE 2 VANTAUX AVEC SERRURE - K-LINE - Dormant ossature bois, ITE, monomur
+Cotes fabrication : Largeur 1200 mm x Hauteur 2560 mm
+Allège maçonnerie : 0 mm - Pose sur bois
+
+COULEUR : Monocoloration
+Extérieur/Intérieur : Gris Quartz RAL 7039 Satiné Classe 2
+Accessoires : Tous les accessoires noirs
+
+DESCRIPTIF CHASSIS : Française 2 vantaux avec serrure
+Dormant ossature bois, ITE, monomur Pose 50 pose entre tableau et fixations par vérins - Seuil PMR 20mm
+Ouvrant : Tirant droit - Paumelles bi-dimensionnelles (base tarif) - avec serrure à relevage - Design carré - Béquille double noire extérieur, noire intérieur - Poignée à 1018mm du bas de l'ouvrant - Vitrage 44-6/we 16/TBE 4 avec argon avec Petits bois de 18 mm intégrés à la lame d’air, 1 Horizontal (hauteur X) Hauteur X=2050
+Accessoires : Barillet 50x30 européen, 3 clés (base tarif)
+
+FERMETURE : Sans passage de volet roulant
+
+VENTILATION : 1 mortaise 250 x 12, axée sur le vantail semi-fixe
+
+INFORMATIONS : Gamme : KL-FP - Clair passage = 510 (non conforme à la réglementation handicap) - Cotes de clair précadre : 1210 x 2565 h - Réservations maçonnerie planche N° 111.390
+
+
+Coefficient de transmission thermique Uw = 1,5 W/(m².K) Facteur solaire Sw = 0,46 Transmission lumineuse TLw = 62 % Acoustique non disponible (mortaise pour entrée d’air)";2043.75;1.344;2746.05;1;U;;5.5;2746.05
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;6;H;;5.5;356.4
+;MEXT K;MEXT rep K;1890;1.25;2362.5;1;U;;5.5;2362.5
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;15;F;;5.5;27.15
+;;;;;;;;;;
+;6 012;"Repère :	L
+
+JERREL GAMME ALU TRADI
+
+GAMME ALU TRADITIONNEL
+Portillon naxos
+
+Dimensions :
+· Largeur entre poteau 900mm
+· Hauteur de fabrication au plus haut 1600mm
+· Forme Droit
+Ouverture :
+· Ouverture Droite Poussant, vu de l'extérieur
+· Fixation Entre Poteau avec angle 90°
+· Gonds peints
+· Avec serrure complète
+Esthétique :
+· Couleur 7039 SABLE Hors standard
+· Hauteur de la partie basse égale à 530 mm (550 mm du sol)
+· Tolage en partie haute Total avec jour 15 mm tout autour
+· Tolage Partie Basse avec jour 15 mm tout autour
+· Finitions hautes: Goutte d'eau assorties
+· Avec Poignée noire
+· Soudures apparentes pour toute la gamme Traditionnel";1169.75;1.414;1653.55;1;U;;10;1653.55
+;MO1;MAIN D'OEUVRE 1;22;2.7;59.4;6;H;;10;356.4
+;MEXT L;MEXT rep L;1016;1.25;1270;1;U;;10;1270
+;Q001;Forfait Quincaillerie;1.45;1.248;1.81;15;F;;10;27.15
+;;;;;;;;;;
+;;Sous total :;;;;;;;;19108.51
+;;;;;;;;;;
+;;Fixation sur renforts ARTIK Blok Gond de volet;;;;;;;;
+;;;;;;;;;;
+;6 001;"Repère : K
+Gamme : Alu Isolé 27 mm (Premium)
+Orientation Des Lames : Lames Verticales Pas De 90 mm (Standard)
+Coloris sélection Men85 : Ral 7039 SMF (moins-value)
+Modèle : Penture Contre Penture
+Nombres de Vantaux : 2 Vantaux
+Sens De Ferrage (Vue Intérieure) : 2 Vantaux Repliables Droite Poussant
+Dimensions Largeur : Largeur Tableau Maçonnerie
+Largeur (en mm) : 1300
+Dimensions Hauteur : Hauteur Tableau Maçonnerie
+Hauteur (en mm) : 2500
+Ferrage : Ferrage Alu Noir
+Gond Existant : Non
+Distance Par Rapport A La Mer : Supérieure A 15 Kms
+Type De Gonds : Gonds Chimiques Composite (STD)
+Pose Du Ferrage : Oui
+Couvre Joint : Avec (Sans Plus-Value)
+Hauteur Allège (en mm) : 0
+Partie Haute Du Volet En Forme : Non
+Déport Penture D : Déport Standard 39 mm
+Débord Penture E : Débord Standard 55 mm
+Type De Penture : Bout Feston (Standard)
+Type arrêts : Arrêt Automatique Composite
+Coloris Arrêts : Noir
+Type De Fermeture : Espagnolette Ronde Alu Epure Avec SupportAnti-Soulèvement (Sans Plus-Value - conseillé proche mer)
+Crochet Crémaillère Acier 400 mm Sur Le Vantail De Rive : Avec
+Type De Butée : Aluminium (Standard)
+Coefficient Thermique : 0,25";1007.75;1.3;1310.15;1;U;;10;1310.15
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;6;H;;10;374.4
+;MEXT A;MEXT Rep A;698;1.3;907.4;1;U;;10;907.4
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;10;28.35
+;;;;;;;;;;
+;6 002;"Repère : J
+Gamme : Alu Isolé 27 mm (Premium)
+Orientation Des Lames : Lames Verticales Pas De 90 mm (Standard)
+Coloris sélection Men85 : Ral 7039 SMF (moins-value)
+Modèle : Penture Contre Penture
+Nombres de Vantaux : 2 Vantaux
+Sens De Ferrage (Vue Intérieure) : 1 Vantail Droite poussant + 1 Vantail Gauche Poussant
+Coté De Manoeuvre : Vantail De Droite Vue Intérieure
+Dimensions Largeur : Largeur Tableau Maçonnerie
+Largeur (en mm) : 1200
+Dimensions Hauteur : Hauteur Tableau Maçonnerie
+Hauteur (en mm) : 1600
+Ferrage : Ferrage Alu Noir
+Gond Existant : Non
+Distance Par Rapport A La Mer : Supérieure A 15 Kms
+Type De Gonds : Gonds Chimiques Composite (STD)
+Pose Du Ferrage : Oui
+Couvre Joint Périphérique : Avec
+Option Couvre Joint Periphérique : Couvre Joint Haut et 2 cotés, (Pièce Appui Débordante)
+Hauteur Allège (en mm) : 0
+Vantaux Inégaux : Non
+Partie Haute Du Volet En Forme : Non
+Déport Penture D : Déport Standard 39 mm
+Débord Penture E : Débord Standard 19 mm
+Type De Penture : Bout Feston (Standard)
+Type arrêts : Arrêt Automatique Composite
+Coloris Arrêts : Noir
+Type De Fermeture : Espagnolette Ronde Alu Epure Avec SupportAnti-Soulèvement (Sans Plus-Value - conseillé proche mer)
+Crochet Crémaillère Alu 400 mm Sur Le Vantail De Service : Avec
+Crochet Crémaillère Alu 400 mm Sur Le Vantail Opposé : Avec
+Type De Butée : Aluminium (Standard)
+Volet Motorisé : Non
+Coefficient Thermique : 0,25";787.75;1.3;1024.15;1;U;;10;1024.15
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;6;H;;10;374.4
+;MEXT B;MEXT Rep. B;478;1.3;621.4;1;U;;10;621.4
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;10;28.35
+;;;;;;;;;;
+;;Sous total :;;;;;;;;2334.3
+;;;;;;;;;;
+;;;;;;;;;Total HT;29888.65
+;;;;;;;;;Tot. TVA;2203.39
+;;;;;;;;;Total TTC;32092.04

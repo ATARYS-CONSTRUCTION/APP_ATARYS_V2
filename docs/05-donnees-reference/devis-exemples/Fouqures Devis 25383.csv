@@ -1,0 +1,935 @@
+﻿Unnamed: 0;Unnamed: 1;Unnamed: 2;Unnamed: 3;Unnamed: 4;Unnamed: 5;Unnamed: 6;Unnamed: 7;Unnamed: 8;Unnamed: 9;Unnamed: 10
+;M. et Mme LAURA FOUQUERE ET CYRIL OLLIVIER;;M. et Mme LAURA FOUQUERE ET CYRIL OLLIVIER;;;;;;Numéro;25383
+;9 rue de la boulais;;9 rue de la boulais;;;;;;Date de création;13/02/2025
+;35000 RENNES;;35000 RENNES;;;;;;Date de validité;12/03/2025
+;;;;;;;;;;
+;Devis récap;;;;;;;;;
+;;;;;;;;;;
+;Référence;Libellé;Prix Achat;Coef;Prix Unitaire;Quantité;U;% rem;% tva;PrixTotal
+;;Au lot maçonnerie, un chainage périphérique;;;;;;;;
+;;Dépose placo et isolation hors lot.;;;;;;;;
+;1x;OUVRAGES COMMUNS;;;;;;;;
+;;;;;;;;;;
+;1.1 002;PLANS D'EXECUTION;548.4;1.3;712.92;1;F;;20;712.92
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;12;H;;20;712.92
+;1.2 002;Montage et démontage d'échafaudage pour temps du chantier. Compris toute sujétions de sécurité;1379.6;1.293;1783.48;1;F;;20;1783.48
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;28;H;;20;1663.48
+;MAT001;Echafaudage COMABI R200;100;1.2;120;1;F;;20;120
+;1.2 008;Isolation fils électriques par ENEDIS.;320;1.2;384;1;U;;20;384
+;ENEDIS;ISOLATION ENEDIS;320;1.2;384;1;F;;20;384
+;1.2 009;Occupation du domaine public. Stationnement de véhicule (forfait 10m²), pose d'échafaudage....;8.4;1.19;10;60;FORFAIT JOUR;;20;600
+;DOMAINE;Occupation du domaine public, zone générale;0.42;1.19;0.5;1200;M2/J;;20;600
+;1.2 011;Forfait Journée de stationnement;3;1.2;3.6;60;F;;20;216
+;DOMAINE5;Forfait journée stationnement;3;1.2;3.6;60;F;;20;216
+;1.3 001;Dépose couverture ardoises;9.14;1.3;11.88;78;M2;;20;926.64
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;15.6;H;;20;926.8
+;1.3 001;Dépose couverture zinc;6.86;1.299;8.91;25;M2;;20;222.75
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;3.75;H;;20;222.79
+;1.3 003;Dépose Charpente.;548.4;1.3;712.92;1;F;;20;712.92
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;12;H;;20;712.92
+;1.3 010;Démolition de murs maçonnés extension parpaing;36.56;1.3;47.53;16.5;M2;;20;784.25
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;13.2;H;;20;784.21
+;1.3 010;"Démolition de murs maçonnés extension pierre
+Compris mur de refend intérieur";68.55;1.3;89.12;17;M2;;20;1515.04
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;25.5;H;;20;1514.96
+;1.4 001;Evacuation de déchets, compris location de benne et traitement: GRAVATS (ardoises, tuiles, béton...);74.29;1.212;90.06;25;T;;20;2251.5
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;5;H;;20;297.05
+;DECHET001;EVAC GRAVATS BENNE (ardoises, béton, carrelage);15.85;1.2;19.02;25;T;;20;475.5
+;DECHET008;DEPOT, ROTATION, RETRAIT camion multi-benne, L'unité;98.6;1.2;118.32;12.5;U;;20;1479
+;1.4 005;Evacuation des gravats, location et rotation de benne à notre atelier et traitement: DIB mélangés. Compris TGAP taxe générale sur les activités polluantes.;301;1.215;365.75;0.4;T;;20;146.3
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;0.4;H;;20;23.76
+;DECHET004;EVAC DECHETS BENNES DIB;154;1.2;184.8;0.4;T;;20;73.92
+;DECHET007;TGAP taxe générale sur les activités polluantes;52;1.2;62.4;0.4;T;;20;24.96
+;DECHET008;DEPOT, ROTATION, RETRAIT camion multi-benne, L'unité;98.6;1.2;118.32;0.2;U;;20;23.66
+;1.4 004;Evacuation des gravats, location de benne à notre atelier et traitement des déchets: BOIS B;193;1.224;236.18;0.5;T;;20;118.09
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;0.5;H;;20;29.71
+;DECHET002;EVAC DECHETS BENNE (BOIS);98;1.2;117.6;0.5;T;;20;58.8
+;DECHET008;DEPOT, ROTATION, RETRAIT camion multi-benne, L'unité;98.6;1.2;118.32;0.25;U;;20;29.58
+;1.5 005;Location d'une grue MK  88. Flèche maxi 45m. Hauteur 59 m.;200;1.2;240;10;FORFAIT HEURE;;20;2400
+;LOC012;* Location jour  d'un CAMION grue MK88;200;1.2;240;10;Forfait horaire;;20;2400
+;1.5 006;Location d'un camion porteur, grue 15 mètres.;95;1.2;114;10;FORFAIT HEURE;;20;1140
+;LOC011;* Location jour  d'un camion porteur 6m75 avec grue de 15m. Chauffeur;95;1.2;114;10;FORFAIT HORAIRE;;20;1140
+;1.6 001;Nettoyage en fin de chantier comprenant le ramassage et la sortie des déchets et emballages;182.8;1.3;237.64;1;F;;20;237.64
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;4;H;;20;237.64
+;1.6 004;Pose et dépose d'un plancher provisoire OSB ép. 12 mm.;11.37;1.28;14.55;72;M2;;20;1047.6
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;14.4;H;;20;855.5
+;30321028;OSB3  2500 X 1250  EP 18 PAL DE 42 PANX;8.9;1.2;10.68;18;M2;;20;192.24
+;0.0 000A;"Intervention 1 :
+Etayage complet de la charpente.
+Création d'une toiture provioire au dessus du cheneau
+Bachage complet de l'ensemble";2828.47;1.258;3558.69;1;;;20;3558.69
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;36;H;;20;2138.76
+;B2508X12;BACHE COUVREUR 250G/M² 8X12,00ML        BLEU AVEC?OEILLETS EN LAITON;152.7552;1.2;183.31;3;UN;;20;549.93
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;500;F;;20;870
+;;;;;;;;;;
+;;Sous total :;;;;;;;;18757.82
+;;;;;;;;;;
+;2x;MOB;;;;;;;;
+;2.2 001;"Fourniture et pose lisse basse 45 x 145 traité Cl 4. Bande d'arase; Fixation par goujon d'ancrage M10x145/65-55 MT. (Maçonnerie 21 jours)";17.94;1.251;22.44;29.5;ML;;20;661.98
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;5.9;H;;20;350.52
+;22590200;SCIAGE RAB 4F TAC CL4 45X145X4800;3.9;1.2;4.68;35.4;ML;;20;165.67
+;21600017;BANDE  ARASE DELTA  DPC500 20CM X 50ML;23.1278;1.2;27.75;0.885;UN;;20;24.56
+;OR00243973;GOUJON ANCRAGE WA M10-143/70 ZING       BTE/50 OPT°7                            PAGE 134 DU CATALOGUE;39.4618;1.2;47.35;1.475;UN;;20;69.84
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;29.5;F;;20;51.33
+;2.2 011;Débit et assemblage Mur bois. Ossature en Epicéa CL2 45x145. Panneau de contreventement DURELIS VAPOUR BLOCK 2800 x 1196 mm. Ep. 12 mm vert+laquage, cloué à l'intérieur de la structure.  Isolation extérieure STEICO UNIVERSAL DRY 35 MM. Densité 210kg/m3, rainuré 2230 x 600 mm. Lambda = 0.045 R = 0,75. Contrelattes CL3 45X27 mm.;82.87;1.244;103.1;64;M2;;20;6598.4
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;51.2;H;;20;3041.79
+;VAPOUR122800119;VAPOUR BLOCK EP 12 MM                   FORMAT 2800*1196 MM CONT INT            PAL DE 72 PANNEAUX;11.9;1.2;14.28;76.8;M2;;20;1096.7
+;22590009;OSSATURE EPICEA SEC/RAB 45X145X6000     REMISE 11% A LA PAL DE 112  UTES        TRAITE CLASSE2 INCOLORE;3.1;1.2;3.72;262.4;ML;;20;976.13
+;SPR2555A;PTES RLX PLATS 16° 2,5X55 ANNELEES BRUT BT/ 9000;80.9125;1.2;97.1;0.64;UN;;20;62.14
+;OR00615126;VIS BOIS TF TX T30 DNS PLUS 6X80 ZG FP  100/BTE                                 PAGE 105 DU CATALOGUE;8.8106;1.2;10.57;3.2;UN;;20;33.82
+;OR00615129;VIS BOIS TF TX T30 DNS PLUS 6X120 ZG FP 100/BTE                                 PAGE 105 DU CATALOGUE;15.5649;1.2;18.68;3.2;UN;;20;59.78
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;64;F;;20;111.36
+;OR00615242;VIS TETE DIS.INTEGREE TX40 8X80         50/BTE                                  PAGE 112 DU CATALOGUE;10.0414;1.2;12.05;6.4;UN;;20;77.12
+;STEICOUNIVERD35;STEICO UNIVERSAL  DRY  EP 35 MM         PAREPLUIE/ECRAN SOUS TOITURE RIGIDE     2230X600X35 R 0,75 PAL DE 64 PX;12.9;1.2;15.48;73.6;M2;;20;1139.33
+;2.2 016;Débit et assemblage Mur bois. Ossature en Epicéa CL2 45x145. Contreventement en panneau OSB 3 ép. 12mm, cloué à l'extérieur de la structure.;379.77;1.272;483.16;1;F;;20;483.16
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;6;H;;20;356.46
+;30321120;OSB3  2800 X 1196   EP 12 MM            PALETTE DE  60  PANNEAUX;5.4;1.2;6.48;6;M2;;20;38.88
+;SPR2555A;PTES RLX PLATS 16° 2,5X55 ANNELEES BRUT BT/ 9000;80.9125;1.2;97.1;0.01;UN;;20;0.97
+;OR00615126;VIS BOIS TF TX T30 DNS PLUS 6X80 ZG FP  100/BTE                                 PAGE 105 DU CATALOGUE;8.8106;1.2;10.57;0.05;UN;;20;0.53
+;OR00615129;VIS BOIS TF TX T30 DNS PLUS 6X120 ZG FP 100/BTE                                 PAGE 105 DU CATALOGUE;15.5649;1.2;18.68;0.05;UN;;20;0.93
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;1;F;;20;1.74
+;OR00615242;VIS TETE DIS.INTEGREE TX40 8X80         50/BTE                                  PAGE 112 DU CATALOGUE;10.0414;1.2;12.05;0.1;UN;;20;1.21
+;22590124;OSSATURE EPICEA SEC/RAB 45X95X6000;1.908;1.2;2.29;36;ML;;20;82.44
+;2.2 021;Linteaux pour ouverture de baie: 45 x 220 mm.;31.82;1.272;40.48;6;ML;;20;242.88
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;3;H;;20;178.23
+;22590041;OSSATURE EPICEA SEC/RAB 45X220X6000     REMISE -11% / PALETTE DE 70 PIECES      TRAITE  2;6.0385;1.201;7.25;6.6;ML;;20;47.85
+;OR00615126;VIS BOIS TF TX T30 DNS PLUS 6X80 ZG FP  100/BTE                                 PAGE 105 DU CATALOGUE;8.8106;1.2;10.57;0.6;UN;;20;6.34
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;6;F;;20;10.44
+;2.2 026;Elévation / assemblage des modules. Montage avec engin de levage.;51.7;1.288;66.61;29.5;ML;;20;1965
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;29.5;H;;20;1752.6
+;22590009;OSSATURE EPICEA SEC/RAB 45X145X6000     REMISE 11% A LA PAL DE 112  UTES        TRAITE CLASSE2 INCOLORE;3.1;1.2;3.72;29.5;ML;;20;109.74
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;59;F;;20;102.66
+;2.2 028;Lisses hautes de chainage 45 x 145. Réglage des murs.;28.96;1.279;37.04;32;ML;;20;1185.28
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;16;H;;20;950.56
+;OR00615213;VIS BOIS TX40 HBS-6 8X80 ZG FP          50/BTE                                  PAGE 111 DU CATALOGUE;12.4894;1.2;14.99;3.2;UN;;20;47.97
+;22590009;OSSATURE EPICEA SEC/RAB 45X145X6000     REMISE 11% A LA PAL DE 112  UTES        TRAITE CLASSE2 INCOLORE;3.1;1.2;3.72;35.2;ML;;20;130.94
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;32;F;;20;55.68
+;;;;;;;;;;
+;;Sous total :;;;;;;;;11136.7
+;;;;;;;;;;
+;2x;CHARPENTE;;;;;;;;
+;;;;;;;;;;
+;2.3 005;"SablièreLamellé-collé C24 Epicéa Cl2 80x280 mm.
+
+Compris pose 3 poteaux 140x140 mm
+Appui intermédiaire à vérifier";367.35;1.219;447.68;1;U;;20;447.68
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;1.5;H;;20;89.12
+;2225401176;LAMELLE-COLLE EPICEA 80X2800X13000 GL24H                                         TRAITECLASSE2;661;1.2;793.2;0.3;M3;;20;237.96
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;20;F;;20;34.8
+;22240101;CONTRECOLLE EPICEA140X140X13500  GT24   -5% PAR PALETTE DE 24 UNITES            TRAITECLASSE2;715.0057;1.2;858.01;0.1;M3;;20;85.8
+;2.3 005;"Faitage porteur: poutre treillis
+Lamellé-collé Epicéa CL2 C24 80x280 et lien de contreventement 70x80";820.7;1.267;1039.68;1;U;;20;1039.68
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;12;H;;20;712.92
+;2225401176;LAMELLE-COLLE EPICEA 80X2800X13000 GL24H                                         TRAITECLASSE2;661;1.2;793.2;0.3;M3;;20;237.96
+;222540012;KVH NSI EPICEA 80X240X13000 C24                                                 TRAITECLASSE2;450.0027;1.2;540;0.1;M3;;20;54
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;20;F;;20;34.8
+;2.3 020;Poteau contrecollé épicéa cl2 140x140 mm.;74.4;1.261;93.85;1;U;;20;93.85
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;1;H;;20;59.41
+;22240101;CONTRECOLLE EPICEA140X140X13500  GT24   -5% PAR PALETTE DE 24 UNITES            TRAITECLASSE2;715.0057;1.2;858.01;0.03;M3;;20;25.74
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;5;F;;20;8.7
+;2.3 014B;Fourniture et pose Lien de charpente BM Epicéa C18  90x90.;64.74;1.285;83.17;4;U;;20;332.68
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;4.8;H;;20;285.17
+;22021640;75X200X6,00 CHARPENTE SEC C24                                                   TRAITECLASSE2;370.003;1.2;444;0.06;M3;;20;26.64
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;12;F;;20;20.88
+;2.3039;"CAISSONS DE TOITURE: assemblage à l'atelier, montage sur site
+Composition:
+
+Chevrons porteurs KVH 45x240 mm Epicéa Cl2";20.68;1.25;25.86;95;M2;;20;2456.7
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;21.75;H;;20;1292.17
+;222540120;KVH MBOC EPICEA 45X240X13000 C24                                                TRAITECLASSE2;450.0027;1.2;540;2.156;M3;;20;1164.24
+;2.1 005;"Muraillère BM Epicéa Cl2 45 x 220 mm. Fixation sur MOB.
+Compris renforcement par cornière métalliques";60.5;1.238;74.89;7.5;ML;;20;561.68
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;3.75;H;;20;222.79
+;OR00615242;VIS TETE DIS.INTEGREE TX40 8X80         50/BTE                                  PAGE 112 DU CATALOGUE;10.0414;1.2;12.05;0.75;UN;;20;9.04
+;22590041;OSSATURE EPICEA SEC/RAB 45X220X6000     REMISE -11% / PALETTE DE 70 PIECES      TRAITE  2;6.0385;1.201;7.25;8.25;ML;;20;59.81
+;MET 015B;FER CORNIERE EGALE ACIER 100x100x10 MM NOIR S235;30;1.2;36;7.5;ML;;20;270
+;2.3 002;Muraillère BM Epicéa Cl2 45 x 95 mm. Fixation sur MOB. Liaison des caissons en rive;13.69;1.267;17.35;24;ML;;20;416.4
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;4.8;H;;20;285.17
+;OR00615242;VIS TETE DIS.INTEGREE TX40 8X80         50/BTE                                  PAGE 112 DU CATALOGUE;10.0414;1.2;12.05;2.4;UN;;20;28.92
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;24;F;;20;41.76
+;22590124;OSSATURE EPICEA SEC/RAB 45X95X6000;1.908;1.2;2.29;26.4;ML;;20;60.46
+;2.3 017;Chevêtre pour conduit de poêle;123.04;1.274;156.81;1;U;;20;156.81
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;2;H;;20;118.82
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;1;F;;20;1.74
+;22590041;OSSATURE EPICEA SEC/RAB 45X220X6000     REMISE -11% / PALETTE DE 70 PIECES      TRAITE  2;6.0385;1.201;7.25;5;ML;;20;36.25
+;2.3 018;Chevêtre pour fenêtre de toit: chevrons porteur doublés au droit des trémies. Lindiers 45x220 mm.;213.62;1.243;265.56;2;U;;20;531.12
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;4;H;;20;237.64
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;2;F;;20;3.48
+;22590041;OSSATURE EPICEA SEC/RAB 45X220X6000     REMISE -11% / PALETTE DE 70 PIECES      TRAITE  2;6.0385;1.201;7.25;40;ML;;20;290
+;2.3 030;Débord de toiture en rive et égout inf. à 400 mm. Chevrons douglas 45x63 mm fixés sur panneau isolant de toiture (support de planches de rives);26.06;1.244;32.41;32;ML;;20;1037.12
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;8;H;;20;475.28
+;22030657;CHARPENTE DOUGLAS 63X44X5,00;782.34;1.2;938.81;0.48;M3;;20;450.63
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;64;F;;20;111.36
+;2.3 033;Planche de rive et égout  22x150 mm, BM douglas C18 raboté. Fixation par vis inox;17.99;1.238;22.27;32;ML;;20;712.64
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;4.8;H;;20;285.17
+;25X150X4000DOUG;PLANCHE DOUGLAS 1 FACE HORS AUBIER      25 X 150 X 4000;22.6001;1.2;27.12;9.6;M2;;20;260.35
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;96;F;;20;167.04
+;;;;;;;;;;
+;5x;Devis ISOLATION 24337 ;;;;;;;;
+;;;;;;;;;;
+;;Date de première visite le 07 novembre 2024;;;;;;;;
+;;;;;;;;;;
+;;Isolation de toiture par l'extérieur;;;;;;;;
+;;Isolation de 100% de la toiture;;;;;;;;
+;;;;;;;;;;
+;;R total = 6.1 + 0.75 = 6.85;;;;;;;;
+;;;;;;;;;;
+;2.5 007;"Panneau de contreventement DURELIS VAPOUR BLOCK
+Frein vapeur et étanchéité à l'air
+2800 x 1196 mm. Ep. 12 mm vert+laquage";30.25;1.395;42.2;95;M2;;20;4009
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.395;63.76;28.5;H;;20;1817.16
+;VAPOUR122800119;VAPOUR BLOCK EP 12 MM                   FORMAT 2800*1196 MM CONT INT            PAL DE 72 PANNEAUX;11.9;1.395;16.6;114;M2;;20;1892.4
+;Q001;Forfait Quincaillerie;1.45;1.4;2.03;95;F;;20;192.85
+;SPR2555A;PTES RLX PLATS 16° 2,5X55 ANNELEES BRUT BT/ 9000;80.9125;1.383;111.89;0.95;UN;;20;106.3
+;5.1 006;Adhésifs d'étanchéité à l'air sur panneaux de contreventement VAPOUR BLOCK;4.38;1.342;5.88;95;M2;;20;558.6
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.391;63.55;4.75;H;;20;301.86
+;21600132;TESCON VANA 60MMX30,00ML                ADHESIF USAGE INTERIEUR/EXTERIEUR       -12 % CARTON DE 20;20.9324;1.287;26.95;9.5;UN;;20;256.03
+;;;;;;;;;;
+;5.2 010;Isolation en panneau de laine de bois semi rigide.STEICO FLEX 220 MM. Densité 60kg/m3, bords droits 1220x575 mm. Lambda = 0.036 R = 6,1;34.3;1.395;47.86;95;M2;;20;4546.7
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.394;63.7;19;H;;20;1210.3
+;Q001;Forfait Quincaillerie;1.45;1.4;2.03;95;F;;20;192.85
+;STE3846081;STEICO FLEX36 220MM 1220X565 R 6,10     COLIS DE 1,3786 M2 2 PX                 PALETTE DE 13,786 M2 10COLIS;21.5582;1.395;30.08;104.5;M2;;20;3143.36
+;;;;;;;;;;
+;2.5 010C;"Panneaux pare-pluie et isolants 60 mm. STEICOINTEGRAL 60 MM  RIGIDE 2230X600X60. Lambda = 0.042 R=1.4. Densité 140kg/m3.
+Pose contrelattes Cl3 45x27 mm ";43.11;1.395;60.13;95;M2;;20;5712.35
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.395;63.76;38;H;;20;2422.88
+;21600137S;TESCON SPRIMER BOMBE DE 400ML           ACCROCHE SUPPORT BOIS/BETON/ENDUIT      REMPLACE LE TESCON PRIMER RP;10.5731;1.415;14.96;4.75;UN;;20;71.06
+;21600132;TESCON VANA 60MMX30,00ML                ADHESIF USAGE INTERIEUR/EXTERIEUR       -12 % CARTON DE 20;20.9324;1.395;29.2;4.75;UN;;20;138.7
+;Q001;Forfait Quincaillerie;1.45;1.4;2.03;47.5;F;;20;96.43
+;27X45X4200MARRO;TASSEAUX CALIB RAB  27X45X4200 CL3      //MARRON //PAL DE 330 PIECES;1.0765;1.393;1.5;332.5;ML;;20;498.75
+;STEINTEGRAL60NF;FIBRE BOIS RIGIDE STEICO INTEGRAL 60MM NISOLANT/PARE-PLUIE/SUPPORT ENDUIT       !!!!2230X600 R1,40 PAL DE 36 PX!!!!;16.3001;1.395;22.74;109.25;M2;;20;2484.35
+;;;;;;;;;;
+;;;;;;;;;;
+;;Sous total :;;;;;;;;22613.01
+;;;;;;;;;;
+;2x;MEZZANINE;;;;;;;;
+;;;;;;;;;;
+;2.1 005;Lindier BM Epicéa Cl2 80 x 200 mm.;39.67;1.269;50.35;17;ML;;20;855.95
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;10.2;H;;20;605.98
+;OR00615242;VIS TETE DIS.INTEGREE TX40 8X80         50/BTE                                  PAGE 112 DU CATALOGUE;10.0414;1.2;12.05;1.7;UN;;20;20.49
+;222540011;KVH NSI EPICEA 80X220X13000 C24                                                 TRAITECLASSE2;450.0027;1.2;540;0.425;M3;;20;229.5
+;2.3 020;Poteau contrecollé épicéa cl2 140x140 mm.;74.4;1.261;93.85;1;U;;20;93.85
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;1;H;;20;59.41
+;22240101;CONTRECOLLE EPICEA140X140X13500  GT24   -5% PAR PALETTE DE 24 UNITES            TRAITECLASSE2;715.0057;1.2;858.01;0.03;M3;;20;25.74
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;5;F;;20;8.7
+;2.1 020;Rangée d'étriers de fixation de solives 63x175. Fixation par pointes annelées 4x35 et 4x50. Entraxe 500 mm;22.5;1.261;28.37;6.5;ML;;20;184.41
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;1.95;H;;20;115.85
+;OR00886655;POINTE ANNELEE CNA4.0X35-HV 4X35 X5KG   ANCRAGE CONNECTEUR                      PAGE 99 DU CATALOGUE;25.7593;1.2;30.91;0.65;UN;;20;20.09
+;OR00210877;VIS 5X35 TX BT250 ANCRAGE CONNECTEUR                                            PAGE 99 DU CATALOGUE;21.943;1.2;26.33;0.325;UN;;20;8.56
+;OR00210775;SABOTS SOLIV.EXT.EP.2 SAE 340 64*138                                            PAGE 89 DU CATALOGUE;1.97;1.198;2.36;16.9;UN;;20;39.88
+;2.1 025;SOLIVE Epicéa Cl2;10.59;1.286;13.62;28;ML;;20;381.36
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;5.6;H;;20;332.7
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;28;F;;20;48.72
+;2.1 036B;Parquet sapin du Nord blanc sec 12% 21x140x4200,   profil mezzanine rainure en bout. Cloué sur bandes type phaltex. Finition non comprise.;70.32;1.252;88.04;13.5;M2;;20;1188.54
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;10.8;H;;20;641.63
+;30313120;BANDE PHALTEX 10MM 50X1200              PAQUET DE 50 BANDES;14.2937;1.2;17.15;1.35;COLIS;;20;23.15
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;13.5;F;;20;23.49
+;50900113;PARQUET SDN BLANC SEC 12% 21X140X4200   PROFIL MEZZANINE RAINURE EN BOUT;28.0714;1.2;33.69;14.85;M2;;20;500.3
+;;;;;;;;;;
+;;Sous total :;;;;;;;;2704.11
+;;;;;;;;;;
+;3x;COUVERTURE;;;;;;;;
+;;;;;;;;;;
+;3.1 013;Gouttières Nantaise R8 dvp330 Zinc anthra et bande doublis zinc anthra 330mm.;84.65;1.243;105.24;8;ML;;20;841.92
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;6.4;H;;20;380.22
+;UMI220021382;GOUTT NANT.PINCE ANTHRA 33REL 80 0,65 4M- 5% PAR 20 U;60.1938;1.2;72.23;2.4;UN;;20;173.35
+;20330010;CROCHET EQUERRE NANTAIS R 8 ANTHRA      - 5% PAR CARTON DE 100                  REF QSFEQ0108/CA;2.2589;1.2;2.71;25.6;UN;;20;69.38
+;UMI220020415;FEUILLE ZINC ANTHRA 100X200X0,65        -5%  PAR 75 FEUILLES                    PALETTE DE 150U NOUS CONSULTER;76.3237;1.2;91.59;2;UN;;20;183.18
+;Q002;Forfait soudure;1.5;1.2;1.8;16;F;;20;28.8
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;4;F;;20;6.96
+;3.1 017;Fourniture et pose d'un chéneau en zinc naturel ép. 0.8mm, compris façonnage, coupe, soudures.;78.06;1.259;98.24;9.5;ML;;20;933.28
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;9.5;H;;20;564.4
+;Q002;Forfait soudure;1.5;1.2;1.8;47.5;F;;20;85.5
+;UMI208446000;BOBINEAU ZINC NAT 0,65 / 650 LG31ML     -5% A LA PALETTE DE 8 RLX;621.4912;1.2;745.79;0.38;UN;;20;283.4
+;3.1 017B;Naissance et trop plein pour chéneau zinc naturel;73.13;1.263;92.33;1;U;;20;92.33
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;1;H;;20;59.41
+;Q002;Forfait soudure;1.5;1.2;1.8;10;F;;20;18
+;UMI208446000;BOBINEAU ZINC NAT 0,65 / 650 LG31ML     -5% A LA PALETTE DE 8 RLX;621.4912;1.2;745.79;0.02;UN;;20;14.92
+;3.1 020;Descente EP tuyaux cylindriques zinc anthra D=80;34.46;1.226;42.26;14;ML;;20;591.64
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;2.8;H;;20;166.35
+;UMI220019915;TUYAU CYLINDRIQUE SOUDE ANTHRA  D 80X 2MEP 0,65                                 -5% PAR 20 U;25.7876;1.2;30.95;9.8;UN;;20;303.31
+;20360008;COLLIER  D 80 TARAUDE ANTHRA DESCENTE    CARTON DE 25U                          REF QSFCF5180/CA;2.3275;1.199;2.79;35;UN;;20;97.65
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;14;F;;20;24.36
+;3.1 024;Jeu de coude zinc anthra D80. Compris soudure et raccordement.;56.25;1.241;69.8;2;U;;20;139.6
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;1;H;;20;59.41
+;UMI220019915;TUYAU CYLINDRIQUE SOUDE ANTHRA  D 80X 2MEP 0,65                                 -5% PAR 20 U;25.7876;1.2;30.95;0.5;UN;;20;15.48
+;UMI220007784;COUDE CINTRE 90° D 80  ANTHRA           -5% PAR CARTON DE 20 U;9.5804;1.2;11.5;5;UN;;20;57.5
+;Q002;Forfait soudure;1.5;1.2;1.8;4;F;;20;7.2
+;3.1 027;Boite à eau zinc anthra. Compris coude, soudure et raccordements.;87.99;1.226;107.88;1;U;;20;107.88
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;0.5;H;;20;29.71
+;UMI220020694;BOITE A EAU 220 X 220 DIAM 80 ANTHRA;56.9844;1.2;68.38;1;UN;;20;68.38
+;UMI220019915;TUYAU CYLINDRIQUE SOUDE ANTHRA  D 80X 2MEP 0,65                                 -5% PAR 20 U;25.7876;1.2;30.95;0.2;UN;;20;6.19
+;Q002;Forfait soudure;1.5;1.2;1.8;2;F;;20;3.6
+;;;;;;;;;;
+;3.3 003;Liteaux 18x48 mm et ardoises naturelles 320x220 mm CE-NF Garantie 30ans. Pente 30°. Crochet 11 mm;76.8;1.224;93.99;99;M2;;20;9305.01
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;39.6;H;;20;2352.64
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.2;1.38;4059;U;;20;5601.42
+;22320091;18X38X4,20M LITEAUX NORD CALIBRE CL2    -15% A LA PALETTE DE 3402 ML            TRAITECLASSE2;0.6166;1.2;0.74;940.5;ML;;20;695.97
+;CAINOX182,711A;CROCHET AGRAFE INOX 18% D2,7 EN 11      BOITE DE 500;45.8873;1.2;55.06;7.92;UN;;20;436.08
+;CAINOX182,711P;CROCHET POINTES INOX 18% D2,7 EN 11     BOITE DE 700;49.3825;1.2;59.26;0.792;UN;;20;46.93
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;99;F;;20;172.26
+;3.3 008;Faitâge ZINC anthracite ép. 0.65 mm. Dvp 330 mm.;50.29;1.263;63.54;9.5;ML;;20;603.63
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;6.65;H;;20;395.08
+;UMI220020415;FEUILLE ZINC ANTHRA 100X200X0,65        -5%  PAR 75 FEUILLES                    PALETTE DE 150U NOUS CONSULTER;76.3237;1.2;91.59;1.9;UN;;20;174.02
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;9.5;F;;20;16.53
+;22310052;18X150X4,00  VOLIGE EPICEA TRAITEE II                                           TRAITECLASSE2;7.8989;1.2;9.48;1.9;M2;;20;18.01
+;3.3 009;Faitâge monopan zinc anthracite.;48.84;1.265;61.8;8;ML;;20;494.4
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;5.6;H;;20;332.7
+;UMI220020415;FEUILLE ZINC ANTHRA 100X200X0,65        -5%  PAR 75 FEUILLES                    PALETTE DE 150U NOUS CONSULTER;76.3237;1.2;91.59;1.6;UN;;20;146.54
+;22310052;18X150X4,00  VOLIGE EPICEA TRAITEE II                                           TRAITECLASSE2;7.8989;1.2;9.48;1.6;M2;;20;15.17
+;3.3 014;Bande porte solin à biseau zinc naturel;51.67;1.288;66.57;9.5;ML;;20;632.42
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;9.5;H;;20;564.4
+;UMI204204000;BDE DE SOLIN A BISEAU  DEV 100  LG:2,00 ZINC NATUREL                            -5% PAR 20 U;8.7365;1.2;10.48;5.7;UN;;20;59.74
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;4.75;F;;20;8.27
+;3.3 015;Solins maçonné sur bande zinc naturel. MORTIER SPECIAL COUVREUR 25 KG W CL TUILE BLANC CASSE WEBER ET BROUTIN. Mortier à la chaux hydrofugé pour les travaux de couverture.;24.48;1.293;31.66;9.5;ML;;20;300.77
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;4.75;H;;20;282.2
+;43110015;MORTIER SPECIALE COUVREUR BLANC 25 KG   W CL TUILE BLANC CASSE                  WEBER ET BROUTIN;16.2911;1.2;19.55;0.95;UN;;20;18.57
+;3.3 018;Ventilation de comble zinc anthra (chatière plate) 335x310;56.36;1.241;69.92;8;U;;20;559.36
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;4;H;;20;237.64
+;UMI210679000;CHATIERE INTEGRA 335 X 310 ANTHRA       -5% PAR CARTON DE 12 U;20.558;1.2;24.67;8;UN;;20;197.36
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.2;1.38;80;U;;20;110.4
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;8;F;;20;13.92
+;3.3 019;Sortie de toit ventilation de chute diamètre 125 mm pour couverture ardoise. Chatière VM ZINC INTEGRA zinc anthra. Compris réducteur 125/80.;94.69;1.248;118.19;2;U;;20;236.38
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;2;H;;20;118.82
+;UMI220015168;CHATIERE INTEGRA VMC / VENTILATION CHUTEDIAM 125  470X340 ANTHRA;30.544;1.2;36.65;2;UN;;20;73.3
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.2;1.38;20;U;;20;27.6
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;2;F;;20;3.48
+;UMI220015170;REDUCTEUR P/VENTILATION INTEGRA         125/80;5.4952;1.199;6.59;2;UN;;20;13.18
+;3.3 020;Sortie de toit ventilation de chute diamètre 160 mm pour couverture ardoise. Chatière VM ZINC INTEGRA zinc anthra.;106.57;1.243;132.46;1;U;;20;132.46
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;1;H;;20;59.41
+;UMI220015169;CHATIERE INTEGRA POUR VMC DIAM 160;47.9244;1.2;57.51;1;UN;;20;57.51
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.2;1.38;10;U;;20;13.8
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;1;F;;20;1.74
+;;;;;;;;;;
+;3.5 GGL 2076;Fourniture et pose d'une fenêtre de toit VELUX GGL MK04 2076 CONFORT           A ROTATION FINITION BLANCHE WHITE FINISH 78 CM X 98 CM Uw = 1,2W/(m².K) Sw = 0.23. Raccord Encastré EDN;680.52;1.24;844.04;1;U;;20;844.04
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;6;H;;20;356.46
+;GGLMK042076;FENETRE GGL MK04 2076 CONFORT           A ROTATION FINITION BLANCHE WHITE FINISH78 CM X 98 CM;330;1.2;396;1;UN;;20;396
+;EDNMK040000;RACCORD EDN MK04 POUR ARDOISES          POSE ENCASTREE                          78 X 98;76.32;1.2;91.58;1;UN;;20;91.58
+;3.5 GGL 2076;*Fourniture et pose d'une fenêtre de toit VELUX VERRIÈRE PLANE GIL MK34 2057  FINITION WHITE FINISH  78 CM X 92 CM  + GGL MK04 2076 CONFORT           A ROTATION FINITION BLANCHE WHITE FINISH 78 CM X 98 CM Uw = 1,2W/(m².K) Sw = 0.23. Raccord Encastré EDN ETN;1249.18;1.226;1531;1;U;;20;1531
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;7;H;;20;415.87
+;GILMK342057;VERRIÈRE PLANE GIL MK34 2057            FINITION WHITE FINISH                   78 CM X 92 CM;408.96;1.2;490.75;1;UN;;20;490.75
+;ETNWK340000;RACCORD ETN WK34 ENCASTRÉ POUR 1 GIL                                            MK34/SK34/UK34, POUR ARDOISES;99;1.2;118.8;1;UN;;20;118.8
+;EDNMK040000;RACCORD EDN MK04 POUR ARDOISES          POSE ENCASTREE                          78 X 98;76.32;1.2;91.58;1;UN;;20;91.58
+;GGLMK042076;FENETRE GGL MK04 2076 CONFORT           A ROTATION FINITION BLANCHE WHITE FINISH78 CM X 98 CM;345;1.2;414;1;UN;;20;414
+;;Sous total :;;;;;;;;17346.12
+;;;;;;;;;;
+;5x;ISOLATION-ETANCHEITE A L'AIR;;;;;;;;
+;;;;;;;;;;
+;5.1 009;Raccord de frein-vapeur sur maçonnerie par collage Proclima ORCON;3.76;1.261;4.74;39;ML;;20;184.86
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;1.95;H;;20;115.85
+;21600232;ORCON LINE DESTOCKAGE                   COLLE DE RACCORD TT USAGE INTERIEUR     RLX DE 15 ML X LARG 10 MM;14.7614;1.2;17.71;3.9;UN;;20;69.07
+;5.1 011;Détails d'étanchéités à l'air en phase structure Traitement des détails : Frein derrière muraillères porteuses de plancher, frein-vapeur laissé en attente pour raccordement par lot étanchéité à l'air;270.43;1.285;347.37;1;F;;20;347.37
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;5;H;;20;297.05
+;21600132;TESCON VANA 60MMX30,00ML                ADHESIF USAGE INTERIEUR/EXTERIEUR       -12 % CARTON DE 20;20.9324;1.2;25.12;1;UN;;20;25.12
+;21600130;FREIN VAPEUR ARMÉ INTELLO+  50X1,50ML   HYGROVARIABLE VALEUR SD 0,25 À  25M     SYSTEME SOUS AVIS TECHNIQUE;210.0008;1.2;252;0.1;UN;;20;25.2
+;5.3 002;Ouate de cellulose insufflée en caissons de toiture, densité moyenne 55kg/m3. 24 cm d'épaisseur. Lambda = 0,041 W/m.K. R = 5.85 m².K.W-1. ISOCELL ACERMI N° 12 / D/ 151 / 779;141.1;1.249;176.18;22.8;M3;;20;4016.9
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;34.2;H;;20;2031.82
+;41011291;OUATE DE CELLULOSE ISOCELL SAC 10 KG    ACERMI 12/D/151/779;7.9;1.2;9.48;125.4;UN;;20;1188.79
+;21600133;TESCON VANA 150MMX30,00ML               ADHESIF USAGE INTERIEUR/EXTERIEUR;63.3294;1.2;76;2.28;UN;;20;173.28
+;LOCMACHINEOUATE;LOCATION MACHINE OUATE 72 HEURES        SOUFLEUSE/INSUFLEUSE;69;1.2;82.8;7.524;UN;;20;622.99
+;5.2 006;"Isolation en panneau de laine de bois semi rigide. STEICO FLEX 145 MM. Densité 60kg/m3, bords droits 1220x575 mm. Lambda = 0.036 R = 4.
+Compris ossature douglas 45x63 mm.";40.26;1.245;50.13;8.5;M2;;20;426.11
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;3.4;H;;20;201.99
+;STE384605;STEICO FLEX36 145MM 1220X575 R 4,00     COLIS DE 2,81M2 4 PX                    PALETTE DE 22,448 M2  8 COLIS;13.6613;1.2;16.39;9.35;M2;;20;153.25
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;8.5;F;;20;14.79
+;CHEVRON60X40X4M;CHARPENTE DOUGLAS 60X40 EN 4,00ML;550;1.2;660;0.085;M3;;20;56.1
+;;Localisation mur mitoyen;;;;;;;;
+;0.0 000A;Isolation du surbau: création d'une ossature en chevron douglas et isolation Steico Flex 100 mm. Pose de frein vapeur Intello. ;34.02;1.267;43.11;27;ML;;20;1163.97
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;13.5;H;;20;802.04
+;STEI036100;STEICO FLEX036 100MM 1220X575  R 2,70   COLIS DE 2,806 M2  4 PX                 PALETTE DE 33,672 M2  12 COLIS;9.4528;1.2;11.34;16.2;M2;;20;183.71
+;CHEVRON60X40X4M;CHARPENTE DOUGLAS 60X40 EN 4,00ML;550;1.2;660;0.27;M3;;20;178.2
+;;;;;;;;;;
+;;Sous total :;;;;;;;;6139.21
+;;;;;;;;;;
+;4x;BARDAGE;;;;;;;;
+;;;;;;;;;;
+;4.1 00;"Grille anti-rongeurs acier galva replié 27x45. Trou de 3 mm
+";165.29;1.255;207.49;1;F;;20;207.49
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;2;H;;20;118.82
+;GAR25/42/25;GRILLE ANTI RONGEURS ACIER REPLIEE 25X42 ROULEAUX DE 25ML ACIER GALVA. TROU 3MM FINITION ZM310 MBC U  EP:8/10;72.4414;1.2;86.93;1;UN;;20;86.93
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;1;F;;20;1.74
+;4.1 003;Fourniture et pose tasseaux horizontaux (entraxe max 600 mm) 45x27 mm CL3.;14.03;1.265;17.75;64;M2;;20;1136
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;12.8;H;;20;760.45
+;27X45X4200MARRO;TASSEAUX CALIB RAB  27X45X4200 CL3      //MARRON //PAL DE 330 PIECES;1.0765;1.198;1.29;204.8;ML;;20;264.19
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;64;F;;20;111.36
+;4.2 007;Bavette étanchéité / raccord menuiserie aluminium 15/10è Ral hors standard 6012. Longueur max = 3m, dvp max 330 mm.;89.33;1.251;111.76;1;U;;20;111.76
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;1;H;;20;59.41
+;040000;FEUILLE ALU LISSE P10 ANTHRA            2000 X 1000 EP 0,70;42.177;1.2;50.61;1;UN;;20;50.61
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;1;F;;20;1.74
+;4.2 012;Habillage de tableau en douglas Ep. 21 mm. Compris pose d'un panneau isolant rigide et pare-pluie ép. 22 mm et raccordement des pare-pluie. ;48.73;1.275;62.13;21.5;ML;;20;1335.8
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;17.2;H;;20;1021.85
+;STEICOUNIVERS22;STEICO UNIVERSAL 22 MM                  PAREPLUIE/ECRAN SOUS TOITURE RIGIDE     2230*600 X22MM  R 0,45;8.0476;1.2;9.66;10.75;M2;;20;103.85
+;21600132;TESCON VANA 60MMX30,00ML                ADHESIF USAGE INTERIEUR/EXTERIEUR       -12 % CARTON DE 20;20.9324;1.2;25.12;1.075;UN;;20;27
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;21.5;F;;20;37.41
+;25X150X4000DOUG;PLANCHE DOUGLAS 1 FACE HORS AUBIER      25 X 150 X 4000;22.6001;1.2;27.12;5.375;M2;;20;145.77
+;0.0 000B;"Habillage en aluminium Ral 6012 en retrait du bardage. COmpris pose de volige ép. 18mm.
+Localisation F2-4";224.1;1.261;282.63;1;U;;20;282.63
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;3;H;;20;178.23
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;60;F;;20;104.4
+;4.3 DOUG01;BARDAGE à couvre-joint douglas Planche ép. 21 mm, largeur 150 mm + tasseau 45x45 mm. Pose verticale. Pointes inox à tête bombée;101.29;1.256;127.24;64;M2;;20;8143.36
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.4;80;H;;20;4752
+;25X150X4000DOUG;PLANCHE DOUGLAS 1 FACE HORS AUBIER      25 X 150 X 4000;22.6001;1.2;27.12;70.4;M2;;20;1909.25
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;192;F;;20;334.08
+;40X40/DOUG;TASSEAU DOUGLAS 40 X 40 EN 4,00ML RAB 4FARETES VIVES / CL3 ROSE DOUGLAS         VENDU PAR BOTTE DE 4 UNITES;2.3;1.2;2.76;416;ML;;20;1148.16
+;;;;;;;;;;
+;op1;Option :;;;;;;;;
+;4.3 DOUG01;BARDAGE à couvre-joint douglas Planche ép. 21 mm, largeur 150 mm + tasseau 27x45 mm. Pose verticale. Pointes inox à tête bombée;90.86;1.263;114.73;64;M2;;20;7342.72
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.4;80;H;;20;4752
+;25X150X4000DOUG;PLANCHE DOUGLAS 1 FACE HORS AUBIER      25 X 150 X 4000;22.6001;1.2;27.12;83.2;M2;;20;2256.38
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;192;F;;20;334.08
+;op2;Fin d'option;;;;;;;;
+;;;;;;;;;;
+;;Sous total :;;;;;;;;11217.04
+;;;;;;;;;;
+;6x;MENUISERIES EXTERIEURES;;;;;;;;
+;;;;;;;;;;
+;6 001;"Repère : P-01
+Famille : MéO Frappe et Porte VARIATION
+Sous-Famille : MéO Frappe
+Type de chassis : Porte fenêtre à la française 1 vantail (Serrure)
+Design : Alu Plat / Remplissage 28 à 34mm
+Coloris : Hors nuancier MC-FRANCE
+Face extérieure couleur Hors nuancier MC-FRANCE : 6012
+Essence bois et Finition : Pin Naturel
+Type de pose : Applique
+Cotes : Tableau
+Type de dormant : Dormant standard
+Dormant pour doublage de : 70mm
+Type de volet roulant : Sans
+Type appui : Seuil Alu réduit
+Encastrement : Sans
+Sens de ferrage en vue intérieure : Gauche tirant
+Option Dormant largeur variable (élargisseur) : SANS
+Largeur : 1050
+Hauteur : 2200
+Option Habillage Rénovation : SANS
+Type de vitrage : Thermique standard
+Vitrage : *Vitrage 44.2 rTherm(#2) + [U]4 Flûte Clair(#3)
+Type intercalaire : WE (Noir)
+Vitrage Altitude :
+Voulez vous des options sur le vantail : OUI
+Soubassement : Soubassement plein
+Type panneau de soubassement : Panneau fil Horizontal
+Hauteur soubassement dessus traverse au sol fini : 1050
+Montant intermédiaire : Sans
+Epaisseur verre : 28
+Type de petit bois : Sans
+Type de boitier : 1000
+Hauteur de poignée au sol fini : 1032
+Pack Sécurité :
+Gamme poignées et caches fiches : Moderne
+Poignée intérieure et extérieure : Poignée Toulon Rosace Rectangle Ton Inox
+Caches Fiches : Caches fiches 2 brins Ton Inox
+Moulure Chant Plat (habillage intérieur) : Sans
+Cylindre avec bouton : Ton inox
+Entrée d air : SANS
+Performance Uw en W/m².K (Ud si PE) : 1,3
+Performance Sw : 0,27
+Performance TLw : 0,32";1775.35;1.3;2308.03;1;U;;5.5;2308.03
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;8;H;;5.5;475.28
+;MEXT A;MEXT Rep A;1308;1.3;1700.4;1;U;;5.5;1700.4
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;5.5;28.35
+;F 001;Vitrage flute;80;1.3;104;1;U;;5.5;104
+;6 009;"Repère : F2-1
+MéO Frappe Fenêtre oscillo-battante 2 vantaux
+(FOB2)
+*Intérieur Pin Naturel
+*Extérieur Vert forêt-noire 6012 Texturé classe 2
+*Profil Plat
+*Pose Applique
+*Cotes Tableau, Largeur 1135mm x Hauteur 1275mm
+*Hors Tout Largeur 1203mm x Hauteur 1304mm
+*Dormant 75 mm, Dormant Rainuré
+*Appui de 75
+*Allège maçonnerie 1050 - Hauteur Poignée du sol fini: 1350
+*Vitrage 44.2 rTherm(#2) + [U]4 Flûte Clair(#3)
+*Intercalaire (WE) Intercalaire noir WarmEdge avec gaz argon
+*Vantail de Service à Droite, vue intérieure
+*Poignée Toulon Rosace Rectangulaire ton Inox
+*Fichage Palier, avec Caches Paliers ton Inox
+*Uw:1,3W/m².K - Sw:0,43 - TLw:53% - RaTr:28dB - Certifié NF
+conception et Performance A*4 E*7A V*A2";1212.65;1.3;1576.52;1;U;;20;1576.52
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;7;H;;20;415.87
+;MEXT I;MEXT rep I;791;1.3;1028.3;1;U;;20;1028.3
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;20;28.35
+;F 002;Vitrage flute;80;1.3;104;1;U;;20;104
+;;Moins value vitrage flute;;;;;;;;
+;6 010;"Repère : F2-2
+MéO Frappe Fenêtre oscillo-battante 2 vantaux
+(FOB2)
+*Intérieur Pin Naturel
+*Extérieur Vert forêt-noire 6012 Texturé classe 2
+*Profil Plat
+*Pose Applique
+*Cotes Tableau, Largeur 1135mm x Hauteur 1275mm
+*Hors Tout Largeur 1203mm x Hauteur 1304mm
+*Dormant 75 mm, Dormant Rainuré
+*Appui de 75
+*Allège maçonnerie 1050 - Hauteur Poignée du sol fini: 1350
+*Vitrage 4-20-4 TBE
+*Intercalaire (WE) Intercalaire noir WarmEdge avec gaz argon
+*Vantail de Service à Droite, vue intérieure
+*Poignée Toulon Rosace Rectangulaire ton Inox
+*Fichage Palier, avec Caches Paliers ton Inox
+*Avec 1 entrée d'air [22E] Découpe seule (172 x 12) + Auvent
+aluminium, Sur Vantail Semi-Fixe
+*Uw:1,3W/m².K - Sw:0,43 - TLw:53% - RaTr:28dB - Certifié NF
+conception et Performance A*4 E*7A V*A2";1110.95;1.3;1444.31;1;U;;20;1444.31
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;6;H;;20;356.46
+;MEXT J;MEXT rep J;815;1.3;1059.5;1;U;;20;1059.5
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;20;28.35
+;;;;;;;;;;
+;6 011;"Repère : F2-3 & 4
+MéO Frappe Fenêtre oscillo-battante 2 vantaux
+(FOB2)
+*Intérieur Pin Naturel
+*Extérieur Vert forêt-noire 6012 Texturé classe 2
+*Profil Plat
+*Pose Applique
+*Cotes Tableau, Largeur 1000mm x Hauteur 1205mm
+*Hors Tout Largeur 1068mm x Hauteur 1234mm
+*Dormant 75 mm, Dormant Rainuré
+*Appui de 75
+*Allège maçonnerie 1050 - Hauteur Poignée du sol fini: 1350
+*Vitrage 4-20-4 TBE
+*Intercalaire (WE) Intercalaire noir WarmEdge avec gaz argon
+*Vantail de Service à Droite, vue intérieure
+*Poignée Toulon Rosace Rectangulaire ton Inox
+*Fichage Palier, avec Caches Paliers ton Inox
+*Uw:1,3W/m².K - Sw:0,41 - TLw:50% - RaTr:28dB - Certifié NF
+conception et Performance A*4 E*7A V*A2";1020.95;1.3;1327.31;2;U;;20;2654.62
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;12;H;;20;712.92
+;MEXT K;MEXT rep K;725;1.3;942.5;2;U;;20;1885
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;30;F;;20;56.7
+;;;;;;;;;;
+;6 012;"Repère : F2-5
+MéO Frappe Fenêtre à la française 1 vantail (F1)
+*Intérieur Pin Naturel
+*Extérieur Vert forêt-noire 6012 Texturé classe 2
+*Profil Plat
+*Pose Applique
+*Cotes Tableau, Largeur 665mm x Hauteur 1920mm
+*Hors Tout Largeur 733mm x Hauteur 1949mm
+*Dormant 75 mm, Dormant Rainuré
+*Appui de 75
+*Allège maçonnerie 1050 - Hauteur Poignée du sol fini: 1500
+*Vitrage TBE 4-20-44.2
+*Intercalaire (WE) Intercalaire noir WarmEdge avec gaz argon
+*Ferrage à Droite, vue intérieure
+*Poignée à clé Toulon Rosace Rectangulaire ton Inox
+*Double Fichage en Tête, avec Caches Fiches Modernes 2 Brins ton
+Inox
+*Limiteur d'ouverture sur Vantail de Service
+*Uw:1,3W/m².K - Sw:0,42 - TLw:54% - RaTr:33dB - Certifié NF
+conception et Performance A*4 E*9A V*C3";1050.95;1.3;1366.31;1;U;;20;1366.31
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;6;H;;20;356.46
+;MEXT L;MEXT rep L;755;1.3;981.5;1;U;;20;981.5
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;20;28.35
+;;;;;;;;;;
+;6 012;"Repère : F2-6
+MéO Frappe Fenêtre oscillo-battante 2 vantaux
+(FOB2)
+*Intérieur Pin Naturel
+*Extérieur Vert forêt-noire 6012 Texturé classe 2
+*Profil Plat
+*Pose Applique
+*Cotes Tableau, Largeur 1000mm x Hauteur 1000mm
+*Hors Tout Largeur 1068mm x Hauteur 1029mm
+*Dormant 75 mm, Dormant Rainuré
+*Appui de 75
+*Allège maçonnerie 1050 - Hauteur Poignée du sol fini: 1350
+*Vitrage 4-20-4 TBE
+*Intercalaire (WE) Intercalaire noir WarmEdge avec gaz argon
+*Vantail de Service à Droite, vue intérieure
+*Poignée Toulon Rosace Rectangulaire ton Inox
+*Fichage Palier, avec Caches Paliers ton Inox
+*Uw:1,4W/m².K - Sw:0,40 - TLw:48% - RaTr:28dB - Certifié NF
+conception et Performance A*4 E*7A V*A2";972.95;1.3;1264.91;1;U;;20;1264.91
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;6;H;;20;356.46
+;MEXT L;MEXT rep L;677;1.3;880.1;1;U;;20;880.1
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;20;28.35
+;;;;;;;;;;
+;;Date de première visite le 07 novembre 2024;;;;;;;;
+;;;;;;;;;;
+;;"Dépose Mext au lot gros oeuvre
+Prévoir reprise des appuis si nécessiare et bandes de redressement au lot gros oeuvre";;;;;;;;
+;;;;;;;;;;
+;;MENUISERIES EXTERIEURES;;;;;;;;
+;;Changement de 100% des menuiseries extérieures ;;;;;;;;
+;;;;;;;;;;
+;6 001;"Repère : P-01
+MéO Frappe Porte-fenêtre à la française 1 vantail
+serrure (PF1B)
+*Intérieur Pin Naturel
+*Extérieur Vert forêt-noire 6012 Texturé classe 2
+*Profil Plat
+*Pose Tunnel
+*Cotes Hors-tout, Largeur 900mm x Hauteur 2100mm
+*Dormant 75 mm, Dormant Rainuré
+*Seuil Reduit
+*Dormant largeur variable, DLV de 43 sur les montants et traverse
+haute
+*Pose au sol fini - Hauteur Poignée du sol fini: 1032
+*Vitrage 44.2 rTherm(#2) + [U]4 Flûte Clair(#3)
+*Intercalaire (WE) Intercalaire noir WarmEdge avec gaz argon
+*Dimensions de passage libre du vantail de service = Largeur 742 x
+Hauteur 2008
+*Ferrage à Droite, vue intérieure
+*Serrure avec barillet
+*Ensemble Toulon Rosace Rectangulaire ton Inox
+*Double Fichage en Tête, avec Caches Fiches Modernes 2 Brins ton
+Inox
+*Cylindre Nickelé à bouton et numéro (3 Clés)
+*Uw:1,3W/m2.K - Sw:0,45 - TLw:55% - RaTr:29dB - Certifié NF
+conception et Performance A*4 E*9A V*C3";1448.35;1.3;1882.93;1;U;;5.5;1882.93
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;8;H;;5.5;475.28
+;MEXT A;MEXT Rep A;921;1.3;1197.3;1;U;;5.5;1197.3
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;5.5;28.35
+;F 001;Cylindre à bouton à numéro;40;1.3;52;1;U;;5.5;52
+;F 002;Vitrage flute;100;1.3;130;1;U;;5.5;130
+;;;;;;;;;;
+;6 002;"Repère : P-02
+MéO Frappe Porte-fenêtre à la française 1 vantail
+serrure (PF1B)
+*Intérieur Pin Naturel
+*Extérieur Vert forêt-noire 6012 Texturé classe 2
+*Profil Plat
+*Pose Applique
+*Cotes Tableau, Largeur 890mm x Hauteur 1670mm
+*Hors Tout Largeur 958mm x Hauteur 1704mm
+*Dormant 75 mm, Dormant Rainuré
+*Seuil Reduit
+*Pose au sol fini - Hauteur Poignée du sol fini: 932
+*Vitrage 44.2-20-4 TBE
+*Intercalaire (WE) Intercalaire noir WarmEdge avec gaz argon
+*Dimensions de passage libre du vantail de service = Largeur 820 x
+Hauteur 1622
+*Ferrage à Droite, vue intérieure
+*Serrure avec barillet
+*Ensemble Toulon Rosace Rectangulaire ton Inox
+*Double Fichage en Tête, avec Caches Fiches Modernes 2 Brins ton
+Inox
+*Cylindre Nickelé à bouton et numéro (3 Clés)
+*Avec 1 entrée d'air [4BY] Découpe + Régulateur hygroréglable 45m³/h
+(34 dB), finition Beige 1011, + Auvent Aluminium, Sur Vantail Principal
+*Uw:1,3W/m².K - Sw:0,42 - TLw:54% - RaTr:34dB - Certifié NF
+conception et Performance A*4 E*9A V*C3";1210.75;1.338;1619.55;1;U;;5.5;1619.55
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;6;H;;5.5;356.46
+;MEXT B;MEXT Rep. B;874.8;1.352;1182.74;1;U;;5.5;1182.74
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;5.5;28.35
+;F 001;Cylindre à bouton à numéro;40;1.3;52;1;U;;5.5;52
+;;;;;;;;;;
+;6 003;"Repère : P-03
+MéO Frappe Porte-fenêtre à la française 2 vantaux
+serrure (PF2B)
+*Intérieur Pin Naturel
+*Extérieur Vert forêt-noire 6012 Texturé classe 2
+*Profil Plat
+*Pose Applique
+*Cotes Tableau, Largeur 1010mm x Hauteur 1670mm
+*Hors Tout Largeur 1078mm x Hauteur 1704mm
+*Dormant 75 mm, Dormant Rainuré
+*Seuil Reduit
+*Pose au sol fini - Hauteur Poignée du sol fini: 932
+*Vitrage 44.2-20-4 TBE
+*Intercalaire (WE) Intercalaire noir WarmEdge avec gaz argon
+*Dimensions de passage libre du vantail de service = Largeur 700 x
+Hauteur 1622
+*Vantail de Service à Gauche, vue intérieure
+*Serrure avec barillet, avec verrous d'onglet sur le semi-fixe
+*Ensemble Toulon Rosace Rectangulaire ton Inox
+*Double Fichage en Tête, avec Caches Fiches Modernes 2 Brins ton
+Inox
+*Cylindre Nickelé à bouton et numéro (3 Clés)
+*Avec 1 entrée d'air [4BY] Découpe + Régulateur hygroréglable 45m³/h
+(34 dB), finition Beige 1011, + Auvent Aluminium, Sur Vantail Principal
+*Uw:1,4W/m².K - Sw:0,38 - TLw:49% - RaTr:34dB - Certifié NF
+conception et Performance A*4 E*7A V*A2";1570.35;1.354;2126.03;1;U;;5.5;2126.03
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;8;H;;5.5;475.28
+;MEXT C;MEXT rep C;1143;1.374;1570.4;1;U;;5.5;1570.4
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;5.5;28.35
+;F 001;Cylindre à bouton à numéro;40;1.3;52;1;U;;5.5;52
+;;;;;;;;;;
+;6 004;"Repère : F0-1
+MéO Frappe Fenêtre à la française 2 vantaux (F2)
+*Intérieur Pin Naturel
+*Extérieur Vert forêt-noire 6012 Texturé classe 2
+*Profil Plat
+*Pose Applique
+*Cotes Tableau, Largeur 800mm x Hauteur 620mm
+*Hors Tout Largeur 868mm x Hauteur 649mm
+*Dormant 75 mm, Dormant Rainuré
+*Appui de 75
+*Allège maçonnerie 1050 - Hauteur Poignée du sol fini: 1250
+*Vitrage 4-20-4 TBE
+*Intercalaire (WE) Intercalaire noir WarmEdge avec gaz argon
+*Vantail de Service à Droite, vue intérieure
+*Poignée Toulon Rosace Rectangulaire ton Inox
+*Fiches standard, avec Caches Fiches Modernes 2 Brins ton Inox
+*Uw:1,4W/m².K - Sw:0,32 - TLw:38% - RaTr:28dB - Certifié NF
+conception et Performance A*4 E*7A V*A2";847.95;1.3;1102.41;1;U;;5.5;1102.41
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;6;H;;5.5;356.46
+;MEXT D;MEXT rep D;552;1.3;717.6;1;U;;5.5;717.6
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;5.5;28.35
+;;Modifier pour soufflet;;;;;;;;
+;;;;;;;;;;
+;6 005;"Repère : P1-1
+MéO Baie coulissante 3 vantaux 3 rails (PFC3R3)
+*Intérieur Pin Naturel
+*Extérieur Vert forêt-noire 6012 Texturé classe 2
+*Pose Applique, Encastrement de 36mm
+*Cotes Tableau, Largeur 2265mm x Hauteur 2310mm
+*Hors Tout Largeur 2333mm x Hauteur 2380mm
+*Doublage 160 mm, Dormant Rainuré
+*Seuil de 205
+*Hauteur Poignée du sol fini: 1009
+*Vitrage 44.2-20-4 TBE
+*Intercalaire (WE) Intercalaire noir WarmEdge avec gaz argon
+*Largeur utile de passage = 1244mm
+*Vantail de Service à Gauche, vue intérieure
+*Poignée Intuitive Rosace Rectangulaire ton Inox
+*Avec Profil de tirage extérieur qté:1, et
+*Uw:1,6W/m².K - Sw:0,48 - TLw:62%";3139.35;1.3;4081.23;1;U;;5.5;4081.23
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;8;H;;5.5;475.28
+;MEXT E;MEXT rep E;2752;1.3;3577.6;1;U;;5.5;3577.6
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;5.5;28.35
+;;;;;;;;;;
+;6 006;"Repère : P1-2
+MéO Frappe Porte-fenêtre à la française 1 vantail
+serrure (PF1B)
+*Intérieur Pin Naturel
+*Extérieur Vert forêt-noire 6012 Texturé classe 2
+*Profil Plat
+*Pose Applique
+*Cotes Tableau, Largeur 1000mm x Hauteur 2530mm
+*Hors Tout Largeur 1068mm x Hauteur 2604mm
+*Dormant 75 mm, Dormant Rainuré
+*Seuil Reduit
+*Dormant largeur variable, SANS DLV sur les montants et traverse
+basse, et DLV de 73 en traverse haute
+*Habillages extérieurs PLAT ALU 30*2 sur les montants,etCORNIERE
+80*20*2 en traverse haute
+*Pose au sol fini - Hauteur Poignée du sol fini: 1032
+*Vitrage 44.2-20-4 TBE
+*Intercalaire (WE) Intercalaire noir WarmEdge avec gaz argon
+*Dimensions de passage libre du vantail de service = Largeur 930 x
+Hauteur 2482
+*Ferrage à Droite, vue intérieure
+*Serrure avec barillet
+*Ensemble Toulon Rosace Rectangulaire ton Inox
+*Fiches Vantaux Lourds, avec Caches Fiches Modernes 3 Brins ton
+Inox
+*Cylindre Nickelé à bouton et numéro (3 Clés)
+*Avec 1 entrée d'air [4BY] Découpe + Régulateur hygroréglable 45m³/h
+(34 dB), finition Beige 1011, + Auvent Aluminium, Sur Vantail Principal
+*Uw:1,3W/m².K - Sw:0,44 - TLw:58% - RaTr:34dB - Certifié NF
+conception et Performance A*4 E*9A V*C3
+
+ELARGISSEUR HAUT IMPERATIF";1619.95;1.3;2106.01;1;U;;5.5;2106.01
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;6;H;;5.5;356.46
+;MEXT F;MEXT rep F;1284;1.3;1669.2;1;U;;5.5;1669.2
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;5.5;28.35
+;F 001;Cylindre à bouton à numéro;40;1.3;52;1;U;;5.5;52
+;;MODIFIER POUR IMPOSTE;;;;;;;;
+;6 007;"Repère : F1-1
+MéO Frappe Fenêtre oscillo-battante 2 vantaux
+(FOB2)
+*Intérieur Pin Naturel
+*Extérieur Vert forêt-noire 6012 Texturé classe 2
+*Profil Plat
+*Pose Applique
+*Cotes Tableau, Largeur 990mm x Hauteur 1000mm
+*Hors Tout Largeur 1058mm x Hauteur 1029mm
+*Dormant 75 mm, Dormant Rainuré
+*Appui de 75
+*Allège maçonnerie 1050 - Hauteur Poignée du sol fini: 1350
+*Vitrage 44.2-20-4 TBE
+*Intercalaire (WE) Intercalaire noir WarmEdge avec gaz argon
+*Vantail de Service à Droite, vue intérieure
+*Poignée Toulon Rosace Rectangulaire ton Inox
+*Fichage Palier, avec Caches Paliers ton Inox
+*Uw:1,4W/m².K - Sw:0,36 - TLw:47% - RaTr:33dB - Certifié NF
+conception et Performance A*4 E*7A V*A2";1029.95;1.3;1339.01;1;U;;5.5;1339.01
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;6;H;;5.5;356.46
+;MEXT G;MEXT rep G;734;1.3;954.2;1;U;;5.5;954.2
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;5.5;28.35
+;;;;;;;;;;
+;6 008;"Repère : F1-2 & 3
+MéO Frappe Fenêtre oscillo-battante 2 vantaux
+(FOB2)
+*Intérieur Pin Naturel
+*Extérieur Vert forêt-noire 6012 Texturé classe 2
+*Profil Plat
+*Pose Applique
+*Cotes Tableau, Largeur 1110mm x Hauteur 1830mm
+*Hors Tout Largeur 1178mm x Hauteur 1859mm
+*CINTRE SURBAISSÉ 2 COTÉS, Petite hauteur = 1646mm
+*Dormant 75 mm, Dormant Rainuré
+*Appui de 75
+*Allège maçonnerie 1050 - Hauteur Poignée du sol fini: 1350
+*Vitrage 44.2-20-4 TBE
+*Intercalaire (WE) Intercalaire noir WarmEdge avec gaz argon
+*Vantail de Service à Droite, vue intérieure
+*Poignée Toulon Rosace Rectangulaire ton Inox
+*Fichage Palier, avec Caches Paliers ton Inox
+*Uw:1,3W/m².K - Sw:0,41 - TLw:53% - RaTr:33dB - Certifié NF
+conception et Performance A*4 E*7A V*A2";2791.35;1.3;3628.83;2;U;;5.5;7257.66
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;16;H;;5.5;950.56
+;MEXT H;MEXT rep H;2404;1.3;3125.2;2;U;;5.5;6250.4
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;30;F;;5.5;56.7
+;;;;;;;;;;
+;6 001;"F1-4
+MéO Frappe Fenêtre oscillo-battante 2 vantaux
+(FOB2)
+*Intérieur Pin Naturel
+*Extérieur Vert forêt-noire 6012 Texturé classe 2
+*Profil Plat
+*Pose Applique
+*Cotes Tableau, Largeur 990mm x Hauteur 1220 mm
+*Hors Tout Largeur 1058mm x Hauteur 1029mm
+*Dormant 75 mm, Dormant Rainuré
+*Appui de 75
+*Allège maçonnerie 900 - Hauteur Poignée du sol fini: 1350
+*Vitrage 44.2-20-4 TBE
+*Intercalaire (WE) Intercalaire noir WarmEdge avec gaz argon
+*Vantail de Service à Droite, vue intérieure
+*Poignée Toulon Rosace Rectangulaire ton Inox
+*Fichage Palier, avec Caches Paliers ton Inox
+*Uw:1,4W/m².K - Sw:0,36 - TLw:47% - RaTr:33dB - Certifié NF
+conception et Performance A*4 E*7A V*A2";1197.75;1.271;1522.05;1;U;;5.5;1522.05
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;8;H;;5.5;499.2
+;MEXT A;MEXT Rep A;792;1.256;994.5;1;U;;5.5;994.5
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;15;F;;5.5;28.35
+;;;;;;;;;;
+;;;;;;;;;;
+;;Sous total :;;;;;;;;33651.58
+;;;;;;;;;;
+;2x;Plancher SDB;;;;;;;;
+;;;;;;;;;;
+;0.0 000A;"SOLIVE Epicéa Cl2 45x145 mm, entraxe 500mm.
+Plancher OSB3 ép.18 mm. Vissé sur bandes type phaltex.
+Altimétrie à confirmer selon épaisseur du parquet
+
+Rampanage au lot maçonnerie";996.4;1.3;1295.37;1;;;20;1295.37
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;18;H;;20;1123.2
+;22590132;OSSATURE DOUGLAS SEC/RAB 45X145X6000;3.7;1.3;4.81;15;ML;;20;72.15
+;30322056;DALLE OSB/3 R.L.4 RIVES 18MM 2500X625!!!PALETTE DE 39  UTES;7.8;1.3;10.14;8;M2;;20;81.12
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;10;F;;20;18.9
+;;;;;;;;;;
+;;Sous total :;;;;;;;;1295.37
+;3x;Vélux SDB;;;;;;;;
+;2.3 018;Chevêtre pour fenêtre de toit: chevrons porteur doublés au droit des trémies. Lindiers 45x220 mm.;213.62;1.243;265.56;1;U;;20;265.56
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;2;H;;20;118.82
+;Q001;Forfait Quincaillerie;1.45;1.2;1.74;1;F;;20;1.74
+;22590041;OSSATURE EPICEA SEC/RAB 45X220X6000     REMISE -11% / PALETTE DE 70 PIECES      TRAITE  2;6.0385;1.201;7.25;20;ML;;20;145
+;3.5 GGL 2076;*Fourniture et pose d'une fenêtre de toit VELUX GGL MK04 2076 CONFORT           A ROTATION FINITION BLANCHE WHITE FINISH 78 CM X 98 CM Uw = 1,2W/(m².K) Sw = 0.23. Raccord Encastré EDN;799.32;1.236;987.98;1;U;;20;987.98
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;6;H;;20;374.4
+;GGUMK040076;FENETRE GGU MK04 0076 CONFORT           A ROTATION FINITION BLANCHE PU          78 CM X 98 CM;435;1.2;522;1;UN;;20;522
+;EDNMK040000;RACCORD EDN MK04 POUR ARDOISES          POSE ENCASTREE                          78 X 98;76.32;1.2;91.58;1;UN;;20;91.58
+;;;;;;;;;;
+;;Sous total :;;;;;;;;1253.54
+;1x;Devis 25390;;;;;;;;
+;0.0 000A;Dépose ardoises ;17.28;1.3;22.46;25;M²;;20;561.5
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;9;H;;20;561.6
+;;;;;;;;;;
+;;Sous total :;;;;;;;;561.5
+;2x;Devis 25402;;;;;;;;
+;2.1 010;"Structure poteau poutre pour pose des murs ossature bois
+Poutre  lamellé collé, C24, traité CL2 120x400 mm
+Poteaux 14x140 mm traversant les deux niveaux de planchers. Pose sur plot béton avec pied de poteaux réglables ";1486;1.3;1931.95;1;F;;20;1931.95
+;MO1;"MAIN D'OEUVRE 
+";48;1.3;62.4;24;H;;20;1497.6
+;2225401176;LAMELLE-COLLE EPICEA 80X2800X13000 GL24H                                         TRAITECLASSE2;705;1.3;916.5;0.3;M3;;20;274.95
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;30;F;;20;56.7
+;22240002;CONTRECOLL DOUGLAS 140X140X13000        RAB 4 F, ARETES CHANFREINEES -5% / PALET;790.0021;1.3;1027;0.1;M3;;20;102.7
+;;Sous total :;;;;;;;;1931.95
+;;;;;;;;;;
+;;;;;;;;;Total HT;128607.95
+;;;;;;;;;Tot. TVA;22046.58
+;;;;;;;;;Total TTC;150654.53
