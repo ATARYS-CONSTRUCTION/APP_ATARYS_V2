@@ -6,26 +6,36 @@
 
 ## 🎯 **Solutions Disponibles**
 
-### 1. **Sauvegarde Manuelle Rapide**
+### 1. **Sauvegarde Manuelle**
 ```powershell
-# Double-clic sur le fichier
-.\sauvegarde-rapide.bat
+# Sauvegarde immédiate
+.\sauvegarde-auto.ps1 -Force
 ```
 **Utilisation :** Sauvegarde immédiate quand vous le souhaitez
 
-### 2. **Sauvegarde Automatique Planifiée**
+### 2. **Sauvegarde Automatique Planifiée (21h)**
 ```powershell
-# Exécuter en tant qu'administrateur
-.\configurer-tache-planifiee.ps1
+# Installation (pas besoin d'admin)
+.\installer-tache-utilisateur.ps1
 ```
-**Utilisation :** Sauvegardes automatiques selon planning
+**Utilisation :** Sauvegarde automatique quotidienne à 21h
 
-### 3. **Git Hooks Automatiques**
+### 3. **Vérification du Système**
 ```powershell
-# Installation unique
-.\installer-git-hooks.ps1
+# Vérifier l'état des sauvegardes
+.\verifier-sauvegarde.ps1
 ```
-**Utilisation :** Sauvegardes déclenchées par vos actions Git
+**Utilisation :** Diagnostic et vérification du système
+
+---
+
+## 📁 **Fichiers Disponibles**
+
+### **Scripts PowerShell :**
+- `sauvegarde-auto.ps1` - Script principal de sauvegarde
+- `installer-tache-utilisateur.ps1` - Installation tâche planifiée 21h
+- `verifier-sauvegarde.ps1` - Vérification du système
+- `README-SAUVEGARDES.md` - Cette documentation
 
 ---
 
@@ -37,13 +47,14 @@ mkdir "C:\DEV\SAUVEGARDES\ATARYS_V2"
 ```
 
 ### **Étape 2 : Installer la tâche planifiée**
-1. **Clic droit** sur `configurer-tache-planifiee.ps1`
-2. **"Exécuter avec PowerShell"** (en tant qu'administrateur)
-3. Confirmer l'installation
-
-### **Étape 3 : Installer les Git Hooks**
 ```powershell
-.\installer-git-hooks.ps1
+# Pas besoin d'admin !
+.\installer-tache-utilisateur.ps1
+```
+
+### **Étape 3 : Vérifier l'installation**
+```powershell
+.\verifier-sauvegarde.ps1
 ```
 
 ---
@@ -52,38 +63,33 @@ mkdir "C:\DEV\SAUVEGARDES\ATARYS_V2"
 
 | **Déclencheur** | **Fréquence** | **Type** |
 |----------------|---------------|----------|
-| 🕕 **18h00** | Quotidien | GitHub + Local |
-| 🚪 **Fermeture session** | À chaque fois | GitHub uniquement |
-| ⏰ **Toutes les 2h** | 8h-18h | GitHub (si changements) |
-| 📝 **Commit important** | Automatique | GitHub + Local |
-| 🔄 **Git push** | À chaque fois | Validation + Log |
+| 🕘 **21h00** | Quotidien | GitHub + Local |
+
+**Note :** Les sauvegardes toutes les 2h ont été supprimées pour éviter les interruptions.
 
 ---
 
 ## 🛠️ **Utilisation Quotidienne**
 
-### **Sauvegarde Rapide**
+### **Sauvegarde Manuelle**
 ```powershell
-# Méthode 1 : Double-clic
-.\sauvegarde-rapide.bat
-
-# Méthode 2 : PowerShell avec message personnalisé
+# Sauvegarde avec message personnalisé
 .\sauvegarde-auto.ps1 -Message "Fin de journée - nouvelles fonctionnalités"
 
-# Méthode 3 : Forcer la sauvegarde même sans changements
+# Forcer la sauvegarde même sans changements
 .\sauvegarde-auto.ps1 -Force
 ```
 
 ### **Vérifier les Sauvegardes**
 ```powershell
+# Vérifier l'état complet
+.\verifier-sauvegarde.ps1
+
 # Voir les logs
 Get-Content "logs\sauvegarde.log" -Tail 20
 
 # Voir l'historique Git
 git log --oneline -10
-
-# Vérifier la tâche planifiée
-Get-ScheduledTask -TaskName "ATARYS_V2_Sauvegarde_Auto"
 ```
 
 ---
@@ -102,7 +108,6 @@ Get-ScheduledTask -TaskName "ATARYS_V2_Sauvegarde_Auto"
 
 ### **Logs (Traçabilité)**
 - **Sauvegarde :** `logs\sauvegarde.log`
-- **Commits :** `logs\commits.log`
 - **Système :** `logs\atarys.log`
 
 ---
@@ -125,32 +130,23 @@ git push origin main
 ```
 
 ### **Problème : Tâche planifiée ne fonctionne pas**
-1. Ouvrir **Gestionnaire des tâches**
-2. Aller dans **Bibliothèque du Planificateur de tâches**
-3. Chercher `ATARYS_V2_Sauvegarde_Auto`
-4. Vérifier les **Conditions** et **Paramètres**
-
-### **Problème : Hooks Git ne s'exécutent pas**
 ```powershell
-# Vérifier les permissions
-ls -la .git/hooks/
+# Vérifier avec le script
+.\verifier-sauvegarde.ps1
 
-# Réinstaller les hooks
-.\installer-git-hooks.ps1
+# Ou manuellement
+Get-ScheduledTask -TaskName "ATARYS_V2_Sauvegarde_Auto"
 ```
 
 ---
 
 ## 🔧 **Personnalisation**
 
-### **Modifier la Fréquence**
-Éditer `configurer-tache-planifiee.ps1` :
+### **Modifier l'Heure**
+Éditer `installer-tache-utilisateur.ps1` :
 ```powershell
 # Changer l'heure quotidienne
-$Triggers += New-ScheduledTaskTrigger -Daily -At "20:00"
-
-# Changer l'intervalle
-$Triggers += New-ScheduledTaskTrigger -Once -At "08:00" -RepetitionInterval (New-TimeSpan -Hours 1)
+$Trigger = New-ScheduledTaskTrigger -Daily -At "20:00"  # 20h au lieu de 21h
 ```
 
 ### **Ajouter des Exclusions**
@@ -160,25 +156,17 @@ $Triggers += New-ScheduledTaskTrigger -Once -At "08:00" -RepetitionInterval (New
 robocopy $ProjectPath $BackupFolder /E /XD .git node_modules .vite dist __pycache__ temp /XF *.log *.tmp *.cache
 ```
 
-### **Notifications**
-Ajouter dans `sauvegarde-auto.ps1` :
-```powershell
-# Notification Windows
-Add-Type -AssemblyName System.Windows.Forms
-[System.Windows.Forms.MessageBox]::Show("Sauvegarde ATARYS V2 terminée !", "Succès")
-```
-
 ---
 
 ## 📈 **Statistiques et Monitoring**
 
 ### **Voir les Statistiques**
 ```powershell
+# Utiliser le script de vérification
+.\verifier-sauvegarde.ps1
+
 # Nombre de commits
 git rev-list --count HEAD
-
-# Taille du dépôt
-git count-objects -vH
 
 # Dernières sauvegardes
 Get-ChildItem "C:\DEV\SAUVEGARDES\ATARYS_V2\" | Sort-Object LastWriteTime -Descending | Select-Object -First 5
@@ -195,13 +183,20 @@ Get-ChildItem "C:\DEV\SAUVEGARDES\ATARYS_V2\" | Where-Object {$_.LastWriteTime -
 ## ✅ **Checklist de Mise en Place**
 
 - [ ] Créer le dossier `C:\DEV\SAUVEGARDES\ATARYS_V2`
-- [ ] Tester la sauvegarde manuelle : `.\sauvegarde-rapide.bat`
-- [ ] Installer la tâche planifiée (admin requis)
-- [ ] Installer les Git hooks
-- [ ] Vérifier les logs : `logs\sauvegarde.log`
-- [ ] Tester un commit pour vérifier les hooks
-- [ ] Configurer les notifications (optionnel)
+- [ ] Tester la sauvegarde manuelle : `.\sauvegarde-auto.ps1 -Force`
+- [ ] Installer la tâche planifiée : `.\installer-tache-utilisateur.ps1`
+- [ ] Vérifier l'installation : `.\verifier-sauvegarde.ps1`
+- [ ] Attendre 21h pour la première sauvegarde automatique
 
 ---
 
-**🎯 Avec ce système, votre projet ATARYS V2 est protégé automatiquement !** 
+## 🎯 **Résumé**
+
+**Système simplifié et efficace :**
+- ✅ **Sauvegarde quotidienne automatique à 21h**
+- ✅ **Pas de sauvegardes intempestives toutes les 2h**
+- ✅ **Installation sans droits administrateur**
+- ✅ **Scripts de vérification et diagnostic**
+- ✅ **Documentation complète**
+
+**Prochaine sauvegarde automatique :** Aujourd'hui à 21h00 
