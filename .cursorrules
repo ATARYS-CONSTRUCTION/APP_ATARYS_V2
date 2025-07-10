@@ -135,6 +135,8 @@ def create_app(config_name='development'):
 ❌ **JAMAIS créer de modèles sans BaseModel** 
 ❌ **JAMAIS d'APIs sans format {success, data, message}**
 ❌ **JAMAIS de String sans longueur max** dans les modèles
+❌ **JAMAIS inventer de tables ou structures sans demande explicite**
+❌ **JAMAIS utiliser && dans PowerShell Windows** (utiliser ; ou séparer les commandes)
 
 ## 🚨 RÈGLES D'OR CURSOR
 
@@ -144,6 +146,9 @@ def create_app(config_name='development'):
 4. **METTRE À JOUR la documentation après développement**
 5. **JAMAIS affirmer que "ça marche" ou "c'est opérationnel" sans test réel et validation concrète**
 6. **TOUJOURS utiliser les standards techniques V2** (BaseModel, Numeric, Factory pattern)
+7. **JAMAIS inventer de tables, liens ou structures sans consentement explicite de l'utilisateur**
+8. **TOUJOURS demander confirmation avant de créer des éléments non documentés**
+9. **RESPECTER les commandes PowerShell Windows** (pas de &&, utiliser ; ou séparer les commandes)
 
 ## 📚 RACCOURCIS DOCUMENTATION
 

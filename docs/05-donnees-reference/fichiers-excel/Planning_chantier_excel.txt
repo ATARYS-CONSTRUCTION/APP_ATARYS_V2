@@ -1,0 +1,217 @@
+# PLANNING CHANTIER - FORMULES EXCEL COMPLÈTES
+
+## STRUCTURE DE BASE
+
+### En-têtes (Ligne 1)
+A1: [vide]
+B1: Date
+C1: ÉQUIPE 1
+D1: ÉQUIPE 2
+E1: ÉQUIPE 3
+F1: ÉQUIPE 4
+G1: DÉPART CHANTIER
+H1: ÉVÉNEMENTS
+I1: CONFLIT
+J1: JOURS CALC
+K1: CHARGE ÉQ1
+
+### Dates et semaines (identique Planning_2025)
+A2: [vide]
+B2: =DATE(2025,1,1)
+A3: S1
+B3: =B2+1
+A4: [vide]
+B4: =B3+1
+A5: [vide]
+B5: =B4+1
+A6: [vide]
+B6: =B5+1
+A7: [vide]
+B7: =B6+1
+A8: [vide]
+B8: =B7+1
+A9: [vide]
+B9: =B8+1
+A10: S2
+B10: =B9+1
+
+## FORMULES PRINCIPALES
+
+### Validation des données (C3:F367)
+- Sélectionner C3:F367
+- Données > Validation des données
+- Autoriser: Liste
+- Source: =Liste_Chantiers!$A$2:$A$27
+
+### Calcul jours nécessaires (colonne J)
+J3: =SI(C3<>"";ARRONDI.SUP(RECHERCHEV(C3;Liste_Chantiers!$A:$G;7;FAUX)/0.75/7.5;0);"")
+J4: =SI(C4<>"";ARRONDI.SUP(RECHERCHEV(C4;Liste_Chantiers!$A:$G;7;FAUX)/0.75/7.5;0);"")
+# À copier jusqu'à J367
+
+### Détection de conflit (colonne I)
+I3: =SI(ET(C3<>"";NBVAL($C$3:$C3)>1;LIGNE()>3);"⚠️";"")
+I4: =SI(ET(C4<>"";NBVAL($C$3:$C4)>1;LIGNE()>3);"⚠️";"")
+# À copier jusqu'à I367
+
+### Date de départ chantier (colonne G)
+G3: =SI(C3<>"";B3;"")
+G4: =SI(ET(C4<>"";C4<>C3);B4;SI(C4<>"";G3;""))
+# À copier jusqu'à G367
+
+## INDICATEURS DE CHARGE
+
+### Charge par équipe (ligne 1)
+K1: =SOMMEPROD((C3:C367<>"")*1)&" j"
+L1: =SOMMEPROD((D3:D367<>"")*1)&" j"
+M1: =SOMMEPROD((E3:E367<>"")*1)&" j"
+N1: =SOMMEPROD((F3:F367<>"")*1)&" j"
+
+### Statut charge (ligne 2)
+K2: =SI(SOMMEPROD((C3:C367<>"")*1)>250;"Surchargée";SI(SOMMEPROD((C3:C367<>"")*1)>200;"Chargée";"OK"))
+L2: =SI(SOMMEPROD((D3:D367<>"")*1)>250;"Surchargée";SI(SOMMEPROD((D3:D367<>"")*1)>200;"Chargée";"OK"))
+M2: =SI(SOMMEPROD((E3:E367<>"")*1)>250;"Surchargée";SI(SOMMEPROD((E3:E367<>"")*1)>200;"Chargée";"OK"))
+N2: =SI(SOMMEPROD((F3:F367<>"")*1)>250;"Surchargée";SI(SOMMEPROD((F3:F367<>"")*1)>200;"Chargée";"OK"))
+
+### Prochaine disponibilité (ligne 3)
+K3: =SI(SOMMEPROD((C3:C367<>"")*1)=0;"Immédiate";INDEX(B3:B367;EQUIV("";C3:C367;0)+1))
+L3: =SI(SOMMEPROD((D3:D367<>"")*1)=0;"Immédiate";INDEX(B3:B367;EQUIV("";D3:D367;0)+1))
+M3: =SI(SOMMEPROD((E3:E367<>"")*1)=0;"Immédiate";INDEX(B3:B367;EQUIV("";E3:E367;0)+1))
+N3: =SI(SOMMEPROD((F3:F367<>"")*1)=0;"Immédiate";INDEX(B3:B367;EQUIV("";F3:F367;0)+1))
+
+## MISE EN FORME CONDITIONNELLE
+
+### Règle 1 - Conflits (C3:F367)
+Formule: =I3="⚠️"
+Format: Fond rouge clair (RGB: 255,199,206)
+
+### Règle 2 - Chantier planifié (C3:F367)
+Formule: =C3<>""
+Format: Fond bleu clair (RGB: 221,235,247)
+
+### Règle 3 - Week-ends (B3:B367)
+Formule: =JOURSEM(B3;2)>5
+Format: Texte gris (RGB: 128,128,128)
+
+### Règle 4 - Jours fériés (B3:B367)
+Formule: =NBVAL(RECHERCHE(B3;JoursFeries!$A:$A))>0
+Format: Fond jaune clair (RGB: 255,255,199)
+
+### Règle 5 - Charge élevée (K2:N2)
+Formule: =K2="Surchargée"
+Format: Fond rouge (RGB: 255,0,0), Texte blanc
+
+### Règle 6 - Charge normale (K2:N2)
+Formule: =K2="Chargée"
+Format: Fond orange (RGB: 255,192,0)
+
+### Règle 7 - Charge OK (K2:N2)
+Formule: =K2="OK"
+Format: Fond vert (RGB: 146,208,80)
+
+## FORMULES AVANCÉES
+
+### Auto-remplissage chantier (VBA - optionnel)
+```vba
+Private Sub Worksheet_Change(ByVal Target As Range)
+    If Target.Column >= 3 And Target.Column <= 6 Then
+        If Target.Value <> "" Then
+            Dim jours As Integer
+            jours = Application.WorksheetFunction.VLookup(Target.Value, Sheets("Liste_Chantiers").Range("A:G"), 7, False) / 0.75 / 7.5
+            
+            Dim i As Integer
+            For i = 1 To jours - 1
+                If Target.Offset(i, 0).Value = "" Then
+                    Target.Offset(i, 0).Value = Target.Value
+                End If
+            Next i
+        End If
+    End If
+End Sub
+```
+
+### Recherche chantier libre (zone O1:P10)
+O1: "Recherche créneau:"
+O2: "Chantier:"
+P2: [Liste déroulante des chantiers]
+O3: "Jours nécessaires:"
+P3: =SI(P2<>"";ARRONDI.SUP(RECHERCHEV(P2;Liste_Chantiers!$A:$G;7;FAUX)/0.75/7.5;0);"")
+O4: "Équipe suggérée:"
+P4: =SI(P3<>"";SI(K3="Immédiate";"ÉQUIPE 1";SI(L3="Immédiate";"ÉQUIPE 2";SI(M3="Immédiate";"ÉQUIPE 3";"ÉQUIPE 4")));"")
+O5: "Date de début:"
+P5: =SI(P4="ÉQUIPE 1";K3;SI(P4="ÉQUIPE 2";L3;SI(P4="ÉQUIPE 3";M3;N3)))
+
+## MACROS UTILES (VBA)
+
+### Bouton "Insérer Chantier"
+```vba
+Sub InsererChantier()
+    Dim chantier As String
+    Dim equipe As Integer
+    Dim dateDebut As Date
+    Dim jours As Integer
+    
+    chantier = InputBox("Nom du chantier:")
+    If chantier = "" Then Exit Sub
+    
+    equipe = InputBox("Numéro d'équipe (1-4):")
+    If equipe < 1 Or equipe > 4 Then Exit Sub
+    
+    dateDebut = InputBox("Date de début (jj/mm/aaaa):")
+    If Not IsDate(dateDebut) Then Exit Sub
+    
+    ' Calcul des jours
+    jours = Application.WorksheetFunction.VLookup(chantier, Sheets("Liste_Chantiers").Range("A:G"), 7, False) / 0.75 / 7.5
+    
+    ' Insertion
+    Dim ligneDebut As Integer
+    ligneDebut = Application.WorksheetFunction.Match(dateDebut, Range("B:B"), 0)
+    
+    Dim i As Integer
+    For i = 0 To jours - 1
+        Cells(ligneDebut + i, 2 + equipe).Value = chantier
+    Next i
+    
+    MsgBox "Chantier " & chantier & " inséré sur " & jours & " jours à partir du " & dateDebut
+End Sub
+```
+
+### Bouton "Détecter Conflits"
+```vba
+Sub DetecterConflits()
+    Dim conflits As Integer: conflits = 0
+    Dim i As Integer
+    
+    For i = 3 To 367
+        If Cells(i, 9).Value = "⚠️" Then
+            conflits = conflits + 1
+        End If
+    Next i
+    
+    If conflits > 0 Then
+        MsgBox conflits & " conflit(s) détecté(s). Vérifiez les cellules marquées ⚠️"
+    Else
+        MsgBox "Aucun conflit détecté dans le planning."
+    End If
+End Sub
+```
+
+## LARGEURS DE COLONNES RECOMMANDÉES
+A: 5
+B: 12
+C: 15
+D: 15
+E: 15
+F: 15
+G: 12
+H: 12
+I: 8
+J: 8
+K: 10
+L: 10
+M: 10
+N: 10
+
+## PROTECTION DE LA FEUILLE
+- Protéger les formules en B3:B367, I3:I367, J3:J367
+- Laisser modifiables: C3:H367
+- Mot de passe: atarys2025
