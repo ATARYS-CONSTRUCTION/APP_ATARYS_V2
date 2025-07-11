@@ -6,6 +6,9 @@ REM Script pour installer Flask-Admin et ses dépendances
 REM Auteur: ATARYS Team
 REM Date: 2025
 
+REM Aller à la racine du projet si lancé depuis .bat/
+cd /d "%~dp0.."
+
 echo.
 echo ========================================
 echo   ATARYS - INSTALLATION FLASK-ADMIN

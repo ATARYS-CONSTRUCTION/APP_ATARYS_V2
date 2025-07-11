@@ -1,0 +1,295 @@
+﻿id;Reference;libelle;prix_achat;coefficient;Prix Unitaire;U;tva_pct;famille;actif;date_import;date_maj
+;ARD1;Ardoise 32x22 selon tarif MBR;1,15;1,30;1,50;U;20,00;QUINCAILLERIE;;;
+;ARD2;Ardoise 40x22 selon tarif MBR;1,70;1,30;2,21;U;20,00;QUINCAILLERIE;;;
+;ASTU001;Talon symétrique pour gouttière 1/2 ronde de 33 zinc naturel VM 211663000;3,70;1,30;4,81;U;20,00;ASTURIENNE;;;
+;ASTU002;Naissance agrafable quartz-zinc diamètre 80mm pour gouttière 1/2 ronde de 25 VM 220010740;22,00;1,30;28,60;U;20,00;ASTURIENNE;;;
+;ASTU003;Naissance agrafable anthra-zinc diamètre 80mm pour gouttière 1/2 ronde de 25 VM 220010741;25,00;1,30;32,50;U;20,00;ASTURIENNE;;;
+;BACACIER001;BAC ACIER JI ROOF 40 MM 0,63 MM PE25 RAL 7016 ;25,66;1,30;33,36;M²;20,00;BAC ACIER;;;
+;BACACIER001B;BAC ACIER JI 45-333-1000 AQUAFIX0,63 MM PE25 RAL 7016 (hydrorégulation);16,00;1,30;20,80;M²;20,00;BAC ACIER;;;
+;BACACIER001C;BAC ACIER ISOLE JI ROOF 80 MM 0,63 MM PE25 RAL 7016;40,00;1,30;52,00;M²;20,00;BAC ACIER;;;
+;BACACIER002;"FAITAGE DOUBLE PENTE CRANTE 0,75 MM PE25 RAL
+7016";14,70;1,30;19,11;ML;20,00;BAC ACIER;;;
+;BACACIER003;BANDE DE RIVE A REJET 0,75 MM PE25 RAL 7016;8,50;1,30;11,05;ML;20,00;BAC ACIER;;;
+;BARD AMB01;"Bardage rabote meleze elegi
+22x 130 mm Standard
+Hors aubier - tenonné en bouts
+
+Scierie Ambiance Bois
+";34,85;1,30;45,31;M2;20,00;BARDAGE;;;
+;BARD AMB02;"Bardage rabote mélèze claire-voie
+22x 75 mm Standard
+Hors aubier - non tenonné en bout
+
+Scierie Ambiance Bois
+";36,81;1,30;47,85;M2;20,00;BARDAGE;;;
+;BARDBIGOT01;"Châtaignier Brut de sciage à rainures et languettes
+Bois brut: assemblage rainure et languette Épaisseur 18 mm Longueur : 0.45 à 2 m. Pose clouée horizontale ou verticale Trois largeurs mélangées : 90 - 120 - 150 mm.
+
+SCIERIE LEBIGOT";40,90;1,30;53,17;M2;20,00;BARDAGE;;;
+;BARDBIGOT02;"Châtaignier raboté à rainure et languette
+Bois raboté : assemblage rainure et languette Épaisseur 18 mm Longueur : 0.45 à 2 m. Pose clouée horizontale ou verticale Trois largeurs mélangées : 90 - 120 - 150 mm.
+
+SCIERIE LEBIGOT";50,00;1,30;65,00;M2;20,00;BARDAGE;;;
+;BARDBLACK;Tasseau Sapin blanc du Nord traité classe 3 black (44) 27x45mm longueur 4,00 mètres;2,05;1,30;2,67;;20,00;BARDAGE;;;
+;BARDCEDRE01;Bardage THUYA à clin  Largeur 140 mm;31,17;1,30;40,52;M2;20,00;BARDAGE;;;
+;BARDORLO01;Clin douglas aéro 21x120 + saturateur. Scierie ORLO;30,80;1,30;40,04;M²;20,00;BARDAGE;;;
+;BARDORLO01B;Clin douglas aéro 21x120. Gamme origine (sans traitement) Scierie ORLO;22,60;1,30;29,38;M²;20,00;BARDAGE;;;
+;BARDORLO01C;Clin douglas aéro 21x120. Traité cl3 brun /gris Scierie ORLO;24,30;1,30;31,59;M²;20,00;BARDAGE;;;
+;BARDORLO02;Clin douglas aéro 27x120 + saturateur. Scierie ORLO;38,00;1,30;49,40;M²;20,00;BARDAGE;;;
+;BARDORLO02B;Clin douglas aéro 27x120 Gamme Origine (sans traitement). Scierie ORLO;29,30;1,30;38,09;M²;20,00;BARDAGE;;;
+;BARDORLO02C;Clin douglas aéro 27x120 traité cl3 brun /gris. Scierie ORLO;30,90;1,30;40,17;M²;20,00;BARDAGE;;;
+;BARDORLO03;Clin douglas aéro 40x120 + saturateur. Scierie ORLO;40,50;1,30;52,65;M²;20,00;BARDAGE;;;
+;BARDORLO03B;Clin douglas aéro 40x120 Gamme Origine (sans traitement). Scierie ORLO;41,00;1,30;53,30;M²;20,00;BARDAGE;;;
+;BARDORLO03C;Clin douglas aéro 40x120 traité cl3 brun /gris. Scierie ORLO;44,20;1,30;57,46;M²;20,00;BARDAGE;;;
+;BARDORLO04;Clin douglas vertigo +  saturateur 27x105. Scierie ORLO;36,50;1,30;47,45;M²;20,00;BARDAGE;;;
+;BARDORLO05;Clin douglas vertigo +  saturateur 40x105. Scierie ORLO;46,00;1,30;59,80;M²;20,00;BARDAGE;;;
+;BARDORLO06;Clin douglas vertigo non traité 27x105. Scierie ORLO;28,00;1,30;36,40;M²;20,00;BARDAGE;;;
+;BARDORLO07;Clin douglas vertigo non traité 40x105. Scierie ORLO;37,50;1,30;48,75;M²;20,00;BARDAGE;;;
+;BARDORLO08;Clin douglas vertigo non traité 34x53. Scierie ORLO;39,60;1,30;51,48;M²;20,00;BARDAGE;;;
+;BARDORLO09;Douglas Bord Droit 21x95 mm + saturateur noir calfat 3 faces. Scierie ORLO;35,00;1,30;45,50;M²;20,00;BARDAGE;;;
+;BARDORLO10;Bardage douglas à clin RITMO  21x120 mm. Scierie ORLO;20,76;1,30;26,99;M²;20,00;BARDAGE;;;
+;BARDORLO11;Bardage douglas à clin profil 2.0  21x120 mm. Scierie ORLO;20,76;1,30;26,99;M²;20,00;BARDAGE;;;
+;BARDORLO12;"Bardage douglas à claire-voie  bords droits  21x70 mm. Scierie ORLO
+
+Plus value 0.2 € /ml pour du 75 m²";1,40;1,30;1,82;ML;20,00;BARDAGE;;;
+;BARDPARKLEX01;"Bardage PARKLEX
+NATURCLAD-W Dimensions du panneau: 2440 x 1220 mm
+Épaisseur: 8mm
+Réaction au feu : Cs1d0
+No de faces bonnes: 1 CV";82,00;1,30;106,60;M2;20,00;BARDAGE;;;
+;BARDRAHUEL01;"Bardage chataignier ""Origine""  ép. 21 mm.
+Profil N°10: 21x140 mm. L= 3.2 m
+
+Scierie Rahuel.";60,50;1,30;78,65;M2;20,00;BARDAGE;;;
+;BARDRAHUEL02;"Bardage chataignier ""Origine""  ép. 21 mm. Profil N°2. Rahuel.";60,00;1,30;78,00;M2;20,00;BARDAGE;;;
+;BARDRAHUEL03;BARDAGE DEJA GRIS RAHUEL.  LARGEUR 90/110/130/150 EP 22 PROFIL AMI  BOIS JOINT CREUX A DETERMINER.  LONGUEUR DE 1,70 A 2,40 M;100,00;1,30;130,00;M2;20,00;BARDAGE;;;
+;BARDRAHUEL04;"Tasseaux chataignier ""Origine""  ép. 21 mm.
+Profil N°12: 21x47 mm. L= 3.2 m
+
+Scierie Rahuel.
+Soit 4.1 €/ml";3,50;1,30;4,55;ML;20,00;BARDAGE;;;
+;BARDRAHUEL05;"Bardage - Essence Douglas - Gamme Révélée
+Profil n°5 - Texture Brossée
+Finition Monocouche sur trois faces -
+Longueurs massives panachées de 2.00m à 4.00m
+selon stocks de bois disponibles (dont 5 à 10 % de
+longueurs inférieures)
+Lames rainées en bout
+Largeurs utiles disponibles au choix ou panachées
+90/110/130/150 mm - Epaisseur 26 mm Essence
+:Douglas Finition :NUAGE BRETON
+
+Date du prix 2022";60,00;1,30;78,00;M2;20,00;BARDAGE;;;
+;BARDRAHUEL06;"Bardage - Essence Douglas - Gamme Révélée
+Profil n°5 - Texture Destructurée
+Finition Monocouche sur trois faces -
+Longueurs massives panachées de 2.00m à 4.00m (
+dont 5 à 10 % de longueurs inférieures)
+Lames rainées en bout
+Largeurs utiles disponibles au choix ou panachées
+90/110/130/150 mm - Epaisseur 26mm Essence
+:Douglas Finition :GRIS 1921
+
+Date du prix 2022";60,00;1,30;78,00;M2;20,00;BARDAGE;;;
+;BARDRAHUEL06;"Bardage chataignier ""Origine""  ép. 21 mm.Profil N°1:
+21x60 / 90 /110 / 130 mm. L=3.2m
+Scierie RAHUEL";60,50;1,30;78,65;M2;20,00;BARDAGE;;;
+;BOISCHENE 001;CHENE MASSIF CHARPENTE;1 150,00;1,30;1 495,00;M3;20,00;CHENE SCIERIE;;;
+;BOISCHENE 001B;CHENE MASSIF CHARPENTE qualité A;1 350,00;1,30;1 755,00;M3;20,00;CHENE SCIERIE;;;
+;BOISDOUG01;Chevron douglas 42x63 mm L=5.00;1,34;1,30;1,74;ML;20,00;CHENE SCIERIE;;;
+;DECHET001;EVAC GRAVATS BENNE (ardoises, béton, carrelage);15,85;1,30;20,61;T;20,00;DECHETS;;;
+;DECHET002;EVAC DECHETS BENNE (BOIS);98,00;1,30;127,40;T;20,00;DECHETS;;;
+;DECHET004;EVAC DECHETS BENNES DIB;154,00;1,30;200,20;T;20,00;DECHETS;;;
+;DECHET005;LOCATION DE BENNE MENSUELLE;85,80;1,30;111,54;U;20,00;DECHETS;;;
+;DECHET007;TGAP taxe générale sur les activités polluantes;52,00;1,30;67,60;T;20,00;DECHETS;;;
+;DECHET008;DEPOT, ROTATION, RETRAIT camion multi-benne, L'unité;98,60;1,30;128,18;U;20,00;DECHETS;;;
+;DOMAINE;Occupation du domaine public, zone générale;0,42;1,31;0,55;M2/J;20,00;DECHETS;;;
+;DOMAINE2;Frais de dossier pour occupation du domaine public, zone générale;11,40;1,30;14,82;F;20,00;DOMAINE PUBLIC;;;
+;DOMAINE3;Pose de benne sur le domaine public;9,94;1,30;12,92;FORFAIT JOUR;20,00;DOMAINE PUBLIC;;;
+;DOMAINE4;Occupation du domaine public, zone C centre ville.;0,64;1,30;0,83;M2;20,00;DOMAINE PUBLIC;;;
+;DOMAINE5;Forfait journée stationnement;3,00;1,30;3,90;F;20,00;DOMAINE PUBLIC;;;
+;ENEDIS;ISOLATION ENEDIS;320,00;1,30;416,00;F;20,00;DOMAINE PUBLIC;;;
+;ESH001;PARE-PLUIE SOLITEX + MENTO 300 (pour insufflation) 1.5X50M;3,30;1,30;4,29;;20,00;ECO SAIN HABITAT;;;
+;ESH001B;"[SOLITEX FRONTA QUATTRO 150-50] SOLITEX FRONTA
+QUATTRO Ecran pare-pluie triple couche pour façades -
+bardages à claire-voie - En 1,5mx50ml - Standard (En
+1,5mx50ml)";3,92;1,30;5,10;M²;20,00;ECO SAIN HABITAT;;;
+;ESH001C;"[SOLITEX MENTO 1000] SOLITEX MENTO 1000 Ecran de
+sous-toiture triple couche, écran léger - En 1,5mx50ml (En
+1,5mx50ml)
+(attention sauf bardage claire voie)";2,02;1,30;2,63;M²;20,00;ECO SAIN HABITAT;;;
+;ESH002;Steico INTEGRAL 160 MM support d'enduit;40,00;0,00;0,00;M²;20,00;ECO SAIN HABITAT;;;
+;ETAN012;DASATOP Frein-vapeur de rénovation hygrovariable pour une pose en créneaux par l’extérieur;2,50;1,30;3,25;M²;20,00;ECO SAIN HABITAT;;;
+;ETAN013;Ruban de raccord d'enduit frein-vapeur pro clima Contega PV;2,00;1,30;2,60;ML;20,00;ECO SAIN HABITAT;;;
+;ETAN013B;"[TESCON INVIS 60-30 PVE] TESCON INVIS Ruban adhésif
+tout usage noir Largeur: 60 mm, Longueur: 30 m - En 60mm";0,65;1,31;0,85;ML;20,00;ECO SAIN HABITAT;;;
+;F 000;CONDUIT DE FUMEE POUJOULAT;24,00;1,30;31,20;U;20,00;FOURNITURE UNIQUE;;;
+;F 001;"ALU RAL 2900
+";115,00;1,30;149,50;U;20,00;FOURNITURE UNIQUE;;;
+;F 002;"Tra-Wik-PH Type 200 DOSTEBA
+Fixation de garde-corps sur ITE
+
+
+
+https://isorallonge.com/produit/17652/";60,00;1,30;78,00;U;20,00;FOURNITURE UNIQUE;;;
+;F 003;TASSEAUX DOUGLAS HORS AUBIER 25X47X4000;1,30;1,30;1,69;U;20,00;FOURNITURE UNIQUE;;;
+;F 004;"Porte battante simple vantail Golf Lg 930 x Ht 2040 mm.
+Ossature tubulaire Réf.PP65 en aluminium de section 65 x 40 mm.
+Avec traverse(s) intermédiaire(s).
+Maintien des remplissages par parcloses.
+Fournie assemblée avec serrure 1 point, cylindre européen, butée, paumelles
+béquille et cache-cylindre sur rosace inox.
+Autre choix d'équipement sur demande
+
+1,00 UN 435.60 € 435.60 €
+
+TOLE 15/10 LAQUE RAL CHOISI";2 310,00;1,30;3 009,93;ML;20,00;FOURNITURE UNIQUE;;;
+;F 005;Vitrage;353,00;1,30;458,90;M²;20,00;FOURNITURE UNIQUE;;;
+;F 006;Fourntiure placo et LDV;50,00;1,30;65,00;ML;20,00;FOURNITURE UNIQUE;;;
+;F 007;Poteau douglas 90x90;8,00;1,30;10,40;ML;20,00;FOURNITURE UNIQUE;;;
+;F 008;AVIVÉS CHENE 45MM CHOIX SELECTION LG : 2M60;1 677,00;1,30;2 180,10;M3;20,00;FOURNITURE UNIQUE;;;
+;F 009;"Description : Garde-corps KOSTUM
+
+- Garde-corps - Pose : Nez de dalle
+Type de projet : Privé
+- Trame droite 2.25 mètres (Repère A) :
+Section de garde-corps - Modèle : Loig (Quantité 2.25)
+- Trame droite 2.35 mètres (Repère B) :
+Section de garde-corps - Modèle : Loig (Quantité 2.35)
+- Trame droite 1.1 mètres (Repère C) :
+Section de garde-corps - Modèle : Loig (Quantité 1.1)
+- Trame droite 3.001 mètres (Repère D) :
+Section de garde-corps - Modèle : Loig (Quantité 3.001)
+- Trame rampante 1.078 mètres (Repère E) :
+Section de garde-corps - Modèle : Loig (Quantité 1.078)
+- Trame rampante 2.586 mètres (Repère F) :
+Section de garde-corps - Modèle : Loig (Quantité 2.586)
+- Main-courante
+Modèle : Kay
+Pièce de raccord : Eren - Forfait angle (Quantité 3)
+Pièce de raccord : Diri - Forfait angle (Quantité 1)
+- Options
+Couleur : Gris anthracite RAL 7016 texturé fin
+Pose : Nez de dalle
+Fixation sol : Fri
+";3 460,00;1,30;4 498,00;U;20,00;FOURNITURE UNIQUE;;;
+;F 010;Tuiles losangées;1,95;1,30;2,54;U;20,00;FOURNITURE UNIQUE;;;
+;F 011;LAMES TERRASSE IPE LISSE 21X145X4900;78,50;1,30;102,05;M2;20,00;FOURNITURE UNIQUE;;;
+;FLEX160; STEICO FLEX 160 MM. Densité 60kg/m3, bords droits 1220x575 mm. Lambda = 0.036 R = 4.4;13,71;1,30;17,82;M2;20,00;ECO SAIN HABITAT;;;
+;FLEX80;"STEICOflex F 036 Fibre de bois, EP 80 mm
+Laine isolante semi-rigide";6,86;1,30;8,92;M2;20,00;ECO SAIN HABITAT;;;
+;GALVA001;GALVANISATION PRESTA Transport +55€HT;1 310,00;1,30;1 703,00;T;20,00;METAL;;;
+;ITE001;Profil de départ + goutte d'eau;5,00;1,30;6,50;ML;20,00;ECO SAIN HABITAT;;;
+;LIEGE100;LIEGE 100 BORDS DROITS;28,87;1,30;37,53;M2;20,00;ECO SAIN HABITAT;;;
+;LIEGE160;LIEGE 160 BORDS DROITS;50,00;1,30;65,00;M2;20,00;ECO SAIN HABITAT;;;
+;LIEGE 20;LIEGE 20 BORDS DROITS;6,30;1,30;8,19;M2;20,00;ECO SAIN HABITAT;;;
+;LIEGE 30;LIEGE 30 MM BORDS DROITS;8,91;1,30;11,58;M2;20,00;ECO SAIN HABITAT;;;
+;LIEGE 40;LIEGE 40 MM BORDS DROITS;11,41;1,30;14,83;M2;20,00;ECO SAIN HABITAT;;;
+;LIEGE 50;LIEGE 50 MM BORDS DROITS;14,43;1,30;18,76;M2;20,00;ECO SAIN HABITAT;;;
+;LIEGE 60;LIEGE 60 MM BORDS DROITS;17,32;1,30;22,52;M2;20,00;ECO SAIN HABITAT;;;
+;LIEGE COLLE;Remise;-1 000,00;1,30;-1 300,00;;20,00;ECO SAIN HABITAT;;;
+;LIEGEVRAC;liège en vrac le sac de 250 litres;0,20;1,30;0,26;L;20,00;ECO SAIN HABITAT;;;
+;LOC004;Location d'un lève tuile 15M - CU 150 kg;55,00;1,30;71,50;Fofait jour;20,00;LOCATION;;;
+;LOC005;Location jourd'une nacelle à flèche télescopique articulée, hauteur travail 10 à 13 m.;150,00;1,30;195,00;Fofait jour;20,00;LOCATION;;;
+;LOC005B;Location jourd'une nacelle à flèche télescopique articulée, hauteur travail 20 m.;210,00;1,30;273,00;Fofait jour;20,00;LOCATION;;;
+;LOC006;* Location jour d'un chariot élévateur, hauteur travail 14 m.;210,00;1,30;273,00;Fofait jour;20,00;LOCATION;;;
+;LOC007;TRANSPORT  A/R;175,00;1,30;227,50;Fofait jour;20,00;LOCATION;;;
+;LOC008;* Location jour  d'un chariot élévateur, hauteur travail 17 à 20 m.;160,00;1,30;208,00;Fofait jour;20,00;LOCATION;;;
+;LOC009;* Location jour  d'un chariot élévateur rotatif, hauteur travail 21 m;400,00;1,30;520,00;Fofait jour;20,00;LOCATION;;;
+;LOC010;* Location jour  d'un camion semi plateau 13m40 avec grue. Chauffeur;90,00;1,30;117,00;Forfait horaire;20,00;LOCATION;;;
+;LOC011;* Location jour  d'un camion porteur 6m75 avec grue de 15m. Chauffeur;95,00;1,30;123,50;FORFAIT HORAIRE;20,00;LOCATION;;;
+;LOC011B;* Location jour  d'un camion porteur 6m75 avec grue de 28m. Chauffeur;115,00;1,30;149,50;FORFAIT HORAIRE;20,00;LOCATION;;;
+;LOC012;* Location jour  d'un CAMION grue MK88;200,00;1,30;260,00;Forfait horaire;20,00;LOCATION;;;
+;LOC013;* Location jour  Chariot indus Elec 4,50 M 1T5.;120,00;1,30;156,00;Fofait jour;20,00;LOCATION;;;
+;LOC014;Monte-matériaux vertical - 5,40 m - CU 300 kg;76,00;1,30;98,80;Fofait jour;20,00;LOCATION;;;
+;MACON001;CIMENT CPJ 45 25KG;0,26;1,31;0,34;KG;20,00;MACONNERIE;;;
+;MACON002;GRAVIER CALCAIRE 25KG;0,35;1,31;0,46;KG;20,00;MACONNERIE;;;
+;MACON003;COFFRAGE PLOT BETON 20CM/20CM;27,00;1,30;35,10;U;20,00;MACONNERIE;;;
+;MACON004;FORFAIT MACONNERIE;10,00;1,30;13,00;U;20,00;MACONNERIE;;;
+;MAT001;Echafaudage COMABI R200;100,00;1,30;130,00;F;20,00;LOCATION;;;
+;MAT004;KIT ARUNDA ML. Px d'achat 3000€ amorti sur 1000 assemblages (2.5 assemblage au ml de solive) 3000€ / 1000 assemblage /2.5 = 1.2€/ml;1,20;1,30;1,56;F;20,00;LOCATION;;;
+;MET 000;Coupe RUBION;1,50;1,30;1,95;U;20,00;METAL;;;
+;MET 001;Tube acier galva 35x35;6,00;1,30;7,80;ML;20,00;METAL;;;
+;MET 002;PLAT 40 X 05- lg 6 m;10,18;1,30;13,23;U;20,00;METAL;;;
+;MET 003;CORNIERE ALU BROSSEE 40/40/2MM 6 ML;24,60;1,30;31,98;ML;20,00;METAL;;;
+;MET 003B;CORNIERE 45x45x4.5 mm.;8,00;1,30;10,40;ML;20,00;METAL;;;
+;MET 004;TOLE GALVA 1 MM;35,50;1,30;46,15;M2;20,00;METAL;;;
+;MET 005;FER PLAT ACIER 100 X 8 NOIR S235;15,60;1,30;20,28;ML;20,00;METAL;;;
+;MET 005B;FER PLAT ACIER 150x8;18,00;1,30;23,40;ML;20,00;METAL;;;
+;MET 005C;FER PLAT ACIER 120x12;24,40;1,30;31,72;ML;20,00;METAL;;;
+;MET 005D;FER PLAT ACIER 80x8;10,80;1,30;14,04;ML;20,00;METAL;;;
+;MET 007;"HEA 200
+";35,00;1,30;45,50;ML;20,00;METAL;;;
+;MET 007B;IPN 200;50,00;1,30;65,00;ML;20,00;METAL;;;
+;MET 008;UPN 180X70X8;20,60;1,30;26,78;ML;20,00;METAL;;;
+;MET 009;UPN 220*80*9;27,60;1,30;35,88;ML;20,00;METAL;;;
+;MET 010;UPN 160X65X7.5;17,70;1,30;23,01;ML;20,00;METAL;;;
+;MET 010B;UPN 80x45x6;23,00;1,30;29,90;ML;20,00;METAL;;;
+;MET 010C;UPN 100x50x6;21,75;1,30;28,28;ML;20,00;METAL;;;
+;MET 011;PLAT 50 X 08- lg 6 m;5,01;1,30;6,51;ML;20,00;METAL;;;
+;MET 012;PLAT 50 X 08- lg 6 m;26,41;1,30;34,33;U;20,00;METAL;;;
+;MET 012B;PLAT 80 X 88- lg 6 m;10,80;1,30;14,04;U;20,00;METAL;;;
+;MET 013;BAGUETTE DE SOUDURE;26,41;1,30;34,33;U;20,00;METAL;;;
+;MET 014;POUTRELLE ACIER HEA120;55,00;1,30;71,50;ML;20,00;METAL;;;
+;MET 015;FER CORNIERE EGALE ACIER 80 X 80 X 8 MM NOIR S235;26,99;1,30;35,09;ML;20,00;METAL;;;
+;MET 015B;FER CORNIERE EGALE ACIER 100x100x10 MM NOIR S235;40,50;1,30;52,65;ML;20,00;METAL;;;
+;MET 015C;FER CORNIERE INEGALE 40X20X4;4,40;1,30;5,72;ML;20,00;METAL;;;
+;MET 016;TUBE CARRE 50x50x3;10,50;1,30;13,65;ML;20,00;METAL;;;
+;MEXT 0;MEXT rep 0;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT A;MEXT Rep A;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT B;MEXT Rep. B;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT C;MEXT rep C;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT D;MEXT rep D;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT E;MEXT rep E;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT F;MEXT rep F;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT G;MEXT rep G;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT H;MEXT rep H;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT I;MEXT rep I;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT J;MEXT rep J;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT K;MEXT rep K;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT L;MEXT rep L;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT M;MEXT rep M;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT N;MEXT rep N;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT P;MEXT rep P;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT Q;MEXT rep Q;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT R;MEXT rep R;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT S;MEXT rep S;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT T;MEXT rep T;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MEXT U;MEXT rep U;1,00;1,30;1,30;U;20,00;MENUISERIE EXTERIEURE;;;
+;MO1;"MAIN D'OEUVRE
+";48,00;1,30;62,40;H;20,00;MAIN D'ŒUVRE;;;
+;PROTECT180;"STEICOprotect dry Type L 180 mm 1200x400 mm.
+Lambda= 0,039 (Acermi) R = 4.6
+
+Surface M² brut / palette= 5.76 m² ";34,50;1,25;43,13;M²;20,00;ECO SAIN HABITAT;;;
+;PROTECT200;"STEICOprotect dry Type L 200 mm 1200x400 mm.
+Lambda= 0,039 (Acermi) R = 5.1
+
+Surface M² brut / palette= 5.76 m² ";38,08;1,25;47,60;M²;20,00;ECO SAIN HABITAT;;;
+;Q001;Forfait Quincaillerie;1,45;1,30;1,89;F;20,00;QUINCAILLERIE;;;
+;Q002;Forfait soudure;1,50;1,30;1,95;F;20,00;QUINCAILLERIE;;;
+;SOUB01;"Ravatherm XPS Duo CO2 10+120 125x60 cm. Palette de 12m²
+
+R = 3.55";62,40;1,30;81,12;M²;20,00;ECO SAIN HABITAT;;;
+;SOUB02;"Ravatherm XPS Duo CO2 10+60 125x60 cm
+Vendu à l'unité de 0,75 m²
+
+R= 1.8";46,25;1,30;60,13;M²;20,00;ECO SAIN HABITAT;;;
+;ST 001;JOINT DE JOINTEMENT;5,00;1,30;6,50;F;20,00;SOUS TRAITANCE;;;
+;ST 002;ENDUIT SUR FIBRE DE BOIS;450,00;1,30;585,00;F;20,00;SOUS TRAITANCE;;;
+;ST 003;ENDUIT SUR FERMACELL 2 PASSES (m²);17,00;1,30;22,10;F;20,00;SOUS TRAITANCE;;;
+;ST 004;BANDES DE PLACO ML;6,00;1,30;7,80;F;20,00;SOUS TRAITANCE;;;
+;ST 005;Heures de travail sur métal;50,00;1,30;65,00;F;20,00;SOUS TRAITANCE;;;
+;ST 006;Application d'un sous-enduit à la chaux en deux couches avec marouflage d'un treillis de verre sur couches avec marouflage d'un treillis de verre sur isolant fibre de bois. Après séchage de 24 heures application d'un enduit à chaux teinté de finition gratté y compris baguettes angles, sur les murs AU M²;75,00;1,30;97,50;M2;20,00;SOUS TRAITANCE;;;
+;ST 007;Montage et démontage d'échafaudage par entreprise spécialisée.;2 000,00;1,30;2 600,00;F;20,00;SOUS TRAITANCE;;;
+;ST 008;Location/semaine d'échafaudage;252,00;1,30;327,60;F;20,00;SOUS TRAITANCE;;;
+;TEXTE01;La collecte et le traitement des déchets de chantier est assuré par l'entreprise DELAIRE, société de collecte, traitement et recyclage de déchets, ZA Les Mottais, Champ de la Croix, 35230 Saint-Armel.;0,00;0,00;0,00;;20,00;TEXTE;;;
+;TEXTE02;Gestion, évacuation et traitements des déchets de chantier comprenant la main d'oeuvre liée à la dépose et au tri, le transport des déchets de chantier vers ou plusieurs points de collecte et les coûts de traitement.                                                   N.B. : les coûts et frais prévus au présent devis sont des estimations susceptibles d'être revues en fonction de la quantité réelle et de la nature des déchets constatés en fin de chantier;0,00;0,00;0,00;;0,00;TEXTE;;;
+;TEXTE03;Eau et électricité (compteur de chantier) à charge du maître d'ouvrage;0,00;0,00;0,00;;0,00;TEXTE;;;
+;TEXTE04;Augmentation des Matériaux: Compte-tenu de la situation exceptionnelle touchant les prix de nombreux matériaux au niveau national et international, les prix unitaires des ouvrages en bois et en acier sont susceptibles de subir des variations par rapport au prix figurant dans la présente offre. Dès lors, le maître d'ouvrage accepte expressément, par la signature du présent marché, que le prix desdits postes soit réévalué de la différence constatée entre le prix des fournitures pris en compte lors de l'élaboration du présent marché et le prix effectivement pratiqué par le fournisseur de produit au moment de la livraison.;0,00;0,00;0,00;;0,00;TEXTE;;;
+;TEXTE05;Garde au sol de 20 cm minimum entre le sol extérieur fini  et la lisse basse de l'ossature bois.;0,00;0,00;0,00;;0,00;TEXTE;;;
+;TEXTE06;Le tanin est un constituant du Châtaignier. Soluble, il peut être en extérieur lessivée par l'eau de pluie, créant des coulées sur les matériaux poreux (enduits, plaques de fibrociment, béton…) situés sous le bardage;0,00;0,00;0,00;;0,00;TEXTE;;;
+;TR001;TRANSP ATARYS -20KM;50,00;1,30;65,00;F;20,00;TRANSPORT;;;
+;TR002;TRANSP ATARYS km;0,50;1,30;0,65;KM;20,00;TRANSPORT;;;
+;TR004;TRANSP ATARYS;200,00;1,30;260,00;F;20,00;TRANSPORT;;;
+;UTHERM01;UTHERM UTHERM SARKING PIR K FRA R 7,40;32,50;1,30;42,25;M²;20,00;ECO SAIN HABITAT;;;

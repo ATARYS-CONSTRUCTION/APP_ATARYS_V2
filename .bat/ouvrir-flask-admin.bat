@@ -6,6 +6,9 @@ REM Script pour ouvrir l'interface Flask-Admin
 REM Auteur: ATARYS Team
 REM Date: 2025
 
+REM Aller à la racine du projet si lancé depuis .bat/
+cd /d "%~dp0.."
+
 echo.
 echo ========================================
 echo   ATARYS - OUVERTURE FLASK-ADMIN
@@ -62,32 +65,15 @@ if errorlevel 1 (
 echo ✅ Flask-Admin disponible
 echo.
 
-REM Démarrer Flask-Admin
 echo 🚀 Démarrage de Flask-Admin...
-echo 📊 Interface: http://localhost:5000/admin
+echo 📊 Interface: http://localhost:5001/admin
 echo.
 echo 💡 Pour arrêter: Ctrl+C
-echo.
-
-REM Lancer le serveur Flask avec Flask-Admin
 cd backend
-python -c "
-from app import create_app
-from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
-
-app = create_app('development')
-
-# Configuration Flask-Admin
-admin = Admin(app, name='ATARYS Admin', template_mode='bootstrap4')
-
-# Les vues seront ajoutées au fur et à mesure du développement
-# selon les modules ATARYS créés
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
-"
-
+python run_flask_admin.py
+cd ..
 echo.
 echo ✅ Flask-Admin fermé
+echo.
+echo Appuyez sur une touche pour fermer...
 pause 
