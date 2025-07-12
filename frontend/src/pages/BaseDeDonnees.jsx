@@ -43,6 +43,9 @@ export default function BaseDeDonnees() {
   const [showAddForm, setShowAddForm] = useState(false);
   // Ajout d'un état pour gérer l'affichage du formulaire de création de table
   const [showCreateTableForm, setShowCreateTableForm] = useState(false);
+  const [availableTables, setAvailableTables] = useState([]);
+  const [showAlterTableForm, setShowAlterTableForm] = useState(false);
+  const [newColumn, setNewColumn] = useState({ name: '', type: 'String', nullable: true, unique: false, default: '', maxLength: 100 });
 
   // Récupérer les colonnes selon la table sélectionnée
   const getColumnsForTable = (tableName) => {
@@ -54,22 +57,32 @@ export default function BaseDeDonnees() {
     }
   };
 
-  // Charger les données depuis l'API
-  const loadData = async () => {
+  // Remplacer la logique d'API endpoint pour supporter les tables dynamiques
+  const getApiEndpoint = (selectedTable) => {
     const selectedModule = MODULES.find(m => m.tables.some(t => t.name === selectedTable));
     const table = selectedModule?.tables.find(t => t.name === selectedTable);
-    
-    if (!table?.apiEndpoint) {
+    if (table?.apiEndpoint) {
+      return table.apiEndpoint;
+    } else if (selectedTable) {
+      // Pour les tables dynamiques, endpoint = /<nom_table>/
+      return `/${selectedTable}/`;
+    }
+    return null;
+  };
+
+  // Charger les données depuis l'API
+  const loadData = async () => {
+    const apiEndpoint = getApiEndpoint(selectedTable);
+    if (!apiEndpoint) {
       setError('API non disponible pour cette table');
       return;
     }
-
     setLoading(true);
     setError(null);
     
     try {
       // Récupérer toutes les données avec une limite élevée
-      const response = await fetch(`${API_BASE_URL}${table.apiEndpoint}/?per_page=1000`);
+      const response = await fetch(`${API_BASE_URL}${apiEndpoint}?per_page=1000`);
       if (!response.ok) {
         throw new Error(`Erreur HTTP: ${response.status}`);
       }
@@ -93,6 +106,24 @@ export default function BaseDeDonnees() {
   useEffect(() => {
     loadData();
   }, [selectedTable]);
+
+  // Charger dynamiquement la liste des tables au montage
+  useEffect(() => {
+    fetch('/api/create-table/list-tables')
+      .then(res => res.json())
+      .then(result => {
+        if (result.success) {
+          setAvailableTables(result.tables);
+          // Si la table sélectionnée n'existe plus, sélectionner la première
+          if (!result.tables.includes(selectedTable)) {
+            setSelectedTable(result.tables[0] || '');
+          }
+        } else {
+          setAvailableTables([]);
+        }
+      })
+      .catch(() => setAvailableTables([]));
+  }, []);
 
   // Gestion du collage Excel (collage dans le tableau)
   const handlePaste = (e) => {
@@ -175,9 +206,8 @@ export default function BaseDeDonnees() {
 
   // Supprimer toutes les données de la table (backend + frontend)
   const handleDeleteAll = async () => {
-    const selectedModule = MODULES.find(m => m.tables.some(t => t.name === selectedTable));
-    const table = selectedModule?.tables.find(t => t.name === selectedTable);
-    if (!table?.apiEndpoint) {
+    const apiEndpoint = getApiEndpoint(selectedTable);
+    if (!apiEndpoint) {
       setError('API non disponible pour cette table');
       return;
     }
@@ -187,7 +217,7 @@ export default function BaseDeDonnees() {
     setSaving(true);
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_URL}${table.apiEndpoint}/clear/`, {
+      const response = await fetch(`${API_BASE_URL}${apiEndpoint}clear/`, {
         method: 'DELETE',
       });
       const result = await response.json();
@@ -228,8 +258,15 @@ export default function BaseDeDonnees() {
   // Gérer la création de table terminée
   const handleTableCreated = (tableData) => {
     setShowCreateTableForm(false);
-    // Recharger les données pour inclure la nouvelle table
-    loadData();
+    // Rafraîchir la liste des tables et sélectionner la nouvelle
+    fetch('/api/create-table/list-tables')
+      .then(res => res.json())
+      .then(result => {
+        if (result.success) {
+          setAvailableTables(result.tables);
+          setSelectedTable(tableData.tableName);
+        }
+      });
     alert(`Table "${tableData.tableName}" créée avec succès !`);
   };
 
@@ -247,10 +284,8 @@ export default function BaseDeDonnees() {
 
   // Enregistrer les modifications via l'API
   const handleSave = async () => {
-    const selectedModule = MODULES.find(m => m.tables.some(t => t.name === selectedTable));
-    const table = selectedModule?.tables.find(t => t.name === selectedTable);
-    
-    if (!table?.apiEndpoint) {
+    const apiEndpoint = getApiEndpoint(selectedTable);
+    if (!apiEndpoint) {
       setError('API non disponible pour cette table');
       return;
     }
@@ -312,7 +347,7 @@ export default function BaseDeDonnees() {
       const promises = cleanedData.map(async (item) => {
         if (item.id) {
           // Mise à jour
-          const response = await fetch(`${API_BASE_URL}${table.apiEndpoint}/${item.id}/`, {
+          const response = await fetch(`${API_BASE_URL}${apiEndpoint}${item.id}/`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(item)
@@ -320,7 +355,7 @@ export default function BaseDeDonnees() {
           return response.json();
         } else {
           // Création
-          const response = await fetch(`${API_BASE_URL}${table.apiEndpoint}/`, {
+          const response = await fetch(`${API_BASE_URL}${apiEndpoint}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(item)
@@ -363,14 +398,77 @@ export default function BaseDeDonnees() {
             value={selectedTable}
             onChange={e => setSelectedTable(e.target.value)}
           >
-            {MODULES.map(module => (
-              <optgroup key={module.id} label={module.nom}>
-                {module.tables.map(table => (
-                  <option key={table.name} value={table.name}>{table.label}</option>
-                ))}
-              </optgroup>
+            {availableTables.map(table => (
+              <option key={table} value={table}>{table}</option>
             ))}
           </select>
+          {/* Bouton Supprimer la table */}
+          <button
+            className="bg-red-600 text-white px-4 py-2 rounded shadow hover:bg-red-700 font-semibold flex items-center gap-2"
+            onClick={() => {
+              if (window.confirm(`Supprimer la table "${selectedTable}" ? Cette action est irréversible.`)) {
+                fetch('/api/create-table/drop-table', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ table_name: selectedTable })
+                })
+                  .then(res => res.json())
+                  .then(result => {
+                    if (result.success) {
+                      alert(result.message);
+                      fetch('/api/create-table/list-tables')
+                        .then(res => res.json())
+                        .then(result => {
+                          if (result.success) {
+                            setAvailableTables(result.tables);
+                            setSelectedTable(result.tables[0] || '');
+                          }
+                        });
+                    } else {
+                      alert('Erreur : ' + result.message);
+                    }
+                  });
+              }
+            }}
+          >
+            <span>🗑️</span>
+            Supprimer la table
+          </button>
+          {/* Bouton Modifier la table */}
+          <button
+            className="bg-yellow-600 text-white px-4 py-2 rounded shadow hover:bg-yellow-700 font-semibold flex items-center gap-2"
+            onClick={() => setShowAlterTableForm(true)}
+          >
+            <span>🛠️</span>
+            Modifier la table
+          </button>
+          
+          {/* Bouton Automatisation Flask-Admin */}
+          <button
+            className="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700 font-semibold flex items-center gap-2"
+            onClick={() => {
+              if (window.confirm('Voulez-vous synchroniser automatiquement avec Flask-Admin ? Cela va générer les modèles et les importer.')) {
+                fetch('/api/create-table/sync-flask-admin', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' }
+                })
+                  .then(res => res.json())
+                  .then(result => {
+                    if (result.success) {
+                      alert('Synchronisation Flask-Admin réussie !\n\n' + result.message);
+                    } else {
+                      alert('Erreur lors de la synchronisation : ' + result.message);
+                    }
+                  })
+                  .catch(err => {
+                    alert('Erreur de connexion : ' + err.message);
+                  });
+              }
+            }}
+          >
+            <span>⚙️</span>
+            Auto Flask-Admin
+          </button>
           
           {/* Bouton Ajouter une ligne */}
           <button
@@ -530,6 +628,75 @@ export default function BaseDeDonnees() {
           onCancel={handleCancelCreateTable}
           onTableCreated={handleTableCreated}
         />
+      )}
+      {/* Modal/Formulaire pour ajouter une colonne */}
+      {showAlterTableForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded shadow-lg max-w-md w-full">
+            <h3 className="text-lg font-bold mb-4">Ajouter une colonne à {selectedTable}</h3>
+            <div className="mb-2">
+              <label className="block text-sm font-medium mb-1">Nom de la colonne</label>
+              <input type="text" className="border rounded px-2 py-1 w-full" value={newColumn.name} onChange={e => setNewColumn({ ...newColumn, name: e.target.value })} />
+            </div>
+            <div className="mb-2">
+              <label className="block text-sm font-medium mb-1">Type</label>
+              <select className="border rounded px-2 py-1 w-full" value={newColumn.type} onChange={e => setNewColumn({ ...newColumn, type: e.target.value })}>
+                <option value="String">Texte court (String)</option>
+                <option value="Text">Texte long (Text)</option>
+                <option value="Integer">Nombre entier (Integer)</option>
+                <option value="Numeric">Montant financier (Numeric)</option>
+                <option value="REAL">Nombre décimal (REAL)</option>
+                <option value="Boolean">Vrai/Faux (Boolean)</option>
+                <option value="Date">Date</option>
+                <option value="DateTime">Date/Heure</option>
+              </select>
+            </div>
+            {newColumn.type === 'String' && (
+              <div className="mb-2">
+                <label className="block text-sm font-medium mb-1">Longueur max</label>
+                <input type="number" className="border rounded px-2 py-1 w-full" value={newColumn.maxLength} onChange={e => setNewColumn({ ...newColumn, maxLength: Number(e.target.value) })} />
+              </div>
+            )}
+            <div className="mb-2 flex gap-2">
+              <label className="flex items-center"><input type="checkbox" checked={newColumn.nullable} onChange={e => setNewColumn({ ...newColumn, nullable: e.target.checked })} /> Nullable</label>
+              <label className="flex items-center"><input type="checkbox" checked={newColumn.unique} onChange={e => setNewColumn({ ...newColumn, unique: e.target.checked })} /> Unique</label>
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">Valeur par défaut</label>
+              <input type="text" className="border rounded px-2 py-1 w-full" value={newColumn.default} onChange={e => setNewColumn({ ...newColumn, default: e.target.value })} />
+            </div>
+            <div className="flex gap-2">
+              <button
+                className="bg-blue-600 text-white px-4 py-2 rounded"
+                onClick={() => {
+                  fetch('/api/create-table/alter-table', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ table_name: selectedTable, column: newColumn })
+                  })
+                    .then(res => res.json())
+                    .then(result => {
+                      if (result.success) {
+                        alert(result.message);
+                        setShowAlterTableForm(false);
+                        setNewColumn({ name: '', type: 'String', nullable: true, unique: false, default: '', maxLength: 100 });
+                      } else {
+                        alert('Erreur : ' + result.message);
+                      }
+                    });
+                }}
+              >
+                Ajouter la colonne
+              </button>
+              <button
+                className="ml-2 px-4 py-2 rounded border"
+                onClick={() => setShowAlterTableForm(false)}
+              >
+                Annuler
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </PageLayout>
   );

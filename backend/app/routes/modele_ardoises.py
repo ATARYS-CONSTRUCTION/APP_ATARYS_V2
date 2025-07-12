@@ -1,19 +1,19 @@
 from flask import Blueprint, request, jsonify
 from app import db
-from app.models.articles_atarys_model import ArticlesAtarys
+from app.models.modele_ardoises_model import ModeleArdoises
 
-bp = Blueprint('articles_atarys', __name__, url_prefix='/api/articles-atarys')
+bp = Blueprint('modele_ardoises', __name__, url_prefix='/api/modele-ardoises')
 
 @bp.route('/', methods=['GET'])
 def get_all():
     page = int(request.args.get('page', 1))
     per_page = request.args.get('per_page', 'all')
     
-    query = ArticlesAtarys.query
+    query = ModeleArdoises.query
     total = query.count()
     
     if per_page == 'all':
-        items = query.order_by(ArticlesAtarys.id.desc()).all()
+        items = query.order_by(ModeleArdoises.id.desc()).all()
         data = [{
             'id': item.id,
             **{k: v for k, v in item.__dict__.items() if not k.startswith('_')}
@@ -31,7 +31,7 @@ def get_all():
         })
     else:
         per_page = int(per_page)
-        items = query.order_by(ArticlesAtarys.id.desc()).paginate(
+        items = query.order_by(ModeleArdoises.id.desc()).paginate(
             page=page, per_page=per_page, error_out=False
         )
         data = [{
@@ -56,7 +56,7 @@ def create():
     if not json_data:
         return jsonify({'success': False, 'data': [], 'message': 'Aucune donnée reçue'}), 400
     
-    item = ArticlesAtarys(**json_data)
+    item = ModeleArdoises(**json_data)
     db.session.add(item)
     db.session.commit()
     
@@ -68,7 +68,7 @@ def create():
 
 @bp.route('/<int:item_id>', methods=['DELETE'])
 def delete(item_id):
-    item = ArticlesAtarys.query.get_or_404(item_id)
+    item = ModeleArdoises.query.get_or_404(item_id)
     db.session.delete(item)
     db.session.commit()
     
@@ -77,7 +77,7 @@ def delete(item_id):
 @bp.route('/clear/', methods=['DELETE'])
 def clear_all():
     try:
-        num_deleted = db.session.query(ArticlesAtarys).delete()
+        num_deleted = db.session.query(ModeleArdoises).delete()
         db.session.commit()
         return jsonify({
             'success': True,

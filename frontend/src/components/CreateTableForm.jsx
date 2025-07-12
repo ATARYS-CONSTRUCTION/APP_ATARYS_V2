@@ -23,7 +23,7 @@ const TYPES = [
   { id: "String", label: "Texte court (String)", sql: "db.String" },
   { id: "Text", label: "Texte long (Text)", sql: "db.Text" },
   { id: "Numeric", label: "Montant financier (Numeric(10,2))", sql: "db.Numeric(10, 2)" },
-  { id: "Float", label: "Nombre décimal (Float)", sql: "db.Float" },
+  { id: "REAL", label: "Nombre décimal (REAL)", sql: "db.Float" },
   { id: "Boolean", label: "Vrai/Faux (Boolean)", sql: "db.Boolean" },
   { id: "Date", label: "Date seulement (Date)", sql: "db.Date" },
   { id: "DateTime", label: "Date/Heure (DateTime)", sql: "db.DateTime" },
@@ -36,7 +36,7 @@ const TYPES = [
 
 // Suggestions intelligentes selon le script
 const SUGGESTIONS = {
-  "actif": { type: "Boolean", default: true, description: "Actif par défaut" },
+  "actif": { type: "Boolean", cdefault: true, description: "Actif par défaut" },
   "active": { type: "Boolean", default: true, description: "Actif par défaut" },
   "enabled": { type: "Boolean", default: true, description: "Activé par défaut" },
   "visible": { type: "Boolean", default: true, description: "Visible par défaut" },
@@ -166,25 +166,47 @@ export default function CreateTableForm({ onCancel, onTableCreated }) {
   const handleCreateTable = () => {
     // Générer le code SQLAlchemy
     const code = generateSQLAlchemyCode(tableData);
-    
     // Envoyer au backend pour création
     fetch('/api/create-table/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ tableData, code })
     })
-    .then(response => response.json())
-    .then(result => {
-      if (result.success) {
-        alert('Table créée avec succès !');
-        onTableCreated(tableData);
-      } else {
-        alert('Erreur lors de la création : ' + result.message);
-      }
-    })
-    .catch(error => {
-      alert('Erreur de connexion : ' + error.message);
-    });
+      .then(response => response.json())
+      .then(result => {
+        if (result.success) {
+          // Appel API pour générer le modèle Python
+          fetch('/api/create-table/generate-model', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              class_name: tableData.className,
+              table_name: tableData.tableName,
+              columns: tableData.columns,
+              module_id: tableData.moduleId
+            })
+          })
+            .then(res => res.json())
+            .then(modelResult => {
+              if (modelResult.success) {
+                alert('Table et modèle Python créés avec succès !\n' + modelResult.reminder);
+                onTableCreated(tableData);
+              } else {
+                alert('Table créée, mais erreur lors de la génération du modèle : ' + modelResult.message);
+                onTableCreated(tableData);
+              }
+            })
+            .catch(error => {
+              alert('Table créée, mais erreur lors de la génération du modèle : ' + error.message);
+              onTableCreated(tableData);
+            });
+        } else {
+          alert('Erreur lors de la création : ' + result.message);
+        }
+      })
+      .catch(error => {
+        alert('Erreur de connexion : ' + error.message);
+      });
   };
 
   const generateSQLAlchemyCode = (data) => {

@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 from app import create_app, db
-from app.models.module_5_1 import articlesatarys
+from app.models.module_5_1 import ArticlesAtarys
 
 app = create_app('development')
 
@@ -43,7 +43,7 @@ def import_articles_from_csv(csv_filename):
     df = pd.read_csv(csv_path, sep=';')
     with app.app_context():
         for _, row in df.iterrows():
-            article = articlesatarys(
+            article = ArticlesAtarys(
                 reference=row['reference'],
                 libelle=row['libelle'],
                 prix_achat=row['prix_achat'],

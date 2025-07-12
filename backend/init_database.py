@@ -9,7 +9,7 @@ Date: 2025
 """
 
 from app import create_app, db
-from app.models.module_5_1 import articlesatarys
+from app.models.module_5_1 import ArticlesAtarys
 
 def init_database():
     """Initialiser la base de données avec les tables"""

@@ -47,17 +47,17 @@ def create_app(config_name='development'):
 
     # Enregistrement des blueprints API
     try:
-        from app.routes.articles_atarys import bp as articles_atarys_bp
-        app.register_blueprint(articles_atarys_bp)
-    except Exception as e:
-        print(f"[ATARYS] Blueprint articles_atarys non chargé : {e}")
-    
-    try:
         from app.routes.create_table import bp as create_table_bp
         app.register_blueprint(create_table_bp)
     except Exception as e:
         print(f"[ATARYS] Blueprint create_table non chargé : {e}")
-    
+
+    try:
+        from app.routes.modele_ardoises import bp as modele_ardoises_bp
+        app.register_blueprint(modele_ardoises_bp)
+    except Exception as e:
+        print(f"[ATARYS] Blueprint modele_ardoises non chargé : {e}")
+
     # Route de santé pour vérifier que l'app fonctionne
     @app.route('/health')
     def health_check():

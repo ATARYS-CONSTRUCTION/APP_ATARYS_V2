@@ -101,6 +101,12 @@ def create_app(config_name='development'):
 - **Backend** : http://localhost:5000 (Flask + SQLAlchemy)
 - **Proxy API** : `/api/*` → `localhost:5000`
 
+### BASE DE DONNÉES - Emplacement obligatoire :
+- **Base SQLite** : `/data/atarys_data.db` (racine du projet)
+- **Configuration** : `sqlite:///../../data/atarys_data.db` dans Flask
+- **Scripts** : Toujours référencer `/data/` depuis la racine
+- **Interdiction** : JAMAIS de base de données dans `/backend/`
+
 ### CONVENTIONS NOMMAGE - Règles strictes :
 - **Modules** : Numérotation 1-13 selon ATARYS_MODULES.md
 - **Sous-modules** : X.Y (ex: 1.1, 1.2)
@@ -138,6 +144,7 @@ def create_app(config_name='development'):
 ❌ **JAMAIS de String sans longueur max** dans les modèles
 ❌ **JAMAIS inventer de tables ou structures sans demande explicite**
 ❌ **JAMAIS utiliser && dans PowerShell Windows** (utiliser ; ou séparer les commandes)
+❌ **JAMAIS de base de données dans /backend/** (toujours dans /data/)
 
 ## 🚨 RÈGLES D'OR CURSOR
 
@@ -150,6 +157,7 @@ def create_app(config_name='development'):
 7. **JAMAIS inventer de tables, liens ou structures sans consentement explicite de l'utilisateur**
 8. **TOUJOURS demander confirmation avant de créer des éléments non documentés**
 9. **RESPECTER les commandes PowerShell Windows** (pas de &&, utiliser ; ou séparer les commandes)
+10. **TOUJOURS référencer la base de données dans /data/** (pas dans /backend/)
 
 ## 📚 RACCOURCIS DOCUMENTATION
 

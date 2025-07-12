@@ -187,7 +187,10 @@
 - 12.1 BASE DE DONNÉES
 
 ### Fonctionnalités
-- Paramètres de base de données
+- Création dynamique de tables SQLite
+- Modification de structure de tables existantes (ajout de colonnes)
+- Gestion des colonnes et contraintes
+- Interface d'administration des bases de données
 - Configuration système
 - Personnalisation
 
