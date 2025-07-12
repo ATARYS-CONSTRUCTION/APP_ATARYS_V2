@@ -8,7 +8,6 @@ Auteur: ATARYS Team
 Date: 2025
 """
 
-import sys
 import re
 import datetime
 from pathlib import Path
@@ -45,11 +44,13 @@ TYPES = [
     ("Enum", "Liste de valeurs (Enum)", "db.Enum")
 ]
 
+
 def ask(prompt, default=None):
     val = input(prompt)
     if not val and default is not None:
         return default
     return val
+
 
 def pascal_to_snake(pascal_case):
     """Convertir PascalCase en snake_case"""
@@ -57,6 +58,56 @@ def pascal_to_snake(pascal_case):
     snake_case = re.sub(r'(?<!^)(?=[A-Z])', '_', pascal_case)
     # Convertir en minuscules
     return snake_case.lower()
+
+
+def suggest_default_for_column(col_name, col_type):
+    """Suggérer des valeurs par défaut intelligentes selon le nom et type de colonne"""
+    suggestions = {
+        # Colonnes de statut/état
+        "actif": ("Boolean", True, "Actif par défaut"),
+        "active": ("Boolean", True, "Actif par défaut"),
+        "enabled": ("Boolean", True, "Activé par défaut"),
+        "visible": ("Boolean", True, "Visible par défaut"),
+        "status": ("String", "actif", "Statut actif par défaut"),
+        "etat": ("String", "actif", "État actif par défaut"),
+        
+        # Colonnes de dates
+        "date_creation": ("Date", "datetime.date.today", "Date de création aujourd'hui"),
+        "date_import": ("Date", "datetime.date.today", "Date d'import aujourd'hui"),
+        "date_maj": ("Date", "datetime.date.today", "Date de mise à jour aujourd'hui"),
+        "date_modification": ("Date", "datetime.date.today", "Date de modification aujourd'hui"),
+        "created_at": ("DateTime", "datetime.datetime.utcnow", "Horodatage de création"),
+        "updated_at": ("DateTime", "datetime.datetime.utcnow", "Horodatage de mise à jour"),
+        "timestamp": ("DateTime", "datetime.datetime.utcnow", "Horodatage actuel"),
+        
+        # Colonnes financières
+        "prix_ht": ("Numeric", "0.00", "Prix HT à zéro"),
+        "montant_ht": ("Numeric", "0.00", "Montant HT à zéro"),
+        "tva_pct": ("Numeric", "20.00", "TVA 20% par défaut"),
+        "coefficient": ("Numeric", "1.00", "Coefficient neutre"),
+        
+        # Colonnes de comptage
+        "quantite": ("Integer", "0", "Quantité à zéro"),
+        "stock": ("Integer", "0", "Stock à zéro"),
+        "compteur": ("Integer", "0", "Compteur à zéro"),
+        
+        # Colonnes de texte
+        "description": ("Text", '""', "Description vide"),
+        "notes": ("Text", '""', "Notes vides"),
+        "commentaire": ("Text", '""', "Commentaire vide"),
+    }
+    
+    # Chercher une correspondance exacte
+    if col_name.lower() in suggestions:
+        return suggestions[col_name.lower()]
+    
+    # Chercher une correspondance partielle
+    for key, (suggested_type, default_value, description) in suggestions.items():
+        if key in col_name.lower():
+            return (suggested_type, default_value, description)
+    
+    return None
+
 
 def main():
     print("="*60)
@@ -107,19 +158,45 @@ def main():
             if col_name.lower() == 'id':
                 print("❌ La colonne 'id' est déjà créée automatiquement (clé primaire)")
                 continue
-            print("- Type :")
-            for i, (t, desc, _) in enumerate(TYPES, 1):
-                print(f"  {i}. {desc}")
-            while True:
-                try:
-                    t_idx = int(ask(f"  Votre choix (1-{len(TYPES)}) : "))
-                    if 1 <= t_idx <= len(TYPES):
-                        break
+            
+            # Suggestion automatique de type et valeur par défaut
+            suggestion = suggest_default_for_column(col_name, None)
+            if suggestion:
+                suggested_type, suggested_default, description = suggestion
+                print(f"💡 Suggestion pour '{col_name}': {description}")
+                use_suggestion = ask(f"  Utiliser la suggestion ? (y/n) : ", "y").lower() == "y"
+                if use_suggestion:
+                    # Trouver l'index du type suggéré
+                    type_index = None
+                    for i, (t, desc, _) in enumerate(TYPES):
+                        if t == suggested_type:
+                            type_index = i + 1
+                            break
+                    if type_index:
+                        print(f"  ✅ Type automatiquement sélectionné : {suggested_type}")
+                        t_idx = type_index
+                        t_name, _, t_sql = TYPES[t_idx-1]
+                        default = suggested_default
                     else:
-                        print("❌ Choix invalide")
-                except ValueError:
-                    print("❌ Entrez un nombre")
-            t_name, _, t_sql = TYPES[t_idx-1]
+                        print("  ⚠️ Type suggéré non trouvé, sélection manuelle requise")
+                        use_suggestion = False
+            
+            if not suggestion or not use_suggestion:
+                print("- Type :")
+                for i, (t, desc, _) in enumerate(TYPES, 1):
+                    print(f"  {i}. {desc}")
+                while True:
+                    try:
+                        t_idx = int(ask(f"  Votre choix (1-{len(TYPES)}) : "))
+                        if 1 <= t_idx <= len(TYPES):
+                            break
+                        else:
+                            print("❌ Choix invalide")
+                    except ValueError:
+                        print("❌ Entrez un nombre")
+                t_name, _, t_sql = TYPES[t_idx-1]
+                default = ""
+            
             args = ""
             is_fk = ask("  Cette colonne est-elle une clé étrangère ? (y/n) : ", "n").lower() == "y"
             fk_target = None
@@ -136,14 +213,15 @@ def main():
                 print("  ℹ️ Auto-incrément géré par la colonne 'id' (clé primaire)")
             elif t_name in ["Date", "DateTime", "Timestamp"] and not is_fk:
                 # Types temporels peuvent avoir des valeurs par défaut
-                default_now = ask("  Valeur par défaut 'now' ? (y/n) : ", "n").lower() == "y"
-                if default_now:
-                    if t_name == "Date":
-                        t_sql += ", default=datetime.date.today"
-                    elif t_name == "DateTime":
-                        t_sql += ", default=datetime.datetime.utcnow"
-                    elif t_name == "Timestamp":
-                        t_sql += ", default=datetime.datetime.utcnow"
+                if not default:  # Si pas de suggestion automatique
+                    default_now = ask("  Valeur par défaut 'now' ? (y/n) : ", "y").lower() == "y"
+                    if default_now:
+                        if t_name == "Date":
+                            default = "datetime.date.today"
+                        elif t_name == "DateTime":
+                            default = "datetime.datetime.utcnow"
+                        elif t_name == "Timestamp":
+                            default = "datetime.datetime.utcnow"
             elif t_name == "Enum" and not is_fk:
                 # Configuration des ENUM
                 print("  Configuration ENUM :")
@@ -172,7 +250,11 @@ def main():
                     enum_config = None
             nullable = ask("  Obligatoire ? (y/n) : ", "y").lower() == "n"
             unique = ask("  Unique ? (y/n) : ", "n").lower() == "y"
-            default = ask("  Valeur par défaut (laisser vide si aucune) : ")
+            
+            # Gestion de la valeur par défaut
+            if not default:
+                default = ask("  Valeur par défaut (laisser vide si aucune) : ")
+            
             col_def = f"    {col_name} = db.Column({t_sql}"
             if not nullable:
                 col_def += ", nullable=False"
@@ -185,10 +267,13 @@ def main():
                     col_def += f', default={default.lower() in ["true", "1", "y", "yes"]}'
                 elif t_name in ["Integer", "Float", "Numeric"]:
                     col_def += f', default={default}'
+                elif t_name in ["Date", "DateTime", "Timestamp"] and default in ["datetime.date.today", "datetime.datetime.utcnow"]:
+                    col_def += f', default={default}'
                 else:
                     col_def += f', default="{default}"'
             col_def += ")"
             columns.append(col_def)
+            
             # Many-to-Many
             is_m2m = ask("  Veux-tu créer une relation Many-to-Many avec une autre table ? (y/n) : ", "n").lower() == "y"
             if is_m2m:
@@ -218,7 +303,7 @@ def main():
         if more_table != "y":
             break
     # Génération du code
-    code = ["from .base import BaseModel", "from app import db", ""]
+    code = ["from .base import BaseModel", "from app import db", "import datetime", ""]
     
     # Collecter tous les ENUMs utilisés
     enums_used = set()

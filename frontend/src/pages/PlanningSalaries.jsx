@@ -330,6 +330,16 @@ function PlanningSalaries() {
   return (
     <PageLayout variant="ultrawide" title="Planning ATARYS">
       <Card padding="none" className="pb-4" planningMode={true}>
+        {/* Compteur de lignes */}
+        <div className="mb-3 p-2 bg-blue-50 border border-blue-200 rounded text-sm">
+          <span className="font-semibold text-blue-800">
+            📊 {rows.length} jour{rows.length > 1 ? 's' : ''} dans le planning
+          </span>
+          <span className="ml-2 text-blue-600">
+            ({getSalariesForDateLimited(dateVisible, salaries).filter(s => s !== '').length} salarié{getSalariesForDateLimited(dateVisible, salaries).filter(s => s !== '').length > 1 ? 's' : ''} actif{getSalariesForDateLimited(dateVisible, salaries).filter(s => s !== '').length > 1 ? 's' : ''} aujourd'hui)
+          </span>
+        </div>
+        
         <div 
           ref={planningContainerRef}
           className="overflow-y-auto border border-gray-300 rounded bg-white shadow-lg" 

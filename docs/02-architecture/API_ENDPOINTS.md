@@ -1,16 +1,16 @@
 # 🛣️ API Endpoints ATARYS V2
 
 > **Spécifications techniques des routes API REST**  
-> **VERSION 2** : Backend Flask + SQLAlchemy à créer  
+> **VERSION 2** : Backend Flask + SQLAlchemy opérationnel  
 > Dernière mise à jour : 05/07/2025
 
 ---
 
 ## 📋 Vue d'ensemble
 
-**Base URL :** `http://localhost:5000/api` (à créer)
+**Base URL :** `http://localhost:5000/api` (OPÉRATIONNEL)
 **Format de réponse :** JSON standardisé `{success, data, message}`
-**Stack Backend :** Flask 2.3+ + SQLAlchemy 2.0+ + SQLite
+**Stack Backend :** Flask 3.x + SQLAlchemy 2.0+ + SQLite
 **Organisation :** APIs structurées par modules ATARYS prioritaires
 
 ---
@@ -19,35 +19,48 @@
 
 ### **Framework et ORM**
 ```python
-# Flask Factory Pattern
+# Flask Factory Pattern - OPÉRATIONNEL
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_cors import CORS
 
 db = SQLAlchemy()
 migrate = Migrate()
 
 def create_app(config_name='development'):
     app = Flask(__name__)
-    app.config.from_object(config[config_name])
     
+    # Configuration base de données
+    db_uri = 'sqlite:///../../data/atarys_data.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
+    # Initialisation extensions
     db.init_app(app)
     migrate.init_app(app, db)
+    CORS(app)  # Communication frontend-backend
     
     return app
 ```
 
-### **Modèles SQLAlchemy**
+### **Pattern BaseModel Standard**
 ```python
-# Pattern BaseModel pour tous les modèles
+# backend/app/models/base.py - OPÉRATIONNEL
 class BaseModel(db.Model):
     __abstract__ = True
+    
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     def save(self):
         db.session.add(self)
+        db.session.commit()
+        return self
+    
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()
         return self
     
@@ -55,25 +68,139 @@ class BaseModel(db.Model):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 ```
 
-### **Configuration Base de Données**
-```python
-# backend/app/config/config.py
-class DevelopmentConfig:
-    SQLALCHEMY_DATABASE_URI = f'sqlite:///{DATABASE_PATH}'
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    
-class ProductionConfig:
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-    # postgresql://user:pass@host:5432/atarys_v2
+---
+
+## ✅ **APIs Implémentées**
+
+### **Module 5.1 - Articles ATARYS** (OPÉRATIONNEL)
+
+#### **Base URL :** `/api/articles-atarys/`
+
+#### **1. GET - Récupération des Articles**
+```http
+GET /api/articles-atarys/?per_page=all
 ```
+
+**Réponse :**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "reference": "ART001",
+      "libelle": "Article exemple",
+      "prix_achat": "10.50",
+      "coefficient": "1.20",
+      "prix_unitaire": "12.60",
+      "unite": "U",
+      "tva_pct": "20.00",
+      "famille": "Général",
+      "actif": true,
+      "date_import": "2025-07-05",
+      "date_maj": "2025-07-05",
+      "created_at": "2025-07-05T10:00:00Z",
+      "updated_at": "2025-07-05T10:00:00Z"
+    }
+  ],
+  "message": "Liste complète des articles ATARYS (176)",
+  "pagination": {
+    "page": 1,
+    "per_page": 176,
+    "total": 176,
+    "has_next": false
+  }
+}
+```
+
+#### **2. POST - Création/Mise à jour (UPSERT)**
+```http
+POST /api/articles-atarys/
+Content-Type: application/json
+
+{
+  "reference": "ART002",
+  "libelle": "Nouvel article",
+  "prix_achat": "15.00",
+  "coefficient": "1.15",
+  "prix_unitaire": "17.25",
+  "unite": "U",
+  "tva_pct": "20.00",
+  "famille": "Général",
+  "actif": true
+}
+```
+
+**Logique UPSERT :**
+- Si référence existe → Mise à jour
+- Si référence n'existe pas → Création
+- Dates automatiques si absentes
+
+#### **3. PUT - Modification par ID**
+```http
+PUT /api/articles-atarys/1
+Content-Type: application/json
+
+{
+  "libelle": "Article modifié",
+  "prix_unitaire": "18.00"
+}
+```
+
+#### **4. DELETE - Suppression par ID**
+```http
+DELETE /api/articles-atarys/1
+```
+
+#### **5. DELETE - Suppression de toutes les données**
+```http
+DELETE /api/articles-atarys/clear/
+```
+
+### **Module 12.1 - Création Dynamique de Tables** (OPÉRATIONNEL)
+
+#### **Base URL :** `/api/create-table/`
+
+#### **POST - Création de Table**
+```http
+POST /api/create-table/
+Content-Type: application/json
+
+{
+  "tableData": {
+    "moduleId": 12,
+    "className": "ExampleModel",
+    "tableName": "example_table",
+    "columns": [
+      {
+        "name": "nom",
+        "type": "String",
+        "nullable": false,
+        "maxLength": "100"
+      },
+      {
+        "name": "prix_ht",
+        "type": "Numeric",
+        "nullable": true,
+        "default": "0.00"
+      }
+    ]
+  },
+  "code": "from .base import BaseModel\nfrom app import db\n\nclass ExampleModel(BaseModel):\n    __tablename__ = 'example_table'\n    \n    id = db.Column(db.Integer, primary_key=True, autoincrement=True)\n    nom = db.Column(db.String(100), nullable=False)\n    prix_ht = db.Column(db.Numeric(10, 2), default=0.00)\n"
+}
+```
+
+**Actions automatiques :**
+1. Validation des données
+2. Création du fichier modèle
+3. Création de la table SQLite
+4. Intégration dans Flask-Admin
 
 ---
 
-## 🎯 Modules Prioritaires V2
+## 🎯 **Modules Prioritaires à Implémenter**
 
-### **🔄 À CRÉER EN PRIORITÉ**
-
-#### **Module 3.1 - LISTE CHANTIERS** (PRIORITÉ 1)
+### **Module 3.1 - LISTE CHANTIERS** (PRIORITÉ 1)
 **Objectif :** Remplacer "LISTE DES TACHES" + "Liste_Chantiers" Excel
 **Modèles :** À créer selon `DATABASE_SCHEMA.md`
 **Relations :** À définir lors de la création des modèles
@@ -88,7 +215,7 @@ DELETE /api/chantiers/<id>            # Supprimer chantier
 GET    /api/chantiers/search          # Recherche textuelle
 ```
 
-#### **Module 9.1 - LISTE SALARIÉS** (PRIORITÉ 2)
+### **Module 9.1 - LISTE SALARIÉS** (PRIORITÉ 2)
 **Objectif :** Gestion des salariés de l'entreprise
 **Modèles :** À créer selon `DATABASE_SCHEMA.md`
 **Relations :** À définir lors de la création des modèles
@@ -102,7 +229,7 @@ PUT    /api/salaries/<id>     # Modifier salarié
 DELETE /api/salaries/<id>     # Supprimer salarié
 ```
 
-#### **Module 10.1 - CALCUL ARDOISES** (PRIORITÉ 3)
+### **Module 10.1 - CALCUL ARDOISES** (PRIORITÉ 3)
 **Objectif :** Calculateur d'ardoises selon zones climatiques
 **Modèles :** À créer selon `DATABASE_SCHEMA.md`
 **Relations :** À définir lors de la création des modèles
@@ -157,27 +284,38 @@ GET    /api/ardoises/zones             # Zones climatiques
 
 ## 🔧 Spécifications Techniques
 
-### **Pagination Obligatoire**
+### **Validation Marshmallow** (OPÉRATIONNEL)
 ```python
-# Implémentation standard
-@lru_cache(maxsize=128)
-def get_paginated_results(query, page=1, per_page=50):
-    return query.paginate(
-        page=page, 
-        per_page=per_page, 
-        error_out=False
-    )
+# Exemple pour articles_atarys
+class ArticlesAtarysSchema(Schema):
+    id = fields.Int(dump_only=True)
+    reference = fields.Str(required=True, validate=validate.Length(max=100))
+    libelle = fields.Str(required=True)
+    prix_achat = fields.Decimal(as_string=True)
+    coefficient = fields.Decimal(as_string=True)
+    prix_unitaire = fields.Decimal(as_string=True)
+    unite = fields.Str(validate=validate.Length(max=20))
+    tva_pct = fields.Decimal(as_string=True)
+    famille = fields.Str(validate=validate.Length(max=30))
+    actif = fields.Bool()
+    date_import = fields.Date()
+    date_maj = fields.Date()
+    created_at = fields.DateTime(dump_only=True)
+    updated_at = fields.DateTime(dump_only=True)
 ```
 
-### **Validation des Données**
+### **Pagination Intelligente**
 ```python
-# Validation automatique avec SQLAlchemy
-from marshmallow import Schema, fields, validate
+# Support pour 'all' et pagination normale
+per_page = request.args.get('per_page', 'all')
 
-class ExampleSchema(Schema):
-    nom = fields.Str(required=True, validate=validate.Length(min=1, max=200))
-    description = fields.Str(allow_none=True)
-    # Autres champs selon les modèles créés
+if per_page == 'all':
+    # Récupérer toutes les données
+    items = query.order_by(Model.id.desc()).all()
+else:
+    # Pagination normale
+    per_page = int(per_page)
+    items = query.paginate(page=page, per_page=per_page, error_out=False)
 ```
 
 ### **Gestion des Erreurs**
@@ -201,91 +339,44 @@ def internal_error(error):
     }), 500
 ```
 
----
-
-## 🚀 Structure Backend à Créer
-
-### **Organisation des Fichiers**
-```
-backend/
-├── app/
-│   ├── __init__.py              # Factory Flask
-│   ├── models/
-│   │   ├── __init__.py
-│   │   ├── module_3_1.py        # Modèles Module 3.1 (à créer)
-│   │   ├── module_9_1.py        # Modèles Module 9.1 (à créer)
-│   │   └── module_10_1.py       # Modèles Module 10.1 (à créer)
-│   ├── routes/
-│   │   ├── __init__.py
-│   │   ├── chantiers.py         # Blueprint Module 3.1
-│   │   ├── salaries.py          # Blueprint Module 9.1
-│   │   └── ardoises.py          # Blueprint Module 10.1
-│   ├── services/
-│   │   ├── chantier_service.py  # Logique métier Module 3.1
-│   │   ├── salarie_service.py   # Logique métier Module 9.1
-│   │   └── ardoise_service.py   # Logique métier Module 10.1
-│   └── config/
-│       └── config.py            # Configuration par environnement
-├── migrations/                  # Flask-Migrate
-├── scripts/                     # Import Excel → SQLite V2
-├── requirements.txt             # Dépendances Python
-└── run.py                       # Serveur principal
-```
-
-### **Dépendances Python**
+### **CORS Configuration**
 ```python
-# requirements.txt
-Flask>=2.3.0
-SQLAlchemy>=2.0.0
-Flask-SQLAlchemy>=3.0.0
-Flask-Migrate>=4.0.0
-Flask-CORS>=4.0.0
-marshmallow>=3.19.0
-pandas>=1.5.0
-openpyxl>=3.0.0
-pytest>=7.0.0
+# Communication frontend-backend
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)  # Autorise toutes les origines en développement
 ```
 
 ---
 
-## 🎯 Prochaines Étapes
+## 🚀 **Métriques et Performance**
 
-### **Phase 1 : Créer Backend (1-2 semaines)**
-1. **Structure Flask** : Factory pattern + configuration
-2. **Modèles SQLAlchemy** : 3 modules prioritaires
-3. **APIs REST** : Endpoints selon spécifications
-4. **Base SQLite V2** : Import depuis Excel propre
-5. **Tests unitaires** : Validation des APIs
+### **APIs Opérationnelles**
+- **Articles ATARYS** : 176 lignes, < 100ms response time
+- **Création Tables** : Génération automatique, intégration immédiate
+- **Validation** : Marshmallow pour intégrité des données
+- **CORS** : Configuré pour communication frontend-backend
 
-### **Phase 2 : Intégration Frontend (1 semaine)**
-1. **Services API** : Connexion React ↔ Flask
-2. **Interfaces utilisateur** : Modules 3.1, 9.1, 10.1
-3. **Tests d'intégration** : Workflow complet
-4. **Optimisation** : Performance et UX
-
-### **Phase 3 : Modules Additionnels (2-3 semaines)**
-1. **Module 1.1/1.2** : Planning
-2. **Module 5.3** : Devis MEXT
-3. **Module 7.1/7.2** : Tableaux de bord
-4. **Modules restants** : Selon priorités métier
+### **Standards de Performance**
+- **Response time** : < 2s pour toutes les APIs
+- **Validation** : Marshmallow pour intégrité
+- **Rollback** : En cas d'erreur SQLAlchemy
+- **Logging** : Logs structurés pour debugging
 
 ---
 
-## ⚠️ Notes Importantes
+## 📚 **Documentation Associée**
 
-### **Cohérence avec V1**
-- **Référence technique** : `0 APP ATARYS/` conservé pour logique métier
-- **Pas de migration** : Création propre V2 depuis Excel à jour
-- **Standards V2** : SQLAlchemy 2.0 + `db.Numeric(10, 2)` pour montants
+### **Architecture**
+- **[ATARYS_ARCHITECTURE.md](ATARYS_ARCHITECTURE.md)** - Architecture complète V2
+- **[DATABASE_SCHEMA.md](DATABASE_SCHEMA.md)** - Schéma base de données
+- **[ATARYS_MODULES.md](ATARYS_MODULES.md)** - Organisation modulaire
 
-### **Optimisations Prévues**
-- **Index BDD** : Sur colonnes critiques (référence, état, dates)
-- **Cache** : Données statiques (villes, états, modèles)
-- **Pagination** : Obligatoire pour toutes les listes
-- **Validation** : Marshmallow + contraintes SQLAlchemy
+### **Développement**
+- **[WORKFLOWS.md](../03-regles-standards/WORKFLOWS.md)** - Processus de développement
+- **[STANDARDS_DEV.md](../03-regles-standards/STANDARDS_DEV.md)** - Standards techniques
 
-### **Évolutivité**
-- **PostgreSQL** : Migration prévue pour production
-- **Authentification** : JWT à implémenter
-- **Monitoring** : Logs centralisés + métriques
-- **Scaling** : Architecture modulaire extensible 
+---
+
+**✅ APIs ATARYS V2 - Backend opérationnel avec modules prioritaires en cours !** 

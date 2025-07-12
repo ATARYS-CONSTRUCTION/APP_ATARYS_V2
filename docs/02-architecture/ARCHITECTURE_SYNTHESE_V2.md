@@ -1,7 +1,7 @@
 # 🏗️ Architecture ATARYS V2 - Synthèse Complète
 
-> **Document de référence unique pour l'architecture ATARYS V2**  
-> Stack technique, patterns, communication backend-frontend  
+> **Document de synthèse unique pour l'architecture ATARYS V2**  
+> Stack technique, patterns, communication backend-frontend, métriques  
 > **VERSION 2** : Architecture opérationnelle avec modules implémentés  
 > Dernière mise à jour : 05/07/2025
 
@@ -35,6 +35,7 @@
 - **API** : REST avec format JSON standardisé `{success, data, message}`
 - **Admin** : Flask-Admin sur port 5001
 - **CORS** : Configuré pour communication frontend-backend
+- **Validation** : Marshmallow pour intégrité des données
 - **Dépendances clés** :
   ```python
   Flask + SQLAlchemy + Flask-CORS + Flask-Migrate + Marshmallow
@@ -329,6 +330,21 @@ cd backend; python run.py
 # Flask-Admin (Terminal 3) - OPÉRATIONNEL
 cd backend; python run_flask_admin.py
 ```
+
+---
+
+## 📚 **Documentation Associée**
+
+### **Architecture**
+- **[ATARYS_ARCHITECTURE.md](ATARYS_ARCHITECTURE.md)** - Architecture complète V2
+- **[API_ENDPOINTS.md](API_ENDPOINTS.md)** - APIs REST implémentées
+- **[DATABASE_SCHEMA.md](DATABASE_SCHEMA.md)** - Structure base de données
+- **[ATARYS_MODULES.md](ATARYS_MODULES.md)** - Organisation modulaire
+
+### **Développement**
+- **[DEV_MASTER.md](../01-guides-principaux/DEV_MASTER.md)** - Document central
+- **[WORKFLOWS.md](../03-regles-standards/WORKFLOWS.md)** - Processus de développement
+- **[STANDARDS_DEV.md](../03-regles-standards/STANDARDS_DEV.md)** - Standards techniques
 
 ---
 

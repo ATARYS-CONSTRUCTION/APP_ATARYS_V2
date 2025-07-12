@@ -1,17 +1,149 @@
-# 🔄 Workflows & Processus Métier ATARYS
+# 🔄 Workflows & Processus Métier ATARYS V2
 
 > **Documentation des workflows et processus métier**  
-> Dernière mise à jour : 29/06/2025
+> **VERSION 2** : Workflows opérationnels avec fonctionnalités avancées  
+> Dernière mise à jour : 05/07/2025
 
 ---
 
 ## 📋 **Vue d'Ensemble**
 
-Cette documentation décrit les workflows principaux de l'application ATARYS, les processus métier et les interactions entre les différents modules.
+Cette documentation décrit les workflows principaux de l'application ATARYS V2, les processus métier et les interactions entre les différents modules. Architecture opérationnelle avec fonctionnalités avancées.
 
 ---
 
-## 🏗️ **Workflow Gestion Chantiers**
+## 🏗️ **Workflow Gestion Articles ATARYS (Module 5.1)**
+
+### **1. Gestion des Articles**
+
+#### **Étapes du Processus**
+1. **Accès à l'interface** : Module 12.1 Base de Données
+2. **Sélection de la table** : `articles_atarys`
+3. **Visualisation** : 176 lignes avec compteur dynamique
+4. **Actions disponibles** :
+   - Ajouter une ligne (formulaire dynamique)
+   - Coller depuis Excel (import intelligent)
+   - Créer une nouvelle table
+   - Sauvegarder les modifications
+
+#### **Règles de Validation**
+- `reference` : obligatoire, unique, max 100 caractères
+- `libelle` : obligatoire, texte libre
+- `prix_achat` : optionnel, `db.Numeric(10, 2)`
+- `coefficient` : optionnel, `db.Numeric(10, 2)`
+- `prix_unitaire` : obligatoire, `db.Numeric(10, 2)`
+- `unite` : obligatoire, max 20 caractères
+- `tva_pct` : obligatoire, `db.Numeric(10, 2)`, défaut 20
+- `famille` : optionnel, max 30 caractères
+- `actif` : optionnel, booléen, défaut true
+
+### **2. Import Excel Intelligent**
+
+#### **Workflow de Collage**
+1. **Copier depuis Excel** : Sélection des données
+2. **Coller dans l'interface** : Ctrl+V dans le tableau
+3. **Traitement automatique** :
+   - Nettoyage des guillemets et espaces
+   - Conversion des types (string → number, boolean)
+   - Filtrage des lignes vides
+   - Validation des données obligatoires
+4. **Ajout à la liste** : Données prêtes pour sauvegarde
+
+#### **Logique UPSERT**
+```python
+# Vérification de l'existence par référence
+existing_article = articlesatarys.query.filter_by(reference=reference).first()
+
+if existing_article:
+    # Mise à jour de l'article existant
+    for key, value in data.items():
+        setattr(existing_article, key, value)
+    existing_article.updated_at = datetime.utcnow()
+else:
+    # Création d'un nouvel article
+    article = articlesatarys(**data)
+    db.session.add(article)
+
+db.session.commit()
+```
+
+---
+
+## 🏗️ **Workflow Création Dynamique de Tables (Module 12.1)**
+
+### **1. Interface Multi-Étapes**
+
+#### **Étape 1 : Sélection du Module**
+1. **Choix du module ATARYS** (1-13)
+2. **Suggestion automatique** du module 12 (Paramètres)
+3. **Validation** et passage à l'étape suivante
+
+#### **Étape 2 : Définition de la Classe**
+1. **Saisie du nom de classe** (PascalCase)
+2. **Génération automatique** du nom de table (snake_case)
+3. **Validation** de la syntaxe
+
+#### **Étape 3 : Définition des Colonnes**
+1. **Ajout de colonnes** une par une
+2. **Suggestions intelligentes** selon le nom :
+   ```python
+   # Exemples de suggestions
+   "actif" → Boolean, default=True
+   "prix_ht" → Numeric(10, 2), default=0.00
+   "date_creation" → Date, default=datetime.date.today
+   "description" → Text, default=""
+   ```
+3. **Configuration des propriétés** :
+   - Type de données
+   - Nullable/obligatoire
+   - Unique
+   - Valeur par défaut
+   - Longueur maximale
+
+### **2. Génération Automatique**
+
+#### **Génération du Code SQLAlchemy**
+```python
+# Code généré automatiquement
+from .base import BaseModel
+from app import db
+import datetime
+
+class ExampleModel(BaseModel):
+    __tablename__ = 'example_table'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nom = db.Column(db.String(100), nullable=False)
+    prix_ht = db.Column(db.Numeric(10, 2), default=0.00)
+    actif = db.Column(db.Boolean, default=True)
+    date_creation = db.Column(db.Date, default=datetime.date.today)
+    
+    def __repr__(self):
+        return f'<ExampleModel {self.id}>'
+```
+
+#### **Création de la Table SQLite**
+```sql
+CREATE TABLE example_table (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom TEXT NOT NULL,
+    prix_ht REAL DEFAULT 0.00,
+    actif INTEGER DEFAULT 1,
+    date_creation TEXT DEFAULT CURRENT_DATE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### **3. Intégration Immédiate**
+1. **Création du fichier modèle** dans `backend/app/models/`
+2. **Création de la table** dans la base SQLite
+3. **Intégration dans Flask-Admin** automatique
+4. **Disponibilité immédiate** dans l'interface
+
+---
+
+## 🏗️ **Workflow Gestion Chantiers (Module 3.1 - EN COURS)**
 
 ### **1. Création d'un Chantier**
 
@@ -44,16 +176,6 @@ Cette documentation décrit les workflows principaux de l'application ATARYS, le
 3. **Modification des champs** existants
 4. **Option "Insérer un devis"** (nouveau workflow)
 5. **Validation** et mise à jour
-
-#### **Workflow Insertion de Devis**
-1. **Activation de l'option** "Insérer un devis"
-2. **Sélection du fichier Excel** (.xlsx, .xls)
-3. **Traitement automatique** :
-   - Extraction des données du devis
-   - Validation de la référence chantier
-   - Calcul des totaux (montant HT, heures)
-   - Mise à jour du chantier
-4. **Confirmation** et retour à la liste
 
 ---
 
@@ -95,7 +217,7 @@ UPDATE chantiers SET
 
 ---
 
-## 👥 **Workflow Gestion Salariés**
+## 👥 **Workflow Gestion Salariés (Module 9.1 - EN COURS)**
 
 ### **Affectation Planning**
 1. **Sélection de la date** dans le planning
@@ -110,7 +232,7 @@ UPDATE chantiers SET
 
 ---
 
-## 🏗️ **Workflow Calcul Ardoises**
+## 🏗️ **Workflow Calcul Ardoises (Module 10.1 - EN COURS)**
 
 ### **Séquence de Calcul**
 1. **Saisie des paramètres** :
@@ -141,26 +263,35 @@ UPDATE chantiers SET
 
 ---
 
-## 🔄 **Intégrations & Synchronisations**
+## 🔄 **Intégrations & Synchronisations V2**
 
-### **Chantiers ↔ Devis**
-- **Relation 1:N** : un chantier peut avoir plusieurs devis
-- **Calcul automatique** des totaux chantier
-- **Cohérence** des références chantier
+### **Frontend ↔ Backend**
+- **API REST** : Format standardisé `{success, data, message}`
+- **Validation** : Marshmallow côté backend, validation côté frontend
+- **CORS** : Communication cross-origin configurée
+- **Gestion d'erreurs** : Messages explicites pour l'utilisateur
 
-### **Salariés ↔ Planning**
-- **Affectation** par colonne de planning
-- **Suivi** des heures et disponibilités
-- **Optimisation** selon les compétences
+### **Base de Données ↔ Admin**
+- **Flask-Admin** : Interface d'administration automatique
+- **Pattern BaseModel** : Méthodes communes (save, delete, to_dict)
+- **Types standards** : `db.Numeric(10, 2)` pour montants
+- **Timestamps** : created_at, updated_at automatiques
 
-### **Devis ↔ Familles d'Ouvrages**
-- **Classification automatique** des ouvrages
-- **Analyse** des types de travaux
-- **Statistiques** par famille
+### **Excel ↔ SQLite**
+- **Import intelligent** : Collage direct depuis Excel
+- **Nettoyage automatique** : Guillemets, espaces, types
+- **Validation** : Filtrage des lignes vides
+- **Logique UPSERT** : Création/mise à jour automatique
 
 ---
 
-## 📈 **Indicateurs & Reporting**
+## 📈 **Indicateurs & Reporting V2**
+
+### **Métriques Opérationnelles**
+- **176 lignes** dans `articles_atarys`
+- **Compteur dynamique** : Total + lignes avec données
+- **Response time** : < 100ms pour les requêtes simples
+- **Validation** : Marshmallow pour intégrité
 
 ### **Tableaux de Bord**
 - **Chantiers actifs** par état
@@ -176,60 +307,54 @@ UPDATE chantiers SET
 
 ---
 
-## ⚠️ **Règles Métier Importantes**
+## ⚠️ **Règles Métier Importantes V2**
 
 ### **Cohérence des Données**
-1. **Référence chantier** : unique et obligatoire
-2. **Totaux chantier** : recalculés automatiquement
-3. **États chantier** : workflow défini
+1. **Référence unique** : Validation obligatoire
+2. **Types de données** : Standards ATARYS respectés
+3. **États workflow** : Définis et respectés
 4. **Validation** systématique des saisies
 
 ### **Sécurité & Intégrité**
 1. **Validation** des fichiers Excel
-2. **Rollback** en cas d'erreur
+2. **Rollback** en cas d'erreur SQLAlchemy
 3. **Logging** des opérations critiques
 4. **Sauvegarde** automatique des données
 
 ### **Performance**
-1. **Pagination** des listes importantes
+1. **Pagination** : 50 par défaut, `all` pour tout
 2. **Index** sur les colonnes clés
 3. **Cache** des calculs fréquents
 4. **Optimisation** des requêtes
 
----
-
-## 🔧 **Points d'Extension**
-
-### **Modules Futurs**
-- **Facturation** automatique
-- **Suivi** des paiements
-- **Gestion** des stocks
-- **Interface** mobile
-
-### **Intégrations Externes**
-- **OneDrive** pour les documents
-- **APIs** météo pour les plannings
-- **Outils** de géolocalisation
-- **Systèmes** comptables
+### **Fonctionnalités Avancées**
+1. **Création dynamique** de tables
+2. **Import Excel** intelligent
+3. **Logique UPSERT** automatique
+4. **Interface responsive** mobile/desktop
 
 ---
 
-## 📝 **Notes de Développement**
+## 🚀 **Workflows Futurs**
 
-### **Architecture**
-- **Backend** : Flask + SQLite
-- **Frontend** : React + Vite
-- **API** : REST avec format JSON standardisé
-- **Documentation** : Swagger/OpenAPI
+### **Module 3.1 - Liste Chantiers**
+- **CRUD complet** : Création, lecture, modification, suppression
+- **États workflow** : Projet → En cours → Terminé
+- **Recherche** : Filtrage par état, client, date
+- **Export** : Liste des chantiers en Excel/PDF
 
-### **Bonnes Pratiques**
-- **Validation** côté client et serveur
-- **Gestion d'erreurs** centralisée
-- **Logging** structuré
-- **Tests** automatisés (à implémenter)
+### **Module 9.1 - Liste Salariés**
+- **Gestion RH** : Fiches salariés complètes
+- **Planning** : Affectation des tâches
+- **Compétences** : Association métiers/qualifications
+- **Reporting** : Heures travaillées, disponibilités
 
-### **Maintenance**
-- **Sauvegarde** régulière de la base
-- **Monitoring** des performances
-- **Mise à jour** de la documentation
-- **Formation** des utilisateurs
+### **Module 10.1 - Calcul Ardoises**
+- **Calculateur** : Interface de saisie des paramètres
+- **Zones climatiques** : Base de données des villes
+- **Modèles ardoises** : Catalogue des produits
+- **Résultats** : Quantités, prix, recommandations
+
+---
+
+**✅ Workflows ATARYS V2 - Processus métier optimisés avec fonctionnalités avancées !**

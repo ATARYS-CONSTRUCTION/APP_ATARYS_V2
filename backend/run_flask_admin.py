@@ -17,9 +17,13 @@ MODULES_ORDER = [
     # Ajouter ici les autres modules dans l'ordre souhaité
 ]
 
+# Vue personnalisée pour forcer l'affichage de la colonne id
+class ArticlesAtarysAdmin(ModelView):
+    column_list = ('id', 'reference', 'libelle', 'prix_achat', 'coefficient', 'prix_unitaire', 'unite', 'tva_pct', 'famille', 'actif', 'date_import', 'date_maj')
+
 # Ajout des vues par module (exemple)
 # admin.add_view(ModelView(chantier, db.session, name="Chantiers", category="3. Liste Chantiers"))
-admin.add_view(ModelView(articlesatarys, db.session, name="Articles ATARYS", category="5. Devis-Facturation"))
+admin.add_view(ArticlesAtarysAdmin(articlesatarys, db.session, name="Articles ATARYS", category="5. Devis-Facturation"))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001) 

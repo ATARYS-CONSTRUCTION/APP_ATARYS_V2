@@ -13,6 +13,7 @@ import ChantiersSignes from './pages/ChantiersSignes'
 import ChantiersEnCours from './pages/ChantiersEnCours'
 import ChantiersArchives from './pages/ChantiersArchives'
 import CalculArdoises from './pages/CalculArdoises'
+import BaseDeDonnees from './pages/BaseDeDonnees'
 
 function App() {
   return (
@@ -37,6 +38,9 @@ function App() {
               
               {/* Module 10 - Outils */}
               <Route path="/calcul-ardoises" element={<CalculArdoises />} />
+
+              {/* Module 12 - Paramètres */}
+              <Route path="/base-donnees" element={<BaseDeDonnees />} />
             </Routes>
           </div>
         </div>

@@ -12,6 +12,7 @@
    - docs/02-architecture/API_ENDPOINTS.md (APIs existantes)
    - docs/02-architecture/DATABASE_SCHEMA.md (Structure BDD)
    - docs/02-architecture/ATARYS_ARCHITECTURE.md (Architecture technique)
+   - docs/03-regles-standards/ERREURS_IMPLANTATION_DONNEES.md (Erreurs et solutions)
 
 ### QUESTIONS OBLIGATOIRES À SE POSER :
 - Cette fonctionnalité existe-t-elle déjà ?
@@ -193,3 +194,79 @@ def create_app(config_name='development'):
 A la fin d'une opération les fichiers test et tous les fichiers inutiles pour l'app doivent être supprimés.
 
 **Cette méthodologie doit être appliquée SYSTÉMATIQUEMENT pour maintenir la cohérence du projet ATARYS !** 
+
+## 🚦 Règles ATARYS pour la création de routes/API
+- **TOUJOURS** :
+  - Créer un schéma Marshmallow pour chaque ressource exposée
+  - Enregistrer le blueprint dans `create_app`
+  - Ajouter la dépendance dans `requirements` si besoin
+  - Activer CORS dans le backend
+  - Tester l'API en direct avant toute intégration frontend
+- **JAMAIS** :
+  - Laisser un endpoint sans schéma de validation
+  - Oublier d'ajouter la dépendance dans requirements
+  - Oublier d'activer CORS si le frontend consomme l'API
+  - Intégrer une API non testée côté backend
+
+## 🚨 ERREURS D'IMPLANTATION - BONNES PRATIQUES
+
+### **ERREURS 400 (BAD REQUEST) - PRÉVENTION :**
+- ✅ **TOUJOURS valider les données côté frontend** avant envoi à l'API
+- ✅ **Filtrer les lignes vides** avant envoi
+- ✅ **Convertir les types de données** (string → number, boolean)
+- ✅ **Vérifier les champs obligatoires** (reference, libelle, etc.)
+
+### **ERREURS CORS - PRÉVENTION :**
+- ✅ **TOUJOURS gérer OPTIONS** pour les routes DELETE/PUT/PATCH
+- ✅ **Activer CORS** dans Flask avec flask-cors
+- ✅ **Tester les requêtes cross-origin** avant déploiement
+
+### **VALIDATION DES DONNÉES - STANDARDS :**
+```javascript
+// ✅ TOUJOURS filtrer avant envoi
+const validData = data.filter(item => {
+  return item.reference && item.reference.trim() !== '' && 
+         item.libelle && item.libelle.trim() !== '';
+});
+
+// ✅ TOUJOURS convertir les types
+const cleanedData = validData.map(item => {
+  const cleaned = { ...item };
+  if (cleaned.prix_achat !== undefined) {
+    cleaned.prix_achat = Number(cleaned.prix_achat) || 0;
+  }
+  return cleaned;
+});
+```
+
+### **GESTION DES DOUBLONS - LOGIQUE UPSERT :**
+```python
+# ✅ TOUJOURS vérifier l'existence avant insertion
+existing_item = Model.query.filter_by(unique_field=value).first()
+if existing_item:
+    # Mise à jour
+    for key, value in data.items():
+        setattr(existing_item, key, value)
+else:
+    # Création
+    new_item = Model(**data)
+    db.session.add(new_item)
+```
+
+### **INTERFACE UTILISATEUR - ROBUSTESSE :**
+- ✅ **Boutons de nettoyage** pour supprimer les lignes vides
+- ✅ **Messages d'erreur explicites** avec contexte
+- ✅ **Validation en temps réel** des champs obligatoires
+- ✅ **Confirmation utilisateur** pour les actions destructives
+
+### **TESTS ET DÉBOGAGE :**
+- ✅ **Scripts de test API** pour valider les endpoints
+- ✅ **Logs détaillés** côté frontend et backend
+- ✅ **Validation des données** à chaque étape
+- ✅ **Gestion d'erreurs** avec rollback en cas d'échec
+
+### **DOCUMENTATION DES ERREURS :**
+- ✅ **Consulter docs/03-regles-standards/ERREURS_IMPLANTATION_DONNEES.md**
+- ✅ **Documenter chaque erreur** rencontrée
+- ✅ **Partager les solutions** avec l'équipe
+- ✅ **Mettre à jour les bonnes pratiques** régulièrement 
