@@ -112,6 +112,7 @@ function Menu() {
                 </div>
               )}
             </div>
+            <Link className="block px-2 py-1 rounded hover:bg-gray-200 hover:text-black" to="#">ARCHIVES</Link>
             <div>
               <div
                 onClick={() => setParametresOpen(!parametresOpen)}
@@ -124,11 +125,11 @@ function Menu() {
               </div>
               {parametresOpen && (
                 <div className="ml-4 mt-1 space-y-1 text-sm text-gray-600">
-                  <Link className="block hover:text-black" to="/base-donnees">Base de Données (12.1)</Link>
+                  <Link className="block hover:text-black" to="/base-donnees">Base de Données</Link>
+                  {/* Ajouter d'autres sous-modules ici si besoin */}
                 </div>
               )}
             </div>
-            <Link className="block px-2 py-1 rounded hover:bg-gray-200 hover:text-black" to="#">ARCHIVES</Link>
             <Link className="block px-2 py-1 rounded hover:bg-gray-200 hover:text-black" to="#">AIDE</Link>
           </nav>
         </>

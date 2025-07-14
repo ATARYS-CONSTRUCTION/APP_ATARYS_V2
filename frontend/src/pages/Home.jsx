@@ -167,9 +167,9 @@ function Home() {
       color: "bg-stone-50 border-stone-200",
       headerColor: "text-stone-900",
       linkColor: "text-stone-600 hover:text-stone-700",
-      status: "planned",
+      status: "operational",
       submodules: [
-        { id: "12.1", name: "Base de Données", route: "/base-donnees", active: false }
+        { id: "12.1", name: "Base de Données", route: "/base-donnees", active: true }
       ]
     },
     {
@@ -292,6 +292,11 @@ function Home() {
           </div>
         </div>
       </Card>
+      <div className="mt-6">
+        <a href="/base-donnees" className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold">
+          Base de Données
+        </a>
+      </div>
     </PageLayout>
   );
 }

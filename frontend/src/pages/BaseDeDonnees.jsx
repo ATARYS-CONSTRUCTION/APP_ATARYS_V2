@@ -1,703 +1,594 @@
 import React, { useState, useEffect } from 'react';
-import { PageLayout, Card } from '../components/Layout';
-import AddRowForm from '../components/AddRowForm';
-import CreateTableForm from '../components/CreateTableForm';
 
-// Configuration API ATARYS
-const API_BASE_URL = 'http://localhost:5000/api';
-
-// Structure des modules et tables ATARYS
 const MODULES = [
-  {
-    id: 5,
-    nom: '5. Devis-Facturation',
-    tables: [
-      { name: 'articles_atarys', label: 'Articles ATARYS', apiEndpoint: '/articles-atarys' },
-    ],
-  },
-  // Autres modules à ajouter au fur et à mesure
+  { id: 1, label: '1. PLANNING' },
+  { id: 2, label: '2. LISTE DES TÂCHES' },
+  { id: 3, label: '3. LISTE CHANTIERS' },
+  { id: 4, label: '4. CHANTIERS' },
+  { id: 5, label: '5. DEVIS-FACTURATION' },
+  { id: 6, label: '6. ATELIER' },
+  { id: 7, label: '7. GESTION' },
+  { id: 8, label: '8. COMPTABILITÉ' },
+  { id: 9, label: '9. SOCIAL' },
+  { id: 10, label: '10. OUTILS' },
+  { id: 11, label: '11. ARCHIVES' },
+  { id: 12, label: '12. PARAMÈTRES' },
+  { id: 13, label: '13. AIDE' },
 ];
 
-// Colonnes pour articles_atarys (selon le modèle SQLAlchemy)
-const COLUMNS_ARTICLES_ATARYS = [
-  { key: 'reference', label: 'Référence', type: 'text' },
-  { key: 'libelle', label: 'Libellé', type: 'text' },
-  { key: 'prix_achat', label: 'Prix Achat', type: 'number' },
-  { key: 'coefficient', label: 'Coefficient', type: 'number' },
-  { key: 'prix_unitaire', label: 'Prix Unitaire', type: 'number' },
-  { key: 'unite', label: 'Unité', type: 'text' },
-  { key: 'tva_pct', label: 'TVA %', type: 'number' },
-  { key: 'famille', label: 'Famille', type: 'text' },
-  { key: 'actif', label: 'Actif', type: 'boolean' },
+const COLUMN_TYPES = [
+  { value: 'String', label: 'String (texte court)' },
+  { value: 'Text', label: 'Text (texte long)' },
+  { value: 'Integer', label: 'Integer (nombre entier)' },
+  { value: 'Numeric', label: 'Numeric (montant)' },
+  { value: 'REAL', label: 'REAL (nombre décimal)' },
+  { value: 'Boolean', label: 'Boolean (vrai/faux)' },
+  { value: 'Date', label: 'Date' },
+  { value: 'DateTime', label: 'DateTime' },
+  { value: 'Enum', label: 'Enum (liste de valeurs)' },
+  { value: 'ForeignKey', label: 'Clé étrangère' },
 ];
 
-export default function BaseDeDonnees() {
-  const [selectedTable, setSelectedTable] = useState('articles_atarys');
-  const [data, setData] = useState([]);
+function BaseDeDonnees() {
+  // État du formulaire
+  const [tableName, setTableName] = useState('');
+  const [moduleId, setModuleId] = useState(12);
+  const [columns, setColumns] = useState([
+    { name: '', type: 'String', nullable: true, unique: false }
+  ]);
+  const [tables, setTables] = useState([]);
+  const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [saving, setSaving] = useState(false);
-  // Ajout d'un état pour annuler le dernier collage
-  const [previousData, setPreviousData] = useState(null);
-  // Ajout d'un état pour gérer l'ajout de lignes
-  const [showAddForm, setShowAddForm] = useState(false);
-  // Ajout d'un état pour gérer l'affichage du formulaire de création de table
-  const [showCreateTableForm, setShowCreateTableForm] = useState(false);
-  const [availableTables, setAvailableTables] = useState([]);
-  const [showAlterTableForm, setShowAlterTableForm] = useState(false);
-  const [newColumn, setNewColumn] = useState({ name: '', type: 'String', nullable: true, unique: false, default: '', maxLength: 100 });
+  const [activeTab, setActiveTab] = useState('create'); // 'create', 'sync', 'migrations'
 
-  // Récupérer les colonnes selon la table sélectionnée
-  const getColumnsForTable = (tableName) => {
-    switch (tableName) {
-      case 'articles_atarys':
-        return COLUMNS_ARTICLES_ATARYS;
-      default:
-        return [];
-    }
-  };
+  // Nouveaux états pour l'Option 1 professionnelle
+  const [migrationStatus, setMigrationStatus] = useState(null);
+  const [migrationHelp, setMigrationHelp] = useState(null);
+  const [showMigrationInstructions, setShowMigrationInstructions] = useState(false);
+  const [migrationInstructions, setMigrationInstructions] = useState(null);
 
-  // Remplacer la logique d'API endpoint pour supporter les tables dynamiques
-  const getApiEndpoint = (selectedTable) => {
-    const selectedModule = MODULES.find(m => m.tables.some(t => t.name === selectedTable));
-    const table = selectedModule?.tables.find(t => t.name === selectedTable);
-    if (table?.apiEndpoint) {
-      return table.apiEndpoint;
-    } else if (selectedTable) {
-      // Pour les tables dynamiques, endpoint = /<nom_table>/
-      return `/${selectedTable}/`;
-    }
-    return null;
-  };
+  // Ajout d'un état pour les options globales de la table
+  const [tableOptions, setTableOptions] = useState({
+    id: true,
+    created_at: true,
+    updated_at: true,
+    autoIncrement: true
+  });
 
-  // Charger les données depuis l'API
-  const loadData = async () => {
-    const apiEndpoint = getApiEndpoint(selectedTable);
-    if (!apiEndpoint) {
-      setError('API non disponible pour cette table');
-      return;
-    }
-    setLoading(true);
-    setError(null);
-    
+  // Ajout d'un état pour les valeurs Enum et ForeignKey de la colonne en cours
+  const [enumValues, setEnumValues] = useState([]);
+  const [foreignKey, setForeignKey] = useState({ table: '', column: '' });
+
+  // Charger la liste des tables existantes
+  useEffect(() => {
+    fetch('/api/table-generator/list-tables')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) setTables(data.data);
+      });
+  }, []);
+
+  // Charger l'état des migrations au montage
+  useEffect(() => {
+    checkMigrationStatus();
+    getMigrationHelp();
+  }, []);
+
+  // Vérifier l'état des migrations
+  const checkMigrationStatus = async () => {
     try {
-      // Récupérer toutes les données avec une limite élevée
-      const response = await fetch(`${API_BASE_URL}${apiEndpoint}?per_page=1000`);
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP: ${response.status}`);
-      }
-      const result = await response.json();
-      
-      if (result.success) {
-        setData(result.data || []);
-        console.log(`📊 Chargé ${result.data?.length || 0} lignes depuis l'API`);
+      const res = await fetch('/api/table-generator/check-migrations');
+      const data = await res.json();
+      setMigrationStatus(data);
+    } catch (err) {
+      setMigrationStatus({
+        success: false,
+        message: 'Erreur lors de la vérification des migrations',
+        data: { status: 'error', error: err.message }
+      });
+    }
+  };
+
+  // Obtenir l'aide des migrations
+  const getMigrationHelp = async () => {
+    try {
+      const res = await fetch('/api/table-generator/migration-help');
+      const data = await res.json();
+      setMigrationHelp(data);
+    } catch (err) {
+      setMigrationHelp({
+        success: false,
+        message: 'Erreur lors de la récupération de l\'aide',
+        data: { error: err.message }
+      });
+    }
+  };
+
+  // Fonction de synchronisation
+  const handleSyncAll = async () => {
+    setLoading(true);
+    setMessage(null);
+    try {
+      const res = await fetch('/api/table-sync/sync-all', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const data = await res.json();
+      if (data.success) {
+        setMessage({ type: 'success', text: data.message });
+        // Recharger la liste des tables
+        fetch('/api/table-generator/list-tables')
+          .then(res => res.json())
+          .then(data => { if (data.success) setTables(data.data); });
       } else {
-        setError(result.message || 'Erreur lors du chargement');
+        setMessage({ type: 'error', text: data.message });
       }
     } catch (err) {
-      setError(`Erreur de connexion: ${err.message}`);
-      console.error('Erreur API:', err);
+      setMessage({ type: 'error', text: 'Erreur réseau ou serveur.' });
     } finally {
       setLoading(false);
     }
   };
 
-  // Charger les données au changement de table ou au montage
-  useEffect(() => {
-    loadData();
-  }, [selectedTable]);
-
-  // Charger dynamiquement la liste des tables au montage
-  useEffect(() => {
-    fetch('/api/create-table/list-tables')
-      .then(res => res.json())
-      .then(result => {
-        if (result.success) {
-          setAvailableTables(result.tables);
-          // Si la table sélectionnée n'existe plus, sélectionner la première
-          if (!result.tables.includes(selectedTable)) {
-            setSelectedTable(result.tables[0] || '');
-          }
-        } else {
-          setAvailableTables([]);
-        }
-      })
-      .catch(() => setAvailableTables([]));
-  }, []);
-
-  // Gestion du collage Excel (collage dans le tableau)
-  const handlePaste = (e) => {
-    setPreviousData(data); // Sauvegarde l'état avant collage
-    let clipboard = e.clipboardData.getData('text');
-    // Remplace les retours à la ligne internes dans les cellules Excel (entre guillemets) par un espace
-    clipboard = clipboard.replace(/"([^"]*)"/g, (match) => match.replace(/\r?\n/g, ' '));
-    const rows = clipboard.split('\n').filter(Boolean);
-    const columns = getColumnsForTable(selectedTable);
-    let error = null;
-    const newData = rows.map((row, rowIdx) => {
-      const values = row.split('\t');
-      if (values.length > columns.length) {
-        error = 'Trop de colonnes dans la ligne ' + (rowIdx + 1);
-      }
-      const obj = {};
-      columns.forEach((col, idx) => {
-        let val = values[idx] || '';
-        // Nettoyage automatique des guillemets et espaces
-        if (typeof val === 'string') {
-          val = val.trim().replace(/^"|"$/g, '');
-        }
-        if (col.type === 'boolean') {
-          obj[col.key] = val === '1' || val.toLowerCase() === 'true' || val === 'oui';
-        } else if (col.type === 'number') {
-          obj[col.key] = val !== '' ? Number(val.replace(',', '.')) : '';
-        } else {
-          obj[col.key] = val;
-        }
-      });
-      return obj;
-    });
-
-    if (error) {
-      setError(error);
-      e.preventDefault();
-      return;
+  // Gestion dynamique des colonnes
+  const handleColumnChange = (idx, field, value) => {
+    setColumns(cols => cols.map((col, i) => i === idx ? { ...col, [field]: value } : col));
+  };
+  const addColumn = () => {
+    let newCol = { ...columns[columns.length - 1] };
+    if (newCol.type === 'Enum') newCol.enumValues = enumValues.filter(v => v.trim() !== '');
+    if (newCol.type === 'ForeignKey') {
+      newCol.isForeignKey = true;
+      newCol.foreignKeyTable = foreignKey.table;
+      newCol.foreignKeyColumn = foreignKey.column;
     }
+    setColumns(cols => [...cols, newCol]);
+    setEnumValues([]);
+    setForeignKey({ table: '', column: '' });
+  };
+  const removeColumn = idx => setColumns(cols => cols.length > 1 ? cols.filter((_, i) => i !== idx) : cols);
 
-    // Filtrer les lignes complètement vides
-    const validNewData = newData.filter(row => {
-      if (selectedTable === 'articles_atarys') {
-        // Pour articles_atarys, vérifier que reference et libelle ne sont pas vides
-        return row.reference && row.reference.toString().trim() !== '' && 
-               row.libelle && row.libelle.toString().trim() !== '';
+  // Validation frontend
+  const validate = () => {
+    if (!tableName.match(/^[a-z][a-z0-9_]*$/)) return 'Nom de table invalide (snake_case requis)';
+    if (!moduleId) return 'Module requis';
+    if (columns.length === 0) return 'Au moins une colonne requise';
+    for (const col of columns) {
+      if (!col.name.match(/^[a-z][a-z0-9_]*$/)) return `Nom de colonne invalide : ${col.name}`;
+      if (!col.type) return `Type manquant pour la colonne : ${col.name}`;
+      if (col.type === 'String' && (!col.maxLength || isNaN(Number(col.maxLength)) || Number(col.maxLength) <= 0)) {
+        return `Longueur max obligatoire pour la colonne '${col.name}' (type String)`;
       }
-      // Pour les autres tables, vérifier qu'au moins un champ n'est pas vide
-      return Object.values(row).some(val => val !== '' && val !== null && val !== undefined);
-    });
-
-    if (validNewData.length === 0) {
-      setError('Aucune donnée valide dans le collage (lignes vides ignorées)');
-      e.preventDefault();
-      return;
     }
+    return null;
+  };
 
-    setData([...data, ...validNewData]);
+  // Soumission du formulaire (version professionnelle)
+  const handleSubmit = async e => {
     e.preventDefault();
-  };
-
-  // Annuler le dernier collage
-  const handleUndoPaste = () => {
-    if (previousData) {
-      setData(previousData);
-      setPreviousData(null);
+    setMessage(null);
+    setShowMigrationInstructions(false);
+    setMigrationInstructions(null);
+    
+    const error = validate();
+    if (error) {
+      setMessage({ type: 'error', text: error });
+      return;
     }
-  };
-
-  // Supprimer les lignes vides
-  const handleRemoveEmptyRows = () => {
-    const filteredData = data.filter(row => {
-      if (selectedTable === 'articles_atarys') {
-        return row.reference && row.reference.toString().trim() !== '' && 
-               row.libelle && row.libelle.toString().trim() !== '';
+    setLoading(true);
+    
+    // Construction du payload
+    const payload = {
+      module_id: moduleId,
+      table_name: tableName,
+      class_name: tableName.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(''),
+      columns: columns.map(col => ({
+        ...col,
+        enumValues: col.enumValues,
+        isForeignKey: col.isForeignKey,
+        foreignKeyTable: col.foreignKeyTable,
+        foreignKeyColumn: col.foreignKeyColumn
+      })),
+      options: {
+        ...tableOptions
       }
-      return Object.values(row).some(val => val !== '' && val !== null && val !== undefined);
-    });
-    setData(filteredData);
-  };
-
-  // Supprimer toutes les données de la table (backend + frontend)
-  const handleDeleteAll = async () => {
-    const apiEndpoint = getApiEndpoint(selectedTable);
-    if (!apiEndpoint) {
-      setError('API non disponible pour cette table');
-      return;
-    }
-    if (!window.confirm('Voulez-vous vraiment supprimer toutes les données ? Cette action est irréversible.')) {
-      return;
-    }
-    setSaving(true);
-    setError(null);
-    try {
-      const response = await fetch(`${API_BASE_URL}${apiEndpoint}clear/`, {
-        method: 'DELETE',
-      });
-      const result = await response.json();
-      if (result.success) {
-        setData([]);
-        alert(result.message || 'Toutes les données ont été supprimées.');
-      } else {
-        setError(result.message || 'Erreur lors de la suppression.');
-      }
-    } catch (err) {
-      setError(`Erreur lors de la suppression: ${err.message}`);
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  // Ajouter une ligne vide
-  const handleAddRow = () => {
-    setShowAddForm(true);
-  };
-
-  // Gérer l'ajout d'une ligne via le formulaire
-  const handleAddRowFromForm = (newRowData) => {
-    setData([...data, newRowData]);
-    setShowAddForm(false);
-  };
-
-  // Annuler l'ajout de ligne
-  const handleCancelAddRow = () => {
-    setShowAddForm(false);
-  };
-
-  // Gérer la création de table
-  const handleCreateTable = () => {
-    setShowCreateTableForm(true);
-  };
-
-  // Gérer la création de table terminée
-  const handleTableCreated = (tableData) => {
-    setShowCreateTableForm(false);
-    // Rafraîchir la liste des tables et sélectionner la nouvelle
-    fetch('/api/create-table/list-tables')
-      .then(res => res.json())
-      .then(result => {
-        if (result.success) {
-          setAvailableTables(result.tables);
-          setSelectedTable(tableData.tableName);
-        }
-      });
-    alert(`Table "${tableData.tableName}" créée avec succès !`);
-  };
-
-  // Annuler la création de table
-  const handleCancelCreateTable = () => {
-    setShowCreateTableForm(false);
-  };
-
-  // Edition directe
-  const handleChange = (rowIdx, key, value) => {
-    const newData = [...data];
-    newData[rowIdx][key] = value;
-    setData(newData);
-  };
-
-  // Enregistrer les modifications via l'API
-  const handleSave = async () => {
-    const apiEndpoint = getApiEndpoint(selectedTable);
-    if (!apiEndpoint) {
-      setError('API non disponible pour cette table');
-      return;
-    }
-
-    setSaving(true);
-    setError(null);
+    };
     
     try {
-      // Filtrer les lignes vides et valider les données
-      const validData = data.filter(item => {
-        // Vérifier que les champs obligatoires ne sont pas vides
-        if (selectedTable === 'articles_atarys') {
-          return item.reference && item.reference.trim() !== '' && 
-                 item.libelle && item.libelle.trim() !== '';
-        }
-        return true; // Pour les autres tables
+      const res = await fetch('/api/table-generator/create-table', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       });
-
-      if (validData.length === 0) {
-        setError('Aucune donnée valide à enregistrer');
-        setSaving(false);
-        return;
-      }
-
-      // Nettoyer et valider les données avant envoi
-      const cleanedData = validData.map(item => {
-        const cleaned = { ...item };
+      const data = await res.json();
+      
+      if (data.success) {
+        setMessage({ type: 'success', text: data.message });
+        setMigrationInstructions(data.data);
+        setShowMigrationInstructions(true);
         
-        // Nettoyer les chaînes vides
-        Object.keys(cleaned).forEach(key => {
-          if (typeof cleaned[key] === 'string' && cleaned[key].trim() === '') {
-            delete cleaned[key]; // Supprimer les champs vides
-          }
-        });
-
-        // Convertir les types numériques
-        if (cleaned.prix_achat !== undefined) {
-          cleaned.prix_achat = Number(cleaned.prix_achat) || 0;
-        }
-        if (cleaned.coefficient !== undefined) {
-          cleaned.coefficient = Number(cleaned.coefficient) || 1;
-        }
-        if (cleaned.prix_unitaire !== undefined) {
-          cleaned.prix_unitaire = Number(cleaned.prix_unitaire) || 0;
-        }
-        if (cleaned.tva_pct !== undefined) {
-          cleaned.tva_pct = Number(cleaned.tva_pct) || 20;
-        }
-
-        // Convertir les booléens
-        if (cleaned.actif !== undefined) {
-          cleaned.actif = Boolean(cleaned.actif);
-        }
-
-        return cleaned;
-      });
-
-      // Envoyer les données nettoyées
-      const promises = cleanedData.map(async (item) => {
-        if (item.id) {
-          // Mise à jour
-          const response = await fetch(`${API_BASE_URL}${apiEndpoint}${item.id}/`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(item)
-          });
-          return response.json();
-        } else {
-          // Création
-          const response = await fetch(`${API_BASE_URL}${apiEndpoint}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(item)
-          });
-          return response.json();
-        }
-      });
-      
-      const results = await Promise.all(promises);
-      const errors = results.filter(r => !r.success);
-      
-      if (errors.length > 0) {
-        console.error('Erreurs API:', errors);
-        setError(`Erreurs lors de l'enregistrement: ${errors.length} erreur(s)`);
+        // Réinitialiser le formulaire
+        setTableName('');
+        setColumns([{ name: '', type: 'String', nullable: true, unique: false }]);
+        
+        // Recharger la liste des tables
+        fetch('/api/table-generator/list-tables')
+          .then(res => res.json())
+          .then(data => { if (data.success) setTables(data.data); });
       } else {
-        // Recharger les données après sauvegarde
-        await loadData();
-        alert('Données enregistrées avec succès');
+        setMessage({ type: 'error', text: data.message });
       }
     } catch (err) {
-      console.error('Erreur de sauvegarde:', err);
-      setError(`Erreur lors de l'enregistrement: ${err.message}`);
+      setMessage({ type: 'error', text: 'Erreur réseau ou serveur.' });
     } finally {
-      setSaving(false);
+      setLoading(false);
     }
   };
 
-  const columns = getColumnsForTable(selectedTable);
-  // Toujours afficher au moins une ligne vide si la table est vide
-  const displayData = data.length === 0 ? [Object.fromEntries(columns.map(col => [col.key, '']))] : data;
+  // Fonction de suppression d'une table (version professionnelle)
+  const handleDeleteTable = async (tableName) => {
+    if (!confirm(`Êtes-vous sûr de vouloir supprimer la table "${tableName}" ?\n\nCette action supprimera définitivement :\n- Le code Python généré (modèle, routes, schéma)\n- Vous devrez ensuite lancer les migrations pour supprimer la table de la base\n\nCette action est irréversible !`)) {
+      return;
+    }
+
+    setLoading(true);
+    setMessage(null);
+    setShowMigrationInstructions(false);
+    setMigrationInstructions(null);
+    
+    try {
+      const res = await fetch('/api/table-generator/delete-table', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ table_name: tableName })
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        setMessage({ type: 'success', text: data.message });
+        setMigrationInstructions(data.data);
+        setShowMigrationInstructions(true);
+        
+        // Recharger la liste des tables
+        fetch('/api/table-generator/list-tables')
+          .then(res => res.json())
+          .then(data => { if (data.success) setTables(data.data); });
+      } else {
+        setMessage({ type: 'error', text: data.message });
+      }
+    } catch (err) {
+      setMessage({ type: 'error', text: 'Erreur réseau ou serveur.' });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <PageLayout title="Base de données (12.1)" variant="wide">
-      <Card>
-        <div className="flex flex-col md:flex-row md:items-center gap-3 mb-4">
-          <label htmlFor="table-select" className="font-semibold text-gray-700">Table à éditer :</label>
-          <select
-            id="table-select"
-            className="border rounded px-3 py-2"
-            value={selectedTable}
-            onChange={e => setSelectedTable(e.target.value)}
-          >
-            {availableTables.map(table => (
-              <option key={table} value={table}>{table}</option>
-            ))}
-          </select>
-          {/* Bouton Supprimer la table */}
-          <button
-            className="bg-red-600 text-white px-4 py-2 rounded shadow hover:bg-red-700 font-semibold flex items-center gap-2"
-            onClick={() => {
-              if (window.confirm(`Supprimer la table "${selectedTable}" ? Cette action est irréversible.`)) {
-                fetch('/api/create-table/drop-table', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ table_name: selectedTable })
-                })
-                  .then(res => res.json())
-                  .then(result => {
-                    if (result.success) {
-                      alert(result.message);
-                      fetch('/api/create-table/list-tables')
-                        .then(res => res.json())
-                        .then(result => {
-                          if (result.success) {
-                            setAvailableTables(result.tables);
-                            setSelectedTable(result.tables[0] || '');
-                          }
-                        });
-                    } else {
-                      alert('Erreur : ' + result.message);
-                    }
-                  });
-              }
-            }}
-          >
-            <span>🗑️</span>
-            Supprimer la table
-          </button>
-          {/* Bouton Modifier la table */}
-          <button
-            className="bg-yellow-600 text-white px-4 py-2 rounded shadow hover:bg-yellow-700 font-semibold flex items-center gap-2"
-            onClick={() => setShowAlterTableForm(true)}
-          >
-            <span>🛠️</span>
-            Modifier la table
-          </button>
-          
-          {/* Bouton Automatisation Flask-Admin */}
-          <button
-            className="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700 font-semibold flex items-center gap-2"
-            onClick={() => {
-              if (window.confirm('Voulez-vous synchroniser automatiquement avec Flask-Admin ? Cela va générer les modèles et les importer.')) {
-                fetch('/api/create-table/sync-flask-admin', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' }
-                })
-                  .then(res => res.json())
-                  .then(result => {
-                    if (result.success) {
-                      alert('Synchronisation Flask-Admin réussie !\n\n' + result.message);
-                    } else {
-                      alert('Erreur lors de la synchronisation : ' + result.message);
-                    }
-                  })
-                  .catch(err => {
-                    alert('Erreur de connexion : ' + err.message);
-                  });
-              }
-            }}
-          >
-            <span>⚙️</span>
-            Auto Flask-Admin
-          </button>
-          
-          {/* Bouton Ajouter une ligne */}
-          <button
-            className="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700 font-semibold flex items-center gap-2"
-            onClick={handleAddRow}
-          >
-            <span>➕</span>
-            Ajouter une ligne
-          </button>
-          
-          {/* Bouton Créer une table */}
-          <button
-            className="bg-purple-600 text-white px-4 py-2 rounded shadow hover:bg-purple-700 font-semibold flex items-center gap-2"
-            onClick={handleCreateTable}
-          >
-            <span>🏗️</span>
-            Créer une table
-          </button>
-        </div>
-
-        {error && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded text-red-700">
-            {error}
-          </div>
-        )}
-
-        {loading ? (
-          <div className="text-center py-8">
-            <div className="text-gray-500">Chargement des données...</div>
-          </div>
-        ) : (
-          <div>
-            {/* Compteur de lignes amélioré */}
-            <div className="mb-4 p-3 bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-300 rounded-lg shadow-sm">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <span className="text-2xl">📊</span>
-                  <div>
-                    <div className="font-bold text-blue-900 text-lg">
-                      {data.length} ligne{data.length > 1 ? 's' : ''} dans la table
-                    </div>
-                    {data.length > 0 && (
-                      <div className="text-blue-700 text-sm">
-                        Dont {data.filter(row => {
-                          if (selectedTable === 'articles_atarys') {
-                            return row.reference && row.reference.toString().trim() !== '' && 
-                                   row.libelle && row.libelle.toString().trim() !== '';
-                          }
-                          return Object.values(row).some(val => val !== '' && val !== null && val !== undefined);
-                        }).length} ligne{data.filter(row => {
-                          if (selectedTable === 'articles_atarys') {
-                            return row.reference && row.reference.toString().trim() !== '' && 
-                                   row.libelle && row.libelle.toString().trim() !== '';
-                          }
-                          return Object.values(row).some(val => val !== '' && val !== null && val !== undefined);
-                        }).length > 1 ? 's' : ''} avec données
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="text-xs text-blue-600 font-medium">
-                    Table: {selectedTable}
-                  </div>
-                  <div className="text-xs text-blue-500">
-                    {columns.length} colonne{columns.length > 1 ? 's' : ''}
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="overflow-x-auto">
-              <table
-                className="min-w-full border text-sm"
-                onPaste={handlePaste}
-              >
-                <thead>
-                  <tr>
-                    {columns.map(col => (
-                      <th key={col.key} className="px-3 py-2 bg-gray-100 border-b text-left font-semibold">{col.label}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {displayData.map((row, rowIdx) => (
-                    <tr key={rowIdx}>
-                      {columns.map(col => (
-                        <td key={col.key} className="border-b px-3 py-2">
-                          <input
-                            className="w-full bg-transparent outline-none"
-                            value={row[col.key] || ''}
-                            onChange={e => handleChange(rowIdx, col.key, e.target.value)}
-                            type={col.type === 'number' ? 'number' : col.type === 'boolean' ? 'checkbox' : 'text'}
-                          />
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        <div className="flex justify-end mt-4 gap-3">
-          {previousData && (
+    <div className="p-6 max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Base de Données (Module 12.1)</h1>
+      
+      {/* Onglets */}
+      <div className="mb-6">
+        <div className="border-b border-gray-200">
+          <nav className="-mb-px flex space-x-8">
             <button
-              className="bg-gray-300 text-gray-800 px-6 py-2 rounded shadow hover:bg-gray-400 font-semibold"
-              onClick={handleUndoPaste}
+              onClick={() => setActiveTab('create')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'create'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
             >
-              Annuler le dernier collage
+              Créer Table
             </button>
-          )}
-          <button
-            className="bg-yellow-500 text-white px-6 py-2 rounded shadow hover:bg-yellow-600 font-semibold"
-            onClick={handleRemoveEmptyRows}
-          >
-            Nettoyer lignes vides
-          </button>
-          <button
-            className="bg-red-600 text-white px-6 py-2 rounded shadow hover:bg-red-700 font-semibold"
-            onClick={handleDeleteAll}
-            disabled={saving || loading}
-          >
-            Supprimer toutes les données
-          </button>
-          <button
-            className="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700 font-semibold disabled:opacity-50"
-            onClick={handleSave}
-            disabled={saving || loading}
-          >
-            {saving ? 'Enregistrement...' : 'Enregistrer'}
-          </button>
+            <button
+              onClick={() => setActiveTab('sync')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'sync'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              Synchroniser
+            </button>
+            <button
+              onClick={() => setActiveTab('migrations')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'migrations'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              Migrations
+            </button>
+          </nav>
         </div>
+      </div>
 
-        <div className="text-xs text-gray-500 mt-2">
-          <ul className="list-disc ml-5">
-            <li>Données chargées depuis l'API backend ATARYS.</li>
-            <li>Copiez-collez directement depuis Excel (tabulation supportée).</li>
-            <li>Classement des tables par module selon la documentation ATARYS.</li>
-            <li>Respecte le layout et les standards UI/UX ATARYS.</li>
-          </ul>
+      {message && (
+        <div className={`mb-4 p-2 rounded ${message.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+          {message.text}
         </div>
-      </Card>
-      
-      {/* Formulaire d'ajout de ligne */}
-      {showAddForm && (
-        <AddRowForm
-          onAdd={handleAddRowFromForm}
-          onCancel={handleCancelAddRow}
-        />
       )}
-      
-      {/* Formulaire de création de table */}
-      {showCreateTableForm && (
-        <CreateTableForm
-          onCancel={handleCancelCreateTable}
-          onTableCreated={handleTableCreated}
-        />
+
+      {/* Instructions de migration */}
+      {showMigrationInstructions && migrationInstructions && (
+        <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded">
+          <h3 className="font-semibold text-blue-900 mb-2">📋 Instructions de Migration</h3>
+          <div className="text-blue-800 text-sm space-y-2">
+            <p><strong>Prochaines étapes :</strong></p>
+            <ul className="list-disc list-inside space-y-1">
+              {migrationInstructions.next_steps?.map((step, idx) => (
+                <li key={idx} className="font-mono bg-blue-100 px-2 py-1 rounded">{step}</li>
+              ))}
+            </ul>
+            {migrationInstructions.warning && (
+              <p className="mt-2 text-orange-700 font-medium">⚠️ {migrationInstructions.warning}</p>
+            )}
+            <button
+              onClick={() => setShowMigrationInstructions(false)}
+              className="mt-2 px-3 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700"
+            >
+              Fermer
+            </button>
+          </div>
+        </div>
       )}
-      {/* Modal/Formulaire pour ajouter une colonne */}
-      {showAlterTableForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded shadow-lg max-w-md w-full">
-            <h3 className="text-lg font-bold mb-4">Ajouter une colonne à {selectedTable}</h3>
-            <div className="mb-2">
-              <label className="block text-sm font-medium mb-1">Nom de la colonne</label>
-              <input type="text" className="border rounded px-2 py-1 w-full" value={newColumn.name} onChange={e => setNewColumn({ ...newColumn, name: e.target.value })} />
+
+      {/* Onglet Créer Table */}
+      {activeTab === 'create' && (
+        <form onSubmit={handleSubmit} className="bg-white shadow p-4 rounded mb-8">
+          <h2 className="text-lg font-semibold mb-2">Créer une nouvelle table (Version Professionnelle)</h2>
+          <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
+            <p className="text-yellow-800 text-sm">
+              <strong>ℹ️ Nouveau workflow :</strong> Le générateur crée le code Python, puis vous devez lancer les migrations pour créer la table dans la base de données.
+            </p>
+          </div>
+          
+          {/* Options avancées : cases à cocher pour id, created_at, updated_at */}
+          <div className="mb-4 flex gap-6">
+            <label className="flex items-center gap-2">
+              <input type="checkbox" checked={tableOptions.id} onChange={e => setTableOptions(opts => ({ ...opts, id: e.target.checked }))} />
+              <span>Colonne <code>id</code> (clé primaire auto-incrémentée)</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" checked={tableOptions.created_at} onChange={e => setTableOptions(opts => ({ ...opts, created_at: e.target.checked }))} />
+              <span>Colonne <code>created_at</code> (date création)</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" checked={tableOptions.updated_at} onChange={e => setTableOptions(opts => ({ ...opts, updated_at: e.target.checked }))} />
+              <span>Colonne <code>updated_at</code> (date modification)</span>
+            </label>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block font-medium">Nom de la table</label>
+              <input type="text" className="border p-2 rounded w-full" value={tableName} onChange={e => setTableName(e.target.value)} placeholder="ex: essai_table1" required />
             </div>
-            <div className="mb-2">
-              <label className="block text-sm font-medium mb-1">Type</label>
-              <select className="border rounded px-2 py-1 w-full" value={newColumn.type} onChange={e => setNewColumn({ ...newColumn, type: e.target.value })}>
-                <option value="String">Texte court (String)</option>
-                <option value="Text">Texte long (Text)</option>
-                <option value="Integer">Nombre entier (Integer)</option>
-                <option value="Numeric">Montant financier (Numeric)</option>
-                <option value="REAL">Nombre décimal (REAL)</option>
-                <option value="Boolean">Vrai/Faux (Boolean)</option>
-                <option value="Date">Date</option>
-                <option value="DateTime">Date/Heure</option>
+            <div>
+              <label className="block font-medium">Module ATARYS</label>
+              <select className="border p-2 rounded w-full" value={moduleId} onChange={e => setModuleId(Number(e.target.value))}>
+                {MODULES.map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
               </select>
             </div>
-            {newColumn.type === 'String' && (
-              <div className="mb-2">
-                <label className="block text-sm font-medium mb-1">Longueur max</label>
-                <input type="number" className="border rounded px-2 py-1 w-full" value={newColumn.maxLength} onChange={e => setNewColumn({ ...newColumn, maxLength: Number(e.target.value) })} />
+          </div>
+          <div className="mt-4">
+            <label className="block font-medium mb-2">Colonnes</label>
+            {columns.map((col, idx) => (
+              <div key={idx} className="flex gap-2 mb-2 items-center">
+                <input type="text" className="border p-2 rounded flex-1" placeholder="nom_colonne" value={col.name} onChange={e => handleColumnChange(idx, 'name', e.target.value)} required />
+                <select className="border p-2 rounded" value={col.type} onChange={e => handleColumnChange(idx, 'type', e.target.value)}>
+                  {COLUMN_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+                </select>
+                {col.type === 'Enum' && (
+                  <div className="flex flex-col gap-1 ml-4">
+                    <label className="text-xs">Valeurs Enum (une par ligne)</label>
+                    <textarea
+                      className="border p-1 rounded"
+                      rows={2}
+                      value={enumValues.join('\n')}
+                      onChange={e => setEnumValues(e.target.value.split('\n'))}
+                      placeholder="ex: Brouillon\nValidé\nArchivé"
+                    />
+                  </div>
+                )}
+                {col.type === 'ForeignKey' && (
+                  <div className="flex flex-col gap-1 ml-4">
+                    <label className="text-xs">Table cible</label>
+                    <input
+                      className="border p-1 rounded"
+                      value={foreignKey.table}
+                      onChange={e => setForeignKey(fk => ({ ...fk, table: e.target.value }))}
+                      placeholder="ex: users"
+                    />
+                    <label className="text-xs">Colonne cible</label>
+                    <input
+                      className="border p-1 rounded"
+                      value={foreignKey.column}
+                      onChange={e => setForeignKey(fk => ({ ...fk, column: e.target.value }))}
+                      placeholder="ex: id"
+                    />
+                  </div>
+                )}
+                {col.type === 'String' && (
+                  <div className="flex flex-col gap-1 ml-4">
+                    <label className="text-xs">Longueur max</label>
+                    <input
+                      type="number"
+                      min={1}
+                      className="border p-1 rounded w-24"
+                      value={col.maxLength || ''}
+                      onChange={e => handleColumnChange(idx, 'maxLength', e.target.value)}
+                      placeholder="ex: 100"
+                      required
+                    />
+                  </div>
+                )}
+                <label className="flex items-center gap-1 text-sm"><input type="checkbox" checked={col.nullable} onChange={e => handleColumnChange(idx, 'nullable', e.target.checked)} />Nullable</label>
+                <label className="flex items-center gap-1 text-sm"><input type="checkbox" checked={col.unique} onChange={e => handleColumnChange(idx, 'unique', e.target.checked)} />Unique</label>
+                <button type="button" className="text-red-600 px-2" onClick={() => removeColumn(idx)} title="Supprimer">✕</button>
+              </div>
+            ))}
+            <button type="button" className="mt-2 px-3 py-1 bg-gray-200 rounded" onClick={addColumn}>+ Ajouter une colonne</button>
+          </div>
+          <button type="submit" className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" disabled={loading}>{loading ? 'Génération...' : 'Générer le code'}</button>
+        </form>
+      )}
+
+      {/* Onglet Synchroniser */}
+      {activeTab === 'sync' && (
+        <div className="bg-white shadow p-4 rounded mb-8">
+          <h2 className="text-lg font-semibold mb-4">Synchroniser avec SQLite Studio</h2>
+          <div className="bg-blue-50 border border-blue-200 rounded p-4 mb-4">
+            <h3 className="font-semibold text-blue-900 mb-2">Instructions :</h3>
+            <ol className="text-blue-800 text-sm space-y-1">
+              <li>1. Ouvrir <code className="bg-blue-100 px-1 rounded">data/atarys_data.db</code> dans SQLite Studio</li>
+              <li>2. Modifier la structure des tables (ajouter/supprimer colonnes)</li>
+              <li>3. Sauvegarder les modifications</li>
+              <li>4. Cliquer sur "Synchroniser Backend" ci-dessous</li>
+            </ol>
+          </div>
+          <button 
+            onClick={handleSyncAll}
+            disabled={loading}
+            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+          >
+            {loading ? 'Synchronisation...' : '🔄 Synchroniser Backend'}
+          </button>
+        </div>
+      )}
+
+      {/* Nouvel onglet Migrations */}
+      {activeTab === 'migrations' && (
+        <div className="bg-white shadow p-4 rounded mb-8">
+          <h2 className="text-lg font-semibold mb-4">Gestion des Migrations Flask-Migrate</h2>
+          
+          {/* État des migrations */}
+          <div className="mb-6">
+            <h3 className="font-semibold mb-2">État des migrations</h3>
+            {migrationStatus ? (
+              <div className={`p-3 rounded ${migrationStatus.success ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
+                <p className={migrationStatus.success ? 'text-green-800' : 'text-red-800'}>
+                  {migrationStatus.message}
+                </p>
+                {migrationStatus.data?.current_revision && (
+                  <p className="text-sm mt-1 font-mono bg-gray-100 px-2 py-1 rounded">
+                    Révision actuelle : {migrationStatus.data.current_revision}
+                  </p>
+                )}
+                {migrationStatus.data?.next_steps && (
+                  <div className="mt-2">
+                    <p className="text-sm font-medium">Prochaines étapes :</p>
+                    <ul className="list-disc list-inside text-sm space-y-1">
+                      {migrationStatus.data.next_steps.map((step, idx) => (
+                        <li key={idx} className="font-mono bg-gray-100 px-2 py-1 rounded">{step}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="p-3 bg-gray-50 border border-gray-200 rounded">
+                <p className="text-gray-600">Chargement de l'état des migrations...</p>
               </div>
             )}
-            <div className="mb-2 flex gap-2">
-              <label className="flex items-center"><input type="checkbox" checked={newColumn.nullable} onChange={e => setNewColumn({ ...newColumn, nullable: e.target.checked })} /> Nullable</label>
-              <label className="flex items-center"><input type="checkbox" checked={newColumn.unique} onChange={e => setNewColumn({ ...newColumn, unique: e.target.checked })} /> Unique</label>
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">Valeur par défaut</label>
-              <input type="text" className="border rounded px-2 py-1 w-full" value={newColumn.default} onChange={e => setNewColumn({ ...newColumn, default: e.target.value })} />
-            </div>
-            <div className="flex gap-2">
-              <button
-                className="bg-blue-600 text-white px-4 py-2 rounded"
-                onClick={() => {
-                  fetch('/api/create-table/alter-table', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ table_name: selectedTable, column: newColumn })
-                  })
-                    .then(res => res.json())
-                    .then(result => {
-                      if (result.success) {
-                        alert(result.message);
-                        setShowAlterTableForm(false);
-                        setNewColumn({ name: '', type: 'String', nullable: true, unique: false, default: '', maxLength: 100 });
-                      } else {
-                        alert('Erreur : ' + result.message);
-                      }
-                    });
-                }}
-              >
-                Ajouter la colonne
-              </button>
-              <button
-                className="ml-2 px-4 py-2 rounded border"
-                onClick={() => setShowAlterTableForm(false)}
-              >
-                Annuler
-              </button>
-            </div>
+          </div>
+
+          {/* Aide des migrations */}
+          <div className="mb-6">
+            <h3 className="font-semibold mb-2">Guide des migrations</h3>
+            {migrationHelp ? (
+              <div className="bg-blue-50 border border-blue-200 rounded p-4">
+                <h4 className="font-semibold text-blue-900 mb-2">Workflow professionnel :</h4>
+                <ol className="text-blue-800 text-sm space-y-1 mb-4">
+                  {migrationHelp.data?.workflow?.map((step, idx) => (
+                    <li key={idx}>{step}</li>
+                  ))}
+                </ol>
+                
+                <h4 className="font-semibold text-blue-900 mb-2">Commandes principales :</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                  {migrationHelp.data?.commands && Object.entries(migrationHelp.data.commands).map(([key, cmd]) => (
+                    <div key={key} className="bg-blue-100 p-2 rounded">
+                      <code className="font-mono text-blue-900">{cmd}</code>
+                    </div>
+                  ))}
+                </div>
+                
+                <h4 className="font-semibold text-blue-900 mb-2 mt-4">Bonnes pratiques :</h4>
+                <ul className="text-blue-800 text-sm space-y-1">
+                  {migrationHelp.data?.tips?.map((tip, idx) => (
+                    <li key={idx}>{tip}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <div className="p-3 bg-gray-50 border border-gray-200 rounded">
+                <p className="text-gray-600">Chargement de l'aide...</p>
+              </div>
+            )}
+          </div>
+
+          {/* Boutons d'action */}
+          <div className="flex gap-2">
+            <button
+              onClick={checkMigrationStatus}
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              🔄 Actualiser l'état
+            </button>
+            <button
+              onClick={getMigrationHelp}
+              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+            >
+              📚 Actualiser l'aide
+            </button>
           </div>
         </div>
       )}
-    </PageLayout>
+
+      <div className="bg-white shadow p-4 rounded">
+        <h2 className="text-lg font-semibold mb-2">Tables existantes</h2>
+        <table className="w-full text-sm border">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="p-2 border">Nom</th>
+              <th className="p-2 border">Module</th>
+              <th className="p-2 border">Colonnes</th>
+              <th className="p-2 border">Créée</th>
+              <th className="p-2 border">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tables.length === 0 && <tr><td colSpan={5} className="text-center p-4">Aucune table générée</td></tr>}
+            {tables.map((t, idx) => (
+              <tr key={idx}>
+                <td className="border p-2">{t.name}</td>
+                <td className="border p-2">{t.module}</td>
+                <td className="border p-2">{t.columns ? t.columns.length : '-'}</td>
+                <td className="border p-2">
+                  {t.created_at && t.created_at !== '-' && !isNaN(new Date(t.created_at.replace(' ', 'T') + 'Z'))
+                    ? new Date(t.created_at.replace(' ', 'T') + 'Z').toLocaleString()
+                    : '-'}
+                </td>
+                <td className="border p-2">
+                  <button
+                    type="button"
+                    className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-xs"
+                    onClick={() => handleDeleteTable(t.name)}
+                    disabled={loading}
+                    title="Supprimer le code généré (puis lancer les migrations)"
+                  >
+                    {loading ? '...' : '🗑️ Supprimer'}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
-} 
+}
+
+export default BaseDeDonnees; 

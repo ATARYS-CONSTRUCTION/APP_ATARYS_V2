@@ -46,7 +46,7 @@ Entreprise charpente-couverture-menuiserie de 10 personnes. Valeurs : technicit�
 - **Frontend React** - Structure complète fonctionnelle (port 3000)
 - **Backend Flask** - API REST opérationnelle (port 5000)
 - **Base de données** - SQLite V2 avec 176 lignes articles
-- **Flask-Admin** - Interface d'administration (port 5001)
+- **API REST** - Interface d'administration (port 5000)
 - **Documentation** - Architecture complète et cohérente
 - **Nomenclature** - 13 modules ATARYS avec sous-modules définis
 - **Standards** - Méthodologie Cursor stricte + spécifications techniques
@@ -98,7 +98,7 @@ Entreprise charpente-couverture-menuiserie de 10 personnes. Valeurs : technicit�
 - **Frontend** : React 18.2.0 + Vite 5.4.19 + Tailwind CSS 3.4.1
 - **Base de données** : SQLite avec BaseModel pattern
 - **API** : REST format `{success, data, message}`
-- **Admin** : Flask-Admin sur port 5001
+- **Admin** : API REST sur port 5000
 - **Validation** : Marshmallow pour intégrité des données
 
 ### **Structure Opérationnelle**
@@ -294,7 +294,7 @@ data/
 # Frontend (Terminal 1) - OPÉRATIONNEL
 cd frontend; npm run dev
 
-# Backend API (Terminal 2) - OPÉRATIONNEL
+# API REST (Terminal 2) - OPÉRATIONNEL
 cd backend; python run.py
 
 # Flask-Admin (Terminal 3) - OPÉRATIONNEL

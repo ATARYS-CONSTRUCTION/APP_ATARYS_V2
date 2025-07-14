@@ -1,4 +1,4 @@
-# Synchronisation Flask-Admin - 2025-07-12 18:26:07
+# ARCHIVE : Ce document concernait l’ancienne synchronisation Flask-Admin. L’architecture actuelle repose sur l’API REST.
 
 ## Tables synchronisées : 1
 

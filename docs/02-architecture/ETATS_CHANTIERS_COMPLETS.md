@@ -12,7 +12,7 @@
 - **Flexibilité** : Ajout/modification sans migration
 - **Métadonnées** : Couleur, ordre, règles métier
 - **Workflow** : Transitions configurables
-- **Interface** : Gestion via Flask-Admin
+- **Interface** : Gestion via API REST
 - **Évolutivité** : Extension facile des propriétés
 
 ---
@@ -203,7 +203,7 @@ CREATE TABLE etats_chantier (
 - **Tableau de bord** avec répartition par état
 - **Workflow visuel** pour les transitions
 
-### **Gestion Admin (Flask-Admin)**
+### **Gestion Admin (API REST)**
 - **CRUD complet** des états
 - **Validation** des transitions
 - **Import/Export** des configurations

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-ATARYS - APPLICATION FLASK
+ATARYS - APPLICATION FLASK V2
 Factory pattern pour création de l'application Flask ATARYS
 
 Auteur: ATARYS Team
 Date: 2025
+Version: 2.0 - Génération automatique
 """
 
 from flask import Flask
@@ -49,14 +50,120 @@ def create_app(config_name='development'):
     try:
         from app.routes.create_table import bp as create_table_bp
         app.register_blueprint(create_table_bp)
+        print("[ATARYS] Blueprint create_table enregistré avec succès")
     except Exception as e:
         print(f"[ATARYS] Blueprint create_table non chargé : {e}")
 
+    # Enregistrement du blueprint générateur de tables
     try:
-        from app.routes.modele_ardoises import bp as modele_ardoises_bp
-        app.register_blueprint(modele_ardoises_bp)
+        from app.routes.table_generator import table_generator_bp
+        app.register_blueprint(table_generator_bp)
+        print("[ATARYS] Blueprint table_generator enregistré avec succès")
     except Exception as e:
-        print(f"[ATARYS] Blueprint modele_ardoises non chargé : {e}")
+        import traceback
+        print(f"[ATARYS] Blueprint table_generator non chargé : {e}")
+        print(f"[ATARYS] Traceback complet : {traceback.format_exc()}")
+
+    # Enregistrement du blueprint synchronisation de tables
+    try:
+        from app.routes.table_sync import table_sync_bp
+        app.register_blueprint(table_sync_bp)
+        print("[ATARYS] Blueprint table_sync enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint table_sync non chargé : {e}")
+
+    # Enregistrement des modules existants
+    try:
+        from app.routes.module_1 import module_1_bp
+        app.register_blueprint(module_1_bp)
+        print("[ATARYS] Blueprint module_1 enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint module_1 non chargé : {e}")
+
+    try:
+        from app.routes.module_2 import module_2_bp
+        app.register_blueprint(module_2_bp)
+        print("[ATARYS] Blueprint module_2 enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint module_2 non chargé : {e}")
+
+    try:
+        from app.routes.module_3 import module_3_bp
+        app.register_blueprint(module_3_bp)
+        print("[ATARYS] Blueprint module_3 enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint module_3 non chargé : {e}")
+
+    try:
+        from app.routes.module_4 import module_4_bp
+        app.register_blueprint(module_4_bp)
+        print("[ATARYS] Blueprint module_4 enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint module_4 non chargé : {e}")
+
+    try:
+        from app.routes.module_5 import module_5_bp
+        app.register_blueprint(module_5_bp)
+        print("[ATARYS] Blueprint module_5 enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint module_5 non chargé : {e}")
+
+    # Enregistrement des modules 6 à 13
+    try:
+        from app.routes.module_6 import module_6_bp
+        app.register_blueprint(module_6_bp)
+        print("[ATARYS] Blueprint module_6 enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint module_6 non chargé : {e}")
+
+    try:
+        from app.routes.module_7 import module_7_bp
+        app.register_blueprint(module_7_bp)
+        print("[ATARYS] Blueprint module_7 enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint module_7 non chargé : {e}")
+
+    try:
+        from app.routes.module_8 import module_8_bp
+        app.register_blueprint(module_8_bp)
+        print("[ATARYS] Blueprint module_8 enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint module_8 non chargé : {e}")
+
+    try:
+        from app.routes.module_9 import module_9_bp
+        app.register_blueprint(module_9_bp)
+        print("[ATARYS] Blueprint module_9 enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint module_9 non chargé : {e}")
+
+    try:
+        from app.routes.module_10 import module_10_bp
+        app.register_blueprint(module_10_bp)
+        print("[ATARYS] Blueprint module_10 enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint module_10 non chargé : {e}")
+
+    try:
+        from app.routes.module_11 import module_11_bp
+        app.register_blueprint(module_11_bp)
+        print("[ATARYS] Blueprint module_11 enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint module_11 non chargé : {e}")
+
+    try:
+        from app.routes.module_12 import module_12_bp
+        app.register_blueprint(module_12_bp)
+        print("[ATARYS] Blueprint module_12 enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint module_12 non chargé : {e}")
+
+    try:
+        from app.routes.module_13 import module_13_bp
+        app.register_blueprint(module_13_bp)
+        print("[ATARYS] Blueprint module_13 enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint module_13 non chargé : {e}")
 
     # Route de santé pour vérifier que l'app fonctionne
     @app.route('/health')
@@ -66,7 +173,7 @@ def create_app(config_name='development'):
             'status': 'healthy',
             'environment': config_name,
             'database': 'connected' if db.engine else 'disconnected',
-            'message': 'ATARYS Flask app is running'
+            'message': 'ATARYS Flask V2 app is running'
         }
     
     return app 

@@ -33,7 +33,7 @@
 - **ORM** : SQLAlchemy 2.0+ avec BaseModel pattern
 - **Base de données** : SQLite avec BaseModel pattern
 - **API** : REST avec format JSON standardisé `{success, data, message}`
-- **Admin** : Flask-Admin sur port 5001
+- **Admin** : API REST sur port 5000
 - **CORS** : Configuré pour communication frontend-backend
 - **Dépendances clés** :
   ```python
@@ -249,7 +249,7 @@ Backend → Response JSON → Frontend Refresh
 
 ## 🛠️ **Outils d'Administration**
 
-### **Flask-Admin** (Port 5001)
+### **API REST** (Port 5000)
 - Interface d'administration des données
 - Vue personnalisée pour afficher l'ID
 - Organisation par modules ATARYS
@@ -323,7 +323,7 @@ Backend → Response JSON → Frontend Refresh
 # Frontend (Terminal 1) - OPÉRATIONNEL
 cd frontend; npm run dev
 
-# Backend API (Terminal 2) - OPÉRATIONNEL
+# API REST (Terminal 2) - OPÉRATIONNEL
 cd backend; python run.py
 
 # Flask-Admin (Terminal 3) - OPÉRATIONNEL

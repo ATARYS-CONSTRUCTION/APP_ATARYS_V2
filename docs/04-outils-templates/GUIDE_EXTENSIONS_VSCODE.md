@@ -156,11 +156,11 @@ code --install-extension mtxr.sqltools-driver-sqlite
 
 | Outil | Relations FK | Sécurité | IntelliSense | Modules ATARYS |
 |-------|--------------|----------|--------------|----------------|
-| **Flask-Admin** | ✅ Auto | ✅ ORM | ✅ Complet | ✅ Organisés |
+| **API REST** | ✅ Auto | ✅ ORM | ✅ Complet | ✅ Organisés |
 | **VS Code SQLite** | ❌ Manuel | ⚠️ Direct | ✅ Python | ❌ Aucune |
 | **SQLite Studio** | ❌ Aucune | ❌ Risqué | ❌ Aucun | ❌ Aucune |
 
-**Recommandation** : **Flask-Admin** pour administration + **VS Code** pour développement !
+**Recommandation** : **API REST** pour administration + **VS Code** pour développement !
 
 ---
 

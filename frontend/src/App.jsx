@@ -38,7 +38,6 @@ function App() {
               
               {/* Module 10 - Outils */}
               <Route path="/calcul-ardoises" element={<CalculArdoises />} />
-
               {/* Module 12 - Paramètres */}
               <Route path="/base-donnees" element={<BaseDeDonnees />} />
             </Routes>

@@ -104,7 +104,7 @@
 
 - **Suppression de colonne** non encore implémentée (limite SQLite)
 - **Modification du type d’une colonne** non supportée (nécessite migration)
-- **Redémarrage de Flask-Admin** nécessaire pour voir la nouvelle table dans l’admin
+- **Redémarrage de l’API REST** nécessaire pour voir la nouvelle table dans l’admin
 - **Les modèles Python générés ne sont pas “hot-reload”** (nécessitent un reload du backend pour prise en compte complète)
 
 ---

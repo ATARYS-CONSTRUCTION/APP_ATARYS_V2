@@ -194,7 +194,7 @@ Content-Type: application/json
 1. Validation des données
 2. Création du fichier modèle
 3. Création de la table SQLite
-4. Intégration dans Flask-Admin
+4. Intégration dans l’API REST
 
 ---
 

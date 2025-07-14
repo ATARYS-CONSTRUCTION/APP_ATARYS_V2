@@ -138,7 +138,7 @@ CREATE TABLE example_table (
 ### **3. Intégration Immédiate**
 1. **Création du fichier modèle** dans `backend/app/models/`
 2. **Création de la table** dans la base SQLite
-3. **Intégration dans Flask-Admin** automatique
+3. **Intégration dans l’API REST** automatique
 4. **Disponibilité immédiate** dans l'interface
 
 ---
@@ -272,7 +272,7 @@ UPDATE chantiers SET
 - **Gestion d'erreurs** : Messages explicites pour l'utilisateur
 
 ### **Base de Données ↔ Admin**
-- **Flask-Admin** : Interface d'administration automatique
+- **API REST** : Interface d'administration automatique
 - **Pattern BaseModel** : Méthodes communes (save, delete, to_dict)
 - **Types standards** : `db.Numeric(10, 2)` pour montants
 - **Timestamps** : created_at, updated_at automatiques
