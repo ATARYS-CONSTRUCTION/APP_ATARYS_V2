@@ -222,6 +222,44 @@ else:
 
 ---
 
+## Erreur fréquente : Déclaration incorrecte de colonne SQLAlchemy
+
+**Symptôme :**
+- La colonne n'est pas créée dans la base après migration
+- Alembic ne détecte pas la colonne
+- Pas d'erreur explicite, mais la table est incomplète
+
+**Cause :**
+- Mauvaise déclaration :
+  ```python
+  niveau = db.String(100)()
+  ```
+- Au lieu de :
+  ```python
+  niveau = db.Column(db.String(100))
+  ```
+
+**Conséquence :**
+- La colonne n'est pas prise en compte par SQLAlchemy ni Flask-Migrate
+- Les migrations ne créent pas la colonne dans la base
+
+**Bonne pratique :**
+- Toujours déclarer les colonnes avec `db.Column` :
+  ```python
+  nom_colonne = db.Column(db.String(100))
+  montant = db.Column(db.Numeric(10, 2))
+  ```
+- Vérifier la génération du code avant migration
+
+**Vérification :**
+- Inspecter le modèle généré
+- Lancer `flask db migrate` puis vérifier le script de migration généré
+
+**Correction :**
+- Remplacer toute déclaration du type `champ = db.String(100)()` par `champ = db.Column(db.String(100))`
+
+---
+
 ## 🎯 AMÉLIORATIONS APPORTÉES
 
 ### **1. Interface utilisateur robuste :**

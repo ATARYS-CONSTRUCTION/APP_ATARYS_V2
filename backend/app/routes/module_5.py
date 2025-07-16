@@ -6,6 +6,7 @@ Respecte les standards ATARYS V2 (voir .cursorrules et docs/02-architecture/ATAR
 - Validation Marshmallow obligatoire
 """
 from flask import Blueprint, jsonify, request
+from marshmallow import Schema, fields
 
 module_5_bp = Blueprint('module_5', __name__)
 

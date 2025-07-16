@@ -6,7 +6,9 @@ docs/02-architecture/ATARYS_MODULES.md)
 - Format de réponse {success, data, message}
 - Validation Marshmallow obligatoire
 """
-from flask import Blueprint
+from flask import Blueprint, jsonify, request
+from marshmallow import Schema, fields
+from app import db
 
 module_9_bp = Blueprint('module_9', __name__)
 

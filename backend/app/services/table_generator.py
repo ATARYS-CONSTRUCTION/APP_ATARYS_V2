@@ -72,7 +72,8 @@ class TableGeneratorService:
     
     def create_table_professional(self, table_data):
         """
-        Créer une table de manière professionnelle (génération de code + instructions migration)
+        Créer une table de manière professionnelle 
+        (génération de code + instructions migration)
         
         Args:
             table_data (dict): {
@@ -337,10 +338,10 @@ class TableGeneratorService:
                     'columns': columns,
                     'created_at': created_at,
                 })
-            return enriched
+            return {'success': True, 'data': enriched, 'message': f'{len(enriched)} tables trouvées'}
         except Exception as e:
             print(f"Erreur lors du listing enrichi des tables : {e}")
-            return []
+            return {'success': False, 'message': f'Erreur lors du listing des tables : {str(e)}'}
     
     def check_migration_status(self):
         """
@@ -453,6 +454,250 @@ class TableGeneratorService:
             }
         }
     
+    def list_tables_for_foreign_key(self):
+        """
+        Lister les tables disponibles pour les clés étrangères
+        
+        Returns:
+            dict: {'success': bool, 'data': list, 'message': str}
+        """
+        try:
+            # Récupérer toutes les tables existantes
+            tables = self.list_tables()
+            if not tables['success']:
+                return tables
+            
+            # Filtrer les tables système et formater
+            available_tables = []
+            for table in tables['data']:
+                if not table['name'].startswith('sqlite_') and not table['name'].startswith('alembic_'):
+                    available_tables.append({
+                        'name': table['name'],
+                        'module': table['module'],
+                        'module_name': self.modules_atarys.get(table['module'], f'Module {table["module"]}'),
+                        'columns_count': table.get('columns_count', 0)
+                    })
+            
+            return {
+                'success': True,
+                'data': available_tables,
+                'message': f'{len(available_tables)} tables disponibles pour les clés étrangères'
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'message': f'Erreur lors de la récupération des tables : {str(e)}'
+            }
+
+    def get_table_columns(self, table_name):
+        """
+        Récupérer les colonnes d'une table pour les clés étrangères
+        
+        Args:
+            table_name (str): Nom de la table
+            
+        Returns:
+            dict: {'success': bool, 'data': list, 'message': str}
+        """
+        try:
+            # Requête pour récupérer les colonnes de la table
+            query = text("PRAGMA table_info(" + table_name + ")")
+            
+            result = db.session.execute(query)
+            columns = []
+            
+            for row in result:
+                columns.append({
+                    'name': row[1],
+                    'type': row[2],
+                    'not_null': bool(row[3]),
+                    'primary_key': bool(row[5]),
+                    'is_foreign_key': False  # À déterminer avec une requête supplémentaire
+                })
+            
+            return {
+                'success': True,
+                'data': columns,
+                'message': f'{len(columns)} colonnes trouvées dans {table_name}'
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'message': f'Erreur lors de la récupération des colonnes : {str(e)}'
+            }
+
+    def generate_relation_code(self, relation_data):
+        """
+        Générer le code Python pour une relation
+        
+        Args:
+            relation_data (dict): {
+                'sourceTable': str,
+                'targetTable': str,
+                'sourceClass': str,
+                'targetClass': str,
+                'relationName': str,
+                'backrefName': str,
+                'relationType': str,
+                'cascade': str,
+                'lazy': str,
+                'nullable': bool
+            }
+            
+        Returns:
+            dict: {'success': bool, 'data': dict, 'message': str}
+        """
+        try:
+            # Génération du code pour la table source
+            source_code = self._generate_source_relation_code(relation_data)
+            
+            # Génération du code pour la table cible (si bidirectionnelle)
+            target_code = self._generate_target_relation_code(relation_data)
+            
+            # Génération du code pour les schémas
+            schema_code = self._generate_relation_schema_code(relation_data)
+            
+            return {
+                'success': True,
+                'data': {
+                    'source_code': source_code,
+                    'target_code': target_code,
+                    'schema_code': schema_code,
+                    'instructions': self._generate_relation_instructions(relation_data)
+                },
+                'message': 'Code de relation généré avec succès'
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'message': f'Erreur lors de la génération du code : {str(e)}'
+            }
+
+    def validate_foreign_key(self, fk_data):
+        """
+        Valider une clé étrangère avant création
+        
+        Args:
+            fk_data (dict): {
+                'source_table': str,
+                'target_table': str,
+                'source_column': str,
+                'target_column': str,
+                'nullable': bool
+            }
+            
+        Returns:
+            dict: {'success': bool, 'message': str}
+        """
+        try:
+            # Vérifier que la table cible existe
+            tables = self.list_tables()
+            if not tables['success']:
+                return tables
+            
+            target_exists = any(table['name'] == fk_data['target_table'] for table in tables['data'])
+            if not target_exists:
+                return {
+                    'success': False,
+                    'message': f'Table cible "{fk_data["target_table"]}" inexistante'
+                }
+            
+            # Vérifier que la colonne cible existe
+            target_columns = self.get_table_columns(fk_data['target_table'])
+            if not target_columns['success']:
+                return target_columns
+            
+            column_exists = any(col['name'] == fk_data['target_column'] for col in target_columns['data'])
+            if not column_exists:
+                return {
+                    'success': False,
+                    'message': f'Colonne "{fk_data["target_column"]}" inexistante dans {fk_data["target_table"]}'
+                }
+            
+            return {
+                'success': True,
+                'message': 'Clé étrangère valide'
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'message': f'Erreur lors de la validation : {str(e)}'
+            }
+
+    def _generate_source_relation_code(self, relation_data):
+        """Générer le code pour la table source"""
+        fk_field = f"{relation_data['targetTable']}_id"
+        relation_line = f"{relation_data['relationName']} = db.relationship('{relation_data['targetClass']}'"
+        
+        if relation_data.get('backrefName'):
+            relation_line += f", backref='{relation_data['backrefName']}'"
+        
+        if relation_data.get('cascade'):
+            relation_line += f", cascade='{relation_data['cascade']}'"
+        
+        if relation_data.get('lazy'):
+            relation_line += f", lazy='{relation_data['lazy']}'"
+        
+        relation_line += ")"
+        
+        return {
+            'foreign_key': f"{fk_field} = db.Column(db.Integer, db.ForeignKey('{relation_data['targetTable']}.id'), nullable={relation_data.get('nullable', False)})",
+            'relationship': relation_line,
+            'location': f"Dans backend/app/models/module_X.py, classe {relation_data['sourceClass']}"
+        }
+
+    def _generate_target_relation_code(self, relation_data):
+        """Générer le code pour la table cible (si bidirectionnelle)"""
+        if not relation_data.get('backrefName'):
+            return None
+        
+        return {
+            'relationship': f"{relation_data['backrefName']} = db.relationship('{relation_data['sourceClass']}', backref='{relation_data['relationName']}')",
+            'location': f"Dans backend/app/models/module_Y.py, classe {relation_data['targetClass']}"
+        }
+
+    def _generate_relation_schema_code(self, relation_data):
+        """Générer le code pour les schémas Marshmallow"""
+        fk_field = f"{relation_data['targetTable']}_id"
+        
+        source_schema = {
+            'foreign_key': f"{fk_field} = fields.Int(required=True)",
+            'relation': f"{relation_data['relationName']} = fields.Nested('{relation_data['targetClass']}Schema', dump_only=True)",
+            'location': f"Dans backend/app/schemas/module_X.py, schéma {relation_data['sourceClass']}Schema"
+        }
+        
+        target_schema = None
+        if relation_data.get('backrefName'):
+            target_schema = {
+                'relation': f"{relation_data['backrefName']} = fields.Nested('{relation_data['sourceClass']}Schema', many=True, dump_only=True)",
+                'location': f"Dans backend/app/schemas/module_Y.py, schéma {relation_data['targetClass']}Schema"
+            }
+        
+        return {
+            'source': source_schema,
+            'target': target_schema
+        }
+
+    def _generate_relation_instructions(self, relation_data):
+        """Générer les instructions d'implémentation"""
+        return {
+            'steps': [
+                "1. Ouvrir le fichier modèle de la table source",
+                "2. Ajouter la clé étrangère sous les autres colonnes",
+                "3. Ajouter la relation Python sous la clé étrangère",
+                "4. Si bidirectionnelle, ajouter la relation dans la table cible",
+                "5. Mettre à jour les schémas Marshmallow",
+                "6. Générer et appliquer les migrations",
+                "7. Tester l'accès ORM"
+            ],
+            'validation': [
+                "Vérifier la syntaxe Python (flake8)",
+                "Tester l'accès aux relations dans le shell",
+                "Valider les contraintes de suppression",
+                "Tester les endpoints API avec relations"
+            ]
+        }
+    
     def _validate_table_schema(self, table_data):
         """Valider le schéma de la table"""
         errors = []
@@ -544,30 +789,28 @@ class TableGeneratorService:
         table_name = table_data['table_name']
         module_name = f"module_{table_data['module_id']}"
         options = table_data.get('options', {})
-        # Imports
         imports = [
             "from app.models.base import BaseModel",
             "from app import db",
             "from datetime import datetime"
         ]
-        # Définition de la classe
         class_def = f"""
 class {class_name}(BaseModel):
     __tablename__ = '{table_name}'
-    
 """
         columns_code = []
         column_names = [col['name'] for col in table_data['columns']]
-        # id
         if options.get('id', True) and 'id' not in column_names:
             columns_code.append("    id = db.Column(db.Integer, primary_key=True, autoincrement=True)")
-        # Colonnes utilisateur
         for col in table_data['columns']:
             if col['name'] in ['id', 'created_at', 'updated_at']:
                 continue
             sqlalchemy_type = self.sqlalchemy_types.get(col['type'], 'db.String')
             params = []
-            if not col.get('nullable', True):
+            # nullable : False par défaut pour String sauf si explicitement nullable
+            if col['type'] == 'String' and not col.get('nullable', None):
+                params.append('nullable=False')
+            elif not col.get('nullable', True):
                 params.append('nullable=False')
             if col.get('unique', False):
                 params.append('unique=True')
@@ -580,7 +823,12 @@ class {class_name}(BaseModel):
                 if col['type'] == 'DateTime':
                     params.append('default=datetime.utcnow')
                 elif col['type'] == 'Boolean':
-                    params.append(f'default={str(default_val).lower()}')
+                    if default_val is True:
+                        params.append('default=True')
+                    elif default_val is False:
+                        params.append('default=False')
+                    else:
+                        params.append(f'default={str(default_val)}')
                 elif col['type'] == 'String':
                     params.append(f"default='{default_val}'")
                 else:
@@ -594,55 +842,34 @@ class {class_name}(BaseModel):
                 fk_param = f"db.ForeignKey('{foreign_table}.{foreign_column}')"
                 params.append(fk_param)
             params_str = ', '.join(params)
-            column_def = f"    {col['name']} = {sqlalchemy_type}({params_str})"
+            if params_str:
+                column_def = f"    {col['name']} = db.Column({sqlalchemy_type}, {params_str})"
+            else:
+                column_def = f"    {col['name']} = db.Column({sqlalchemy_type})"
             columns_code.append(column_def)
-        # created_at
         if options.get('created_at', True) and 'created_at' not in column_names:
             columns_code.append("    created_at = db.Column(db.DateTime, default=datetime.utcnow)")
-        # updated_at
         if options.get('updated_at', True) and 'updated_at' not in column_names:
             columns_code.append("    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)")
-        # Méthode __repr__
         repr_method = f"""
     def __repr__(self):
         return f'<{class_name} {{self.id}}>'
 """
         model_code = '\n'.join(imports) + class_def + '\n'.join(columns_code) + repr_method
         return model_code
-    
+
     def _generate_route_code(self, table_data):
         """Générer le code des routes API à insérer dans le fichier du module (sans blueprint)"""
         class_name = table_data['class_name']
         table_name = table_data['table_name']
-        
-        # Extraire le numéro principal du module (ex: 12 de "12_1")
         main_module = str(table_data['module_id']).split('_')[0]
-        
-        # Schéma Marshmallow
+        # Importer le schéma depuis schemas/module_X
         route_code = (
-            f"\n# Schéma et routes CRUD pour {class_name}\n"
-            f"class {class_name}Schema(Schema):\n"
+            f"\n# Routes CRUD pour {class_name}\n"
+            f"from app.schemas.module_{main_module} import {class_name}Schema\n"
+            f"{table_name}_schema = {class_name}Schema()\n"
+            f"{table_name}_schemas = {class_name}Schema(many=True)\n\n"
         )
-        for col in table_data['columns']:
-            if col['name'] in ['id', 'created_at', 'updated_at']:
-                continue
-            if col['type'] == 'Integer':
-                route_code += f"    {col['name']} = fields.Integer()\n"
-            elif col['type'] == 'String':
-                route_code += f"    {col['name']} = fields.String()\n"
-            elif col['type'] == 'Text':
-                route_code += f"    {col['name']} = fields.String()\n"
-            elif col['type'] == 'Numeric':
-                route_code += f"    {col['name']} = fields.Decimal()\n"
-            elif col['type'] == 'Boolean':
-                route_code += f"    {col['name']} = fields.Boolean()\n"
-            elif col['type'] == 'Date':
-                route_code += f"    {col['name']} = fields.Date()\n"
-            elif col['type'] == 'DateTime':
-                route_code += f"    {col['name']} = fields.DateTime()\n"
-            else:
-                route_code += f"    {col['name']} = fields.String()\n"
-        route_code += f"\n{table_name}_schema = {class_name}Schema()\n{table_name}_schemas = {class_name}Schema(many=True)\n\n"
         # GET
         route_code += (
             f"@module_{main_module}_bp.route('/api/{table_name}/', "
@@ -721,7 +948,7 @@ class {class_name}(BaseModel):
             f"        return jsonify({{'success': False, 'message': str(e)}}), 400\n"
         )
         return route_code
-    
+
     def _generate_schema_code(self, table_data):
         """Générer le code du schéma Marshmallow"""
         class_name = table_data['class_name']
@@ -755,15 +982,14 @@ class {class_name}Schema(Schema):
         return schema_code
     
     def _write_model_file(self, module_id, table_name, model_code):
-        """Ajouter la classe générée à la fin du fichier module_X.py du module concerné (créé si besoin)."""
+        """Ajoute la classe générée à la fin du fichier module_X.py du module concerné (créé si besoin), sans dupliquer le header ni la classe."""
+        import re
         try:
             models_dir = os.path.join(os.path.dirname(__file__), '..', 'models')
             os.makedirs(models_dir, exist_ok=True)
-            
-            # Extraire le numéro principal du module (ex: 12 de "12_1")
             main_module = str(module_id).split('_')[0]
             module_file = os.path.join(models_dir, f'module_{main_module}.py')
-            
+
             header = (
                 '"""\n'
                 f'Module {main_module} - Modèles SQLAlchemy\n'
@@ -772,18 +998,29 @@ class {class_name}Schema(Schema):
                 '- Utilise db.Numeric(10, 2) pour montants financiers\n'
                 '- Strings avec longueur max obligatoire\n'
                 '- __repr__ explicite\n"""\n'
-                'from backend.app.models.base import BaseModel\n'
-                'from backend.app import db\n\n'
+                'from app.models.base import BaseModel\n'
+                'from app import db\n'
+                'from datetime import datetime\n\n'
                 f'# Modèles du module {main_module} - '
                 f'{self.modules_atarys.get(int(main_module), "MODULE").replace("_", " ")}\n'
                 f'# Ajouter ici les modèles du module {main_module} selon les besoins \n'
             )
+
+            # Si le fichier n'existe pas, on écrit le header + le modèle
             if not os.path.exists(module_file):
                 with open(module_file, 'w', encoding='utf-8') as f:
                     f.write(header)
                     f.write('\n')
                     f.write(model_code)
             else:
+                # Si le fichier existe, on vérifie qu'il n'y a pas déjà la classe
+                with open(module_file, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                class_name = re.search(r'class (\w+)\(', model_code)
+                if class_name and class_name.group(1) in content:
+                    print(f"⚠️ Classe {class_name.group(1)} déjà présente dans {module_file}, pas d'ajout.")
+                    return False
+                # On ajoute juste la classe à la fin
                 with open(module_file, 'a', encoding='utf-8') as f:
                     f.write('\n\n')
                     f.write(model_code)
@@ -810,7 +1047,7 @@ class {class_name}Schema(Schema):
                 '- Blueprint unique par module\n'
                 '- CRUD pour chaque table du module\n"""\n'
                 'from flask import Blueprint, request, jsonify\n'
-                'from backend.app import db\n'
+                'from app import db\n'
                 'from marshmallow import Schema, fields\n\n'
                 f"module_{main_module}_bp = Blueprint('module_{main_module}', __name__)\n\n"
                 f'# Routes du module {main_module}\n'
@@ -966,9 +1203,9 @@ class {class_name}Schema(Schema):
                 # Suppression du bloc CRUD complet (avec ou sans commentaire)
                 if content_type == 'route':
                     # Bloc avec commentaire
-                    if f'# Schéma et routes CRUD pour {class_name}' in line:
+                    if f'# Routes CRUD pour {class_name}' in line:
                         i += 1
-                        while i < len(lines) and not lines[i].startswith('# Schéma et routes CRUD pour') and not lines[i].startswith('class ') and not lines[i].startswith('def '):
+                        while i < len(lines) and not lines[i].startswith('# Routes CRUD pour') and not lines[i].startswith('class ') and not lines[i].startswith('def '):
                             i += 1
                         continue
                     # Bloc sans commentaire, détecter la classe schéma ou la fonction route
@@ -979,7 +1216,7 @@ class {class_name}Schema(Schema):
                             start -= 1
                         i = start
                         # Sauter jusqu'à la prochaine classe/fonction ou fin de fichier
-                        while i < len(lines) and not lines[i].startswith('class ') and not lines[i].startswith('def ') and not lines[i].startswith('# Schéma et routes CRUD pour'):
+                        while i < len(lines) and not lines[i].startswith('class ') and not lines[i].startswith('def ') and not lines[i].startswith('# Routes CRUD pour'):
                             i += 1
                         continue
                 # Suppression du bloc modèle

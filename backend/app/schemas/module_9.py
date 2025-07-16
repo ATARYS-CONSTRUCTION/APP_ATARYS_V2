@@ -8,3 +8,5 @@ docs/02-architecture/ATARYS_MODULES.md)
 
 # Schémas du module 9 - SOCIAL
 # Ajouter ici les schémas du module 9 selon les besoins
+
+

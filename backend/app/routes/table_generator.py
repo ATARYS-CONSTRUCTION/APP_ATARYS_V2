@@ -17,6 +17,9 @@ from app.services.table_generator import TableGeneratorService
 table_generator_bp = Blueprint('table_generator', __name__, 
                               url_prefix='/api/table-generator')
 
+# Instance du service
+table_generator = TableGeneratorService()
+
 
 @table_generator_bp.route('/test', methods=['GET'])
 def test_route():
@@ -98,12 +101,9 @@ def list_tables():
     """
     try:
         generator = TableGeneratorService()
-        tables = generator.list_tables()
+        result = generator.list_tables()
         
-        return jsonify({
-            'success': True,
-            'data': tables
-        }), 200
+        return jsonify(result), 200 if result['success'] else 500
         
     except Exception as e:
         return jsonify({
@@ -184,4 +184,76 @@ def get_migration_help():
         return jsonify({
             'success': False,
             'message': f'Erreur aide migrations : {str(e)}'
+        }), 500 
+
+@table_generator_bp.route('/list-tables-for-fk', methods=['GET'])
+def list_tables_for_foreign_key():
+    """Lister les tables disponibles pour les clés étrangères"""
+    try:
+        result = table_generator.list_tables_for_foreign_key()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': f'Erreur lors de la récupération des tables : {str(e)}'
+        }), 500
+
+
+@table_generator_bp.route('/get-table-columns', methods=['GET'])
+def get_table_columns():
+    """Récupérer les colonnes d'une table"""
+    try:
+        table_name = request.args.get('table')
+        if not table_name:
+            return jsonify({
+                'success': False,
+                'message': 'Paramètre "table" requis'
+            }), 400
+        
+        result = table_generator.get_table_columns(table_name)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': f'Erreur lors de la récupération des colonnes : {str(e)}'
+        }), 500
+
+
+@table_generator_bp.route('/generate-relation-code', methods=['POST'])
+def generate_relation_code():
+    """Générer le code Python pour une relation"""
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({
+                'success': False,
+                'message': 'Données JSON requises'
+            }), 400
+        
+        result = table_generator.generate_relation_code(data)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': f'Erreur lors de la génération du code : {str(e)}'
+        }), 500
+
+
+@table_generator_bp.route('/validate-foreign-key', methods=['POST'])
+def validate_foreign_key():
+    """Valider une clé étrangère"""
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({
+                'success': False,
+                'message': 'Données JSON requises'
+            }), 400
+        
+        result = table_generator.validate_foreign_key(data)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': f'Erreur lors de la validation : {str(e)}'
         }), 500 

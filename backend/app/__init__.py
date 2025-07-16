@@ -47,12 +47,6 @@ def create_app(config_name='development'):
     CORS(app)
 
     # Enregistrement des blueprints API
-    try:
-        from app.routes.create_table import bp as create_table_bp
-        app.register_blueprint(create_table_bp)
-        print("[ATARYS] Blueprint create_table enregistré avec succès")
-    except Exception as e:
-        print(f"[ATARYS] Blueprint create_table non chargé : {e}")
 
     # Enregistrement du blueprint générateur de tables
     try:
@@ -64,7 +58,7 @@ def create_app(config_name='development'):
         print(f"[ATARYS] Blueprint table_generator non chargé : {e}")
         print(f"[ATARYS] Traceback complet : {traceback.format_exc()}")
 
-    # Enregistrement du blueprint synchronisation de tables
+    # Enregistrement du blueprint table_sync
     try:
         from app.routes.table_sync import table_sync_bp
         app.register_blueprint(table_sync_bp)

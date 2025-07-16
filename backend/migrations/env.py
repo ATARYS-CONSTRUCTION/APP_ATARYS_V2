@@ -12,9 +12,6 @@ from alembic import context
 from app import db
 
 # Importer tous les modèles pour que Flask-Migrate les détecte
-# Module 5 - DEVIS_FACTURATION
-from app.models.module_5 import TestModel
-
 # Module 12 - PARAMÈTRES (vide pour l'instant)
 from app.models.module_12 import *
 
