@@ -19,3 +19,4 @@ class ModeleArdoisesSchema(Schema):
     created_at = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)
     modele_ardoises = fields.String()
+

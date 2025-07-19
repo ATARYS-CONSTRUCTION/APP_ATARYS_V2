@@ -6,6 +6,7 @@ from app.services.table_sync import table_sync
 
 table_sync_bp = Blueprint('table_sync', __name__)
 
+
 @table_sync_bp.route('/api/table-sync/list-tables', methods=['GET'])
 def list_tables():
     """Lister toutes les tables SQLite disponibles"""
@@ -22,7 +23,9 @@ def list_tables():
             'message': f'Erreur listing tables : {str(e)}'
         }), 500
 
-@table_sync_bp.route('/api/table-sync/list-columns/<table_name>', methods=['GET'])
+
+@table_sync_bp.route('/api/table-sync/list-columns/<table_name>', 
+                     methods=['GET'])
 def list_columns(table_name):
     """Lister les colonnes d'une table spécifique"""
     try:
@@ -38,6 +41,7 @@ def list_columns(table_name):
             'message': f'Erreur listing colonnes : {str(e)}'
         }), 500
 
+
 @table_sync_bp.route('/api/table-sync/generate-relation', methods=['POST'])
 def generate_relation():
     """Générer le code de relation Python"""
@@ -51,14 +55,17 @@ def generate_relation():
         target_column = data.get('target_column')
         relation_name = data.get('relation_name')
         
-        if not all([source_table, source_column, target_table, target_column, relation_name]):
+        required_params = [source_table, source_column, target_table,
+                          target_column, relation_name]
+        if not all(required_params):
             return jsonify({
                 'success': False,
                 'message': 'Tous les paramètres sont requis'
             }), 400
         
         relation_code = table_sync.generate_relation_code(
-            source_table, source_column, target_table, target_column, relation_name
+            source_table, source_column, target_table, target_column, 
+            relation_name
         )
         
         return jsonify({
@@ -74,6 +81,7 @@ def generate_relation():
             'success': False,
             'message': f'Erreur génération relation : {str(e)}'
         }), 500
+
 
 @table_sync_bp.route('/api/table-sync/validate-foreign-key', methods=['POST'])
 def validate_foreign_key():
@@ -97,11 +105,13 @@ def validate_foreign_key():
             source_table, source_column, target_table, target_column
         )
         
+        valid_msg = ('Clé étrangère valide' if is_valid 
+                    else 'Clé étrangère invalide')
         return jsonify({
             'success': True,
             'data': {
                 'is_valid': is_valid,
-                'message': 'Clé étrangère valide' if is_valid else 'Clé étrangère invalide'
+                'message': valid_msg
             }
         })
     except Exception as e:

@@ -19,3 +19,13 @@ class TestProfessionalTableSchema(Schema):
     description = fields.String()
     montant = fields.Decimal()
     actif = fields.Boolean()
+
+
+from marshmallow import Schema, fields
+
+class FamilleOuvragesSchema(Schema):
+    id = fields.Integer(dump_only=True)
+    created_at = fields.DateTime(dump_only=True)
+    updated_at = fields.DateTime(dump_only=True)
+    num_bd_atarys = fields.String()
+    libelle = fields.String()

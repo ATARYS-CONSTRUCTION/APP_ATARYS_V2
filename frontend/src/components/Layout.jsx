@@ -185,4 +185,17 @@ export function ActionButtonGroup({ children, variant = "default" }) {
       {children}
     </div>
   );
-} 
+}
+
+// Export par défaut pour compatibilité
+const Layout = {
+  PageLayout,
+  Card,
+  GridLayout,
+  FormLayout,
+  FormSection,
+  InputGroup,
+  ActionButtonGroup
+};
+
+export default Layout; 

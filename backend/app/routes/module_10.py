@@ -7,7 +7,7 @@ docs/02-architecture/ATARYS_MODULES.md)
 - Validation Marshmallow obligatoire
 """
 from flask import Blueprint, jsonify, request
-from app.models.module_10 import ModeleArdoises
+from app.models.module_10 import ModeleArdoises 
 from app import db
 from marshmallow import Schema, fields
 
@@ -87,3 +87,5 @@ def delete_modele_ardoises(item_id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'message': str(e)}), 400
+
+

@@ -128,9 +128,9 @@ function Home() {
       linkColor: "text-pink-600 hover:text-pink-700",
       status: "operational",
       submodules: [
-        { id: "9.1", name: "Liste_salaries", route: "/liste-salaries", active: true },
-        { id: "9.2", name: "Fiche mensuelle", route: "/fiche-mensuelle", active: false },
-        { id: "9.3", name: "Récap et calculs", route: "/recap-calculs", active: false }
+        { id: "9.1", name: "Liste_salaries", route: "/module-9-1", active: true },
+        { id: "9.2", name: "Fiche mensuelle", route: "/module-9-2", active: false },
+        { id: "9.3", name: "Récap et calculs", route: "/module-9-3", active: false }
       ]
     },
     {
@@ -245,11 +245,11 @@ function Home() {
                         href={submodule.route} 
                         className={`block ${module.linkColor} hover:underline font-medium`}
                       >
-                        {submodule.id} {submodule.name}
+                        {submodule.name}
                       </a>
                     ) : (
                       <span className="block text-gray-400">
-                        {submodule.id} {submodule.name}
+                        {submodule.name}
                       </span>
                     )}
                   </div>

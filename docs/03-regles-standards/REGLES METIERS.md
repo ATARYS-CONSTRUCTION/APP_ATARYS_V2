@@ -1,5 +1,28 @@
 # ATARYS - Règles Métier et Calculs
 
+## 🎯 **Règles Interface Utilisateur**
+
+### **📋 Comportement Double-Clic OBLIGATOIRE**
+
+#### **RÈGLE ABSOLUE : Double-clic sur ligne de tableau**
+- **TOUJOURS** : Le double-clic sur une ligne de tableau doit ouvrir le formulaire de modification
+- **JAMAIS** : Supprimer ou modifier ce comportement sans accord explicite
+- **STANDARD** : Remplir automatiquement le formulaire avec les données de la ligne sélectionnée
+
+#### **Modules Concernés**
+- ✅ **Module 9.1** : Salariés (OPÉRATIONNEL)
+- ✅ **Module 3.1** : Chantiers (OPÉRATIONNEL)
+- ✅ **Module 12.1** : Base de données (OPÉRATIONNEL)
+- 🔄 **Tous les autres modules** : À implémenter selon ce standard
+
+#### **Fonctionnalités Associées OBLIGATOIRES**
+1. **Sélection visuelle** : Ligne sélectionnée avec bordure bleue
+2. **Hover effect** : Effet de survol sans masquer la sélection
+3. **Formulaire pré-rempli** : Tous les champs remplis automatiquement
+4. **Modal d'édition** : Ouverture automatique du modal de modification
+
+---
+
 ## 🧮 **Calcul des Ardoises**
 
 ### **Paramètres d'Entrée**

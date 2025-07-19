@@ -7,6 +7,7 @@ function Menu() {
   const [planningOpen, setPlanningOpen] = useState(false);
   const [listeChantiersOpen, setListeChantiersOpen] = useState(false);
   const [chantiersOpen, setChantiersOpen] = useState(false);
+  const [socialOpen, setSocialOpen] = useState(false);
   const [outilsOpen, setOutilsOpen] = useState(false);
   const [parametresOpen, setParametresOpen] = useState(false);
 
@@ -92,7 +93,24 @@ function Menu() {
             <Link className="block px-2 py-1 rounded hover:bg-gray-200 hover:text-black" to="#">ATELIER</Link>
             <Link className="block px-2 py-1 rounded hover:bg-gray-200 hover:text-black" to="#">GESTION</Link>
             <Link className="block px-2 py-1 rounded hover:bg-gray-200 hover:text-black" to="#">COMPTABILITE</Link>
-            <Link className="block px-2 py-1 rounded hover:bg-gray-200 hover:text-black" to="#">SOCIAL</Link>
+            <div>
+              <div
+                onClick={() => setSocialOpen(!socialOpen)}
+                className="px-2 py-1 rounded hover:bg-gray-200 hover:text-black cursor-pointer flex justify-between items-center"
+              >
+                <span>SOCIAL</span>
+                <span className={`text-black transition-transform duration-200 ${socialOpen ? '' : '-rotate-90'}`}>
+                  ▼
+                </span>
+              </div>
+              {socialOpen && (
+                <div className="ml-4 mt-1 space-y-1 text-sm text-gray-600">
+                  <Link className="block hover:text-black" to="/module-9-1">Liste_salaries</Link>
+                  <Link className="block hover:text-black" to="/module-9-2">Fiche mensuelle</Link>
+                  <Link className="block hover:text-black" to="/module-9-3">Récap et calculs</Link>
+                </div>
+              )}
+            </div>
             <div>
               <div
                 onClick={() => setOutilsOpen(!outilsOpen)}

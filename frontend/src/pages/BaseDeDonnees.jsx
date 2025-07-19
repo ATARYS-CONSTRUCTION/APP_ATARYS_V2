@@ -34,12 +34,12 @@ function BaseDeDonnees() {
   const [tableName, setTableName] = useState('');
   const [moduleId, setModuleId] = useState(12);
   const [columns, setColumns] = useState([
-    { name: '', type: 'String', nullable: true, unique: false }
+    { name: '', type: 'String', nullable: true, unique: false, foreignKeyTable: '', foreignKeyColumn: '' }
   ]);
   const [tables, setTables] = useState([]);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState('create'); // 'create', 'sync', 'migrations'
+  const [activeTab, setActiveTab] = useState('create'); // 'create', 'sync', 'migrations', 'relations'
 
   // Nouveaux états pour l'Option 1 professionnelle
   const [migrationStatus, setMigrationStatus] = useState(null);
@@ -61,9 +61,8 @@ function BaseDeDonnees() {
     autoIncrement: true
   });
 
-  // Ajout d'un état pour les valeurs Enum et ForeignKey de la colonne en cours
+  // Ajout d'un état pour les valeurs Enum (par colonne) ; les infos ForeignKey sont désormais stockées dans chaque colonne
   const [enumValues, setEnumValues] = useState([]);
-  const [foreignKey, setForeignKey] = useState({ table: '', column: '' });
 
   // Nouveaux états pour les dropdowns de relations
   const [availableTables, setAvailableTables] = useState([]);
@@ -85,6 +84,28 @@ function BaseDeDonnees() {
     nullable: false
   });
   const [generatedRelationCode, setGeneratedRelationCode] = useState(null);
+
+  // États pour la section dynamique après génération de code
+  const [generatedTableInfo, setGeneratedTableInfo] = useState(null);
+  const [showDynamicSection, setShowDynamicSection] = useState(false);
+
+  // États pour le générateur de relations étape par étape
+  const [relationGeneratorData, setRelationGeneratorData] = useState({
+    sourceTable: '',
+    targetTable: '',
+    relationType: 'many-to-one',
+    cascade: '',
+    lazy: 'select'
+  });
+  const [relationSteps, setRelationSteps] = useState([]);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [showRelationGenerator, setShowRelationGenerator] = useState(false);
+
+  // Nouveaux états pour les colonnes de table
+  const [tableColumns, setTableColumns] = useState([]);
+
+  // Ajout de l'état
+  const [useFirstRowAsHeader, setUseFirstRowAsHeader] = useState(true);
 
   // Charger la liste des tables existantes
   useEffect(() => {
@@ -116,7 +137,19 @@ function BaseDeDonnees() {
       const res = await fetch('/api/table-generator/list-tables-for-fk');
       const data = await res.json();
       if (data.success && Array.isArray(data.data)) {
-        setAvailableTables(data.data);
+        // Traiter les données pour s'assurer qu'elles sont au bon format
+        const processedTables = data.data.map(table => {
+          if (typeof table === 'string') {
+            return { name: table, module_name: '' };
+          } else if (table && typeof table === 'object') {
+            return {
+              name: table.name || table.toString(),
+              module_name: table.module_name || table.module || ''
+            };
+          }
+          return { name: table.toString(), module_name: '' };
+        });
+        setAvailableTables(processedTables);
       } else {
         setAvailableTables([]);
       }
@@ -208,6 +241,83 @@ function BaseDeDonnees() {
     }
   };
 
+  // Fonctions pour le générateur de relations étape par étape
+  const loadTablesForRelation = async () => {
+    try {
+      const res = await fetch('/api/relation-generator/list-tables');
+      const data = await res.json();
+      if (data.success && Array.isArray(data.data)) {
+        setTables(data.data);
+      } else {
+        setTables([]);
+      }
+    } catch (err) {
+      console.error('Erreur chargement tables pour relations:', err);
+      setTables([]);
+    }
+  };
+
+  const validateRelation = async () => {
+    if (!relationGeneratorData.sourceTable || !relationGeneratorData.targetTable) {
+      setMessage({ type: 'error', text: 'Tables source et cible requises' });
+      return false;
+    }
+
+    try {
+      const res = await fetch('/api/relation-generator/validate-relation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source_table: relationGeneratorData.sourceTable,
+          target_table: relationGeneratorData.targetTable
+        })
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        setMessage({ type: 'success', text: 'Relation valide' });
+        return true;
+      } else {
+        setMessage({ type: 'error', text: data.message });
+        return false;
+      }
+    } catch (err) {
+      setMessage({ type: 'error', text: 'Erreur lors de la validation' });
+      return false;
+    }
+  };
+
+  const generateRelationStepByStep = async () => {
+    if (!await validateRelation()) return;
+
+    try {
+      const res = await fetch('/api/relation-generator/generate-relation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(relationGeneratorData)
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        setGeneratedRelationCode(data.data);
+        setRelationSteps([
+          { id: 'model_source', title: 'Modèle Source', completed: false },
+          { id: 'model_target', title: 'Modèle Cible', completed: false },
+          { id: 'schema_source', title: 'Schéma Source', completed: false },
+          { id: 'schema_target', title: 'Schéma Cible', completed: false },
+          { id: 'migration', title: 'Migration', completed: false },
+          { id: 'routes', title: 'Routes API', completed: false }
+        ]);
+        setCurrentStep(0);
+        setMessage({ type: 'success', text: 'Code de relation généré avec succès' });
+      } else {
+        setMessage({ type: 'error', text: data.message });
+      }
+    } catch (err) {
+      setMessage({ type: 'error', text: 'Erreur lors de la génération du code' });
+    }
+  };
+
   // Gestion dynamique des colonnes
   const handleColumnChange = (idx, field, value) => {
     setColumns(cols => cols.map((col, i) => i === idx ? { ...col, [field]: value } : col));
@@ -215,14 +325,9 @@ function BaseDeDonnees() {
   const addColumn = () => {
     let newCol = { ...columns[columns.length - 1] };
     if (newCol.type === 'Enum') newCol.enumValues = enumValues.filter(v => v.trim() !== '');
-    if (newCol.type === 'ForeignKey') {
-      newCol.isForeignKey = true;
-      newCol.foreignKeyTable = foreignKey.table;
-      newCol.foreignKeyColumn = foreignKey.column;
-    }
+    if (newCol.type === 'ForeignKey') newCol.isForeignKey = true;
     setColumns(cols => [...cols, newCol]);
     setEnumValues([]);
-    setForeignKey({ table: '', column: '' });
   };
   const removeColumn = idx => setColumns(cols => cols.length > 1 ? cols.filter((_, i) => i !== idx) : cols);
 
@@ -285,9 +390,18 @@ function BaseDeDonnees() {
         setMigrationInstructions(data.data);
         setShowMigrationInstructions(true);
         
+        // Capturer les informations de la table générée pour la section dynamique
+        setGeneratedTableInfo({
+          tableName: tableName,
+          className: tableName.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(''),
+          moduleId: moduleId,
+          columns: columns
+        });
+        setShowDynamicSection(true);
+        
         // Réinitialiser le formulaire
         setTableName('');
-        setColumns([{ name: '', type: 'String', nullable: true, unique: false }]);
+        setColumns([{ name: '', type: 'String', nullable: true, unique: false, foreignKeyTable: '', foreignKeyColumn: '' }]);
         
         // Recharger la liste des tables
         fetch('/api/table-generator/list-tables')
@@ -311,36 +425,34 @@ function BaseDeDonnees() {
       setParsedData([]);
       return;
     }
-    
     try {
-      // Séparer les lignes
       const lines = pastedText.trim().split('\n');
-      
-      // Détecter les colonnes Excel
-      const firstLine = lines[0];
-      const excelColumns = firstLine.split('\t');
-      
+      let excelColumns = [];
+      let dataRows = [];
+      if (useFirstRowAsHeader) {
+        excelColumns = lines[0].split('\t').map(col => col.trim());
+        dataRows = lines.slice(1);
+      } else {
+        // Générer des noms col_0, col_1, ...
+        const colCount = lines[0].split('\t').length;
+        excelColumns = Array.from({length: colCount}, (_, i) => `col_${i}`);
+        dataRows = lines;
+      }
       // Créer le mapping par défaut
       const defaultMapping = {};
       excelColumns.forEach((col, idx) => {
-        defaultMapping[`col_${idx}`] = col.trim();
+        defaultMapping[col] = col;
       });
-      
       setColumnMapping(defaultMapping);
       setShowColumnMapping(true);
-      
-      // Stocker les données brutes pour traitement ultérieur
-      setParsedData(lines.slice(1).map(line => {
+      setParsedData(dataRows.map(line => {
         const columns = line.split('\t');
         const row = {};
-        columns.forEach((col, idx) => {
-          row[`col_${idx}`] = col?.trim() || '';
+        excelColumns.forEach((col, idx) => {
+          row[col] = columns[idx]?.trim() || '';
         });
         return row;
-      }).filter(row => {
-        return Object.values(row).some(val => val !== '');
-      }));
-      
+      }).filter(row => Object.values(row).some(val => val !== '')));
     } catch (error) {
       console.error('Erreur parsing Excel:', error);
       setParsedData([]);
@@ -351,32 +463,13 @@ function BaseDeDonnees() {
   const handleColumnMapping = () => {
     if (!columnMapping || !selectedTableForData) return;
     
-    // Colonnes auto-gérées à exclure
-    const autoManagedColumns = ['id', 'created_at', 'updated_at'];
-    
-    // Mapping selon la table - exclure les colonnes auto-gérées
-    let tableColumns = [];
-    if (selectedTableForData === 'niveau_qualification') {
-      tableColumns = ['niveau', 'categorie']; // Sans id, created_at, updated_at
-    } else {
-      // Pour les autres tables, récupérer les colonnes depuis l'API
-      // et exclure les colonnes auto-gérées
-      fetch(`/api/${selectedTableForData}/columns`)
-        .then(response => response.json())
-        .then(result => {
-          if (result.success) {
-            tableColumns = result.data.filter(col => !autoManagedColumns.includes(col));
-          }
-        })
-        .catch(error => {
-          console.error('Erreur récupération colonnes:', error);
-        });
-    }
+    // Utiliser les colonnes réelles de la table
+    const availableTableColumns = tableColumns; // Utilise létattableColumns
     
     // Appliquer le mapping
     const mappedData = parsedData.map(row => {
       const mappedRow = {};
-      tableColumns.forEach(tableCol => {
+      availableTableColumns.forEach(tableCol => {
         const excelCol = columnMapping[tableCol];
         if (excelCol && row[excelCol]) {
           mappedRow[tableCol] = row[excelCol];
@@ -399,7 +492,7 @@ function BaseDeDonnees() {
     
     try {
       // Insérer en lot via l'API
-      const response = await fetch(`/api/${selectedTableForData}/bulk-insert`, {
+      const response = await fetch(`/api/table-generator/${selectedTableForData}/bulk-insert`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -434,6 +527,39 @@ function BaseDeDonnees() {
       setLoading(false);
     }
   };
+
+  // Fonction pour récupérer les colonnes dunetable
+  const loadTableColumns = async (tableName) => {
+    if (!tableName) {
+      setTableColumns([]);
+      return;
+    }
+    
+    try {
+      const res = await fetch(`/api/table-sync/list-columns/${tableName}`);
+      const data = await res.json();
+      if (data.success && Array.isArray(data.data)) {
+        // Filtrer les colonnes auto-gérées
+        const autoManagedColumns = ['id', 'created_at', 'updated_at'];
+        const filteredColumns = data.data
+          .filter(col => !autoManagedColumns.includes(col.name))
+          .map(col => col.name);
+        setTableColumns(filteredColumns);
+      } else {
+        setTableColumns([]);
+      }
+    } catch (err) {
+      console.error('Erreur chargement colonnes:', err);
+      setTableColumns([]);
+    }
+  };
+
+  // Charger les colonnes quand une table est sélectionnée
+  useEffect(() => {
+    if (selectedTableForData) {
+      loadTableColumns(selectedTableForData);
+    }
+  }, [selectedTableForData]);
 
   // Composant OperationGuide pour l'onglet Guide Modifications
   const OperationGuide = ({ operation }) => {
@@ -732,11 +858,15 @@ class CommandeSchema(Schema):
                   }}
                 >
                   <option value="">Choisir une table...</option>
-                  {Array.isArray(availableTables) && availableTables.map(table => (
-                    <option key={table.name} value={table.name}>
-                      {table.name} ({table.module_name})
-                    </option>
-                  ))}
+                  {Array.isArray(availableTables) && availableTables.map((table, index) => {
+                    const tableName = typeof table === 'string' ? table : (table?.name || 'unknown');
+                    const moduleName = typeof table === 'object' && table?.module_name ? table.module_name : '';
+                    return (
+                      <option key={`table-${index}-${tableName}`} value={tableName}>
+                        {tableName} {moduleName ? `(${moduleName})` : ''}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
               <div>
@@ -755,11 +885,15 @@ class CommandeSchema(Schema):
                   }}
                 >
                   <option value="">Choisir une table...</option>
-                  {availableTables.map(table => (
-                    <option key={table.name} value={table.name}>
-                      {table.name} ({table.module_name})
-                    </option>
-                  ))}
+                  {Array.isArray(availableTables) && availableTables.map((table, index) => {
+                    const tableName = typeof table === 'string' ? table : (table?.name || 'unknown');
+                    const moduleName = typeof table === 'object' && table?.module_name ? table.module_name : '';
+                    return (
+                      <option key={`table-${index}-${tableName}`} value={tableName}>
+                        {tableName} {moduleName ? `(${moduleName})` : ''}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
             </div>
@@ -1057,6 +1191,16 @@ class CommandeSchema(Schema):
               Guide Modifications
             </button>
             <button
+              onClick={() => setActiveTab('relations')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'relations'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              🔗 Relations
+            </button>
+            <button
               onClick={() => setActiveTab('data')}
               className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'data'
@@ -1182,30 +1326,29 @@ class CommandeSchema(Schema):
                       <label className="text-xs font-medium text-blue-900">Table cible</label>
                       <select
                         className="border p-1 rounded w-full text-sm"
-                        value={foreignKey.table}
+                        value={col.foreignKeyTable || ''}
                         onChange={e => {
                           const selectedTable = e.target.value;
-                          setForeignKey(fk => ({ ...fk, table: selectedTable, column: '' }));
-                          if (selectedTable) {
-                            loadTargetTableColumns(selectedTable);
-                          }
+                          handleColumnChange(idx, 'foreignKeyTable', selectedTable);
+                          loadTargetTableColumns(selectedTable);
                         }}
                       >
                         <option value="">Choisir une table...</option>
-                        {Array.isArray(availableTables) && availableTables.map(table => (
-                          <option key={table.name} value={table.name}>
-                            {table.name} ({table.module_name})
-                          </option>
-                        ))}
+                        {Array.isArray(tables) && tables.map((table, index) => {
+                          const tableName = typeof table === 'string' ? table : (table?.name || 'unknown');
+                          return (
+                            <option key={`table-${index}-${tableName}`} value={tableName}>{tableName}</option>
+                          );
+                        })}
                       </select>
                     </div>
-                    {foreignKey.table && (
+                    {col.foreignKeyTable && (
                       <div>
                         <label className="text-xs font-medium text-blue-900">Colonne cible</label>
                         <select
                           className="border p-1 rounded w-full text-sm"
-                          value={foreignKey.column}
-                          onChange={e => setForeignKey(fk => ({ ...fk, column: e.target.value }))}
+                          value={col.foreignKeyColumn || ''}
+                          onChange={e => handleColumnChange(idx, 'foreignKeyColumn', e.target.value)}
                         >
                           <option value="">Choisir une colonne...</option>
                           {Array.isArray(targetTableColumns) && targetTableColumns.map(col => (
@@ -1262,6 +1405,86 @@ class CommandeSchema(Schema):
             <button type="button" className="mt-2 px-3 py-1 bg-gray-200 rounded" onClick={addColumn}>+ Ajouter une colonne</button>
           </div>
           <button type="submit" className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" disabled={loading}>{loading ? 'Génération...' : 'Générer le code'}</button>
+          
+          {/* Section dynamique après génération de code */}
+          {showDynamicSection && generatedTableInfo && (
+            <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded">
+              <h3 className="font-semibold text-green-900 mb-3">✅ Table générée avec succès !</h3>
+              
+              <div className="space-y-4">
+                {/* Informations de la table */}
+                <div className="bg-white p-3 rounded border">
+                  <h4 className="font-medium text-green-800 mb-2">📋 Informations de la table :</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                    <div><strong>Nom de la table :</strong> {generatedTableInfo.tableName}</div>
+                    <div><strong>Classe Python :</strong> {generatedTableInfo.className}</div>
+                    <div><strong>Module :</strong> {generatedTableInfo.moduleId}</div>
+                    <div><strong>Colonnes :</strong> {generatedTableInfo.columns.length}</div>
+                  </div>
+                </div>
+                
+                {/* Import statement */}
+                <div className="bg-white p-3 rounded border">
+                  <h4 className="font-medium text-green-800 mb-2">📥 Import à ajouter dans les routes :</h4>
+                  <div className="flex items-center gap-2">
+                    <code className="bg-green-100 px-3 py-2 rounded font-mono text-green-900 flex-1 text-sm">
+                      from app.models.module_{generatedTableInfo.moduleId} import {generatedTableInfo.className}
+                    </code>
+                    <button 
+                      onClick={() => navigator.clipboard.writeText(`from app.models.module_${generatedTableInfo.moduleId} import ${generatedTableInfo.className}`)} 
+                      className="px-3 py-2 bg-green-200 rounded text-green-800 hover:bg-green-300 text-sm"
+                    >
+                      Copier
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Commandes de migration */}
+                <div className="bg-white p-3 rounded border">
+                  <h4 className="font-medium text-green-800 mb-2">🔄 Commandes de migration :</h4>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <code className="bg-green-100 px-3 py-2 rounded font-mono text-green-900 flex-1 text-sm">
+                        flask db migrate -m "Add {generatedTableInfo.tableName} table"
+                      </code>
+                      <button 
+                        onClick={() => navigator.clipboard.writeText(`flask db migrate -m "Add ${generatedTableInfo.tableName} table"`)} 
+                        className="px-3 py-2 bg-green-200 rounded text-green-800 hover:bg-green-300 text-sm"
+                      >
+                        Copier
+                      </button>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <code className="bg-green-100 px-3 py-2 rounded font-mono text-green-900 flex-1 text-sm">
+                        flask db upgrade
+                      </code>
+                      <button 
+                        onClick={() => navigator.clipboard.writeText('flask db upgrade')} 
+                        className="px-3 py-2 bg-green-200 rounded text-green-800 hover:bg-green-300 text-sm"
+                      >
+                        Copier
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mt-2 p-2 bg-yellow-50 border border-yellow-200 rounded">
+                    <p className="text-yellow-800 text-xs">
+                      <strong>💡 Conseil :</strong> Utilisez des guillemets doubles dans PowerShell Windows pour éviter les erreurs de syntaxe.
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Bouton pour masquer la section */}
+                <div className="flex justify-end">
+                  <button 
+                    onClick={() => setShowDynamicSection(false)}
+                    className="px-3 py-1 bg-gray-200 rounded text-gray-700 hover:bg-gray-300 text-sm"
+                  >
+                    Masquer cette section
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </form>
       )}
 
@@ -1465,6 +1688,226 @@ class CommandeSchema(Schema):
         </div>
       )}
 
+      {/* Nouvel onglet Relations */}
+      {activeTab === 'relations' && (
+        <div className="bg-white shadow p-4 rounded mb-8">
+          <h2 className="text-lg font-semibold mb-4">🔗 Générateur de Relations Étape par Étape</h2>
+          
+          <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded">
+            <p className="text-blue-800 text-sm">
+              <strong>ℹ️ Nouveau workflow unifié :</strong> Créez des relations complètes entre tables avec génération automatique du code et instructions précises.
+            </p>
+          </div>
+
+          {/* Sélection des tables */}
+          <div className="mb-6">
+            <h3 className="font-semibold mb-3">1. Sélection des Tables</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block font-medium mb-2">Table source (contient la clé étrangère)</label>
+                <select 
+                  className="border p-2 rounded w-full" 
+                  value={relationGeneratorData.sourceTable} 
+                  onChange={e => setRelationGeneratorData(prev => ({ ...prev, sourceTable: e.target.value }))}
+                >
+                  <option value="">Choisir une table source...</option>
+                  {Array.isArray(tables) && tables.map((table, index) => {
+                    const tableName = typeof table === 'string' ? table : (table?.name || 'unknown');
+                    return (
+                      <option key={`table-${index}-${tableName}`} value={tableName}>{tableName}</option>
+                    );
+                  })}
+                </select>
+              </div>
+              <div>
+                <label className="block font-medium mb-2">Table cible (référencée)</label>
+                <select 
+                  className="border p-2 rounded w-full" 
+                  value={relationGeneratorData.targetTable} 
+                  onChange={e => setRelationGeneratorData(prev => ({ ...prev, targetTable: e.target.value }))}
+                >
+                  <option value="">Choisir une table cible...</option>
+                  {Array.isArray(tables) && tables.map((table, index) => {
+                    const tableName = typeof table === 'string' ? table : (table?.name || 'unknown');
+                    return (
+                      <option key={`table-${index}-${tableName}`} value={tableName}>{tableName}</option>
+                    );
+                  })}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Configuration de la relation */}
+          <div className="mb-6">
+            <h3 className="font-semibold mb-3">2. Configuration de la Relation</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block font-medium mb-2">Type de relation</label>
+                <select 
+                  className="border p-2 rounded w-full" 
+                  value={relationGeneratorData.relationType} 
+                  onChange={e => setRelationGeneratorData(prev => ({ ...prev, relationType: e.target.value }))}
+                >
+                  <option value="many-to-one">Many-to-One (par défaut)</option>
+                  <option value="one-to-many">One-to-Many</option>
+                  <option value="one-to-one">One-to-One</option>
+                  <option value="many-to-many">Many-to-Many</option>
+                </select>
+              </div>
+              <div>
+                <label className="block font-medium mb-2">Cascade (optionnel)</label>
+                <select 
+                  className="border p-2 rounded w-full" 
+                  value={relationGeneratorData.cascade} 
+                  onChange={e => setRelationGeneratorData(prev => ({ ...prev, cascade: e.target.value }))}
+                >
+                  <option value="">Aucun</option>
+                  <option value="save-update">save-update</option>
+                  <option value="all">all</option>
+                  <option value="delete-orphan">delete-orphan</option>
+                </select>
+              </div>
+              <div>
+                <label className="block font-medium mb-2">Lazy loading</label>
+                <select 
+                  className="border p-2 rounded w-full" 
+                  value={relationGeneratorData.lazy} 
+                  onChange={e => setRelationGeneratorData(prev => ({ ...prev, lazy: e.target.value }))}
+                >
+                  <option value="select">select (par défaut)</option>
+                  <option value="joined">joined</option>
+                  <option value="subquery">subquery</option>
+                  <option value="dynamic">dynamic</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Boutons d'action */}
+          <div className="flex gap-2 mb-6">
+            <button 
+              onClick={validateRelation}
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              disabled={!relationGeneratorData.sourceTable || !relationGeneratorData.targetTable}
+            >
+              ✅ Valider la relation
+            </button>
+            <button 
+              onClick={generateRelationStepByStep}
+              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+              disabled={!relationGeneratorData.sourceTable || !relationGeneratorData.targetTable}
+            >
+              🔧 Générer le code
+            </button>
+            <button 
+              onClick={loadTablesForRelation}
+              className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+            >
+              🔄 Actualiser les tables
+            </button>
+          </div>
+
+          {/* Affichage du code généré étape par étape */}
+          {generatedRelationCode && (
+            <div className="mt-6">
+              <h3 className="font-semibold text-green-900 mb-4">✅ Code de Relation Généré</h3>
+              
+              {/* Navigation des étapes */}
+              <div className="mb-4 flex flex-wrap gap-2">
+                {relationSteps.map((step, idx) => (
+                  <button
+                    key={step.id}
+                    onClick={() => setCurrentStep(idx)}
+                    className={`px-3 py-1 rounded text-sm ${
+                      idx === currentStep 
+                        ? 'bg-green-600 text-white' 
+                        : step.completed 
+                          ? 'bg-green-200 text-green-800' 
+                          : 'bg-gray-200 text-gray-700'
+                    }`}
+                  >
+                    {step.title}
+                  </button>
+                ))}
+              </div>
+
+              {/* Affichage de l'étape courante */}
+              {relationSteps[currentStep] && (
+                <div className="bg-white p-4 rounded border">
+                  <h4 className="font-medium text-green-800 mb-3">
+                    Étape {currentStep + 1} : {relationSteps[currentStep].title}
+                  </h4>
+                  
+                  {(() => {
+                    const stepData = generatedRelationCode[`step_${currentStep + 1}_${relationSteps[currentStep].id}`];
+                    if (!stepData) return <p>Données non disponibles pour cette étape.</p>;
+                    
+                    return (
+                      <div>
+                        <div className="mb-3">
+                          <h5 className="font-medium text-gray-800 mb-2">📁 Fichier :</h5>
+                          <code className="bg-gray-100 px-2 py-1 rounded text-sm">{stepData.file}</code>
+                        </div>
+                        
+                        <div className="mb-3">
+                          <h5 className="font-medium text-gray-800 mb-2">📍 Position d'insertion :</h5>
+                          <p className="text-sm text-gray-700">{stepData.insert_position}</p>
+                        </div>
+                        
+                        <div className="mb-3">
+                          <h5 className="font-medium text-gray-800 mb-2">📝 Code à copier :</h5>
+                          <div className="flex items-center gap-2">
+                            <code className="bg-green-100 px-3 py-2 rounded font-mono text-green-900 flex-1 text-sm">
+                              {stepData.code}
+                            </code>
+                            <button 
+                              onClick={() => navigator.clipboard.writeText(stepData.code)} 
+                              className="px-3 py-2 bg-green-200 rounded text-green-800 hover:bg-green-300 text-sm"
+                            >
+                              Copier
+                            </button>
+                          </div>
+                        </div>
+                        
+                        <div className="mb-3">
+                          <h5 className="font-medium text-gray-800 mb-2">📋 Instructions :</h5>
+                          <ol className="text-sm text-gray-700 space-y-1">
+                            {stepData.instructions.map((instruction, idx) => (
+                              <li key={idx} className="flex items-start gap-2">
+                                <span className="text-green-600 font-medium">{idx + 1}.</span>
+                                <span>{instruction}</span>
+                              </li>
+                            ))}
+                          </ol>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
+            </div>
+          )}
+          {/* Encadré rappel ON DELETE pour les clés étrangères */}
+          <div className="mt-8 p-4 bg-gray-50 border border-gray-200 rounded text-xs">
+            <h3 className="font-semibold mb-1">🔎 Rappel ON DELETE (clé étrangère)</h3>
+            <ul className="list-disc list-inside space-y-1">
+              <li>
+                <strong>RESTRICT&nbsp;/ NO ACTION</strong> : empêche la suppression du parent tant
+                qu&apos;il existe des enfants.
+              </li>
+              <li>
+                <strong>SET NULL</strong> : autorise la suppression ; la colonne FK des enfants est
+                mise à <code>null</code> (la FK doit être nullable).
+              </li>
+              <li>
+                <strong>CASCADE</strong> : supprime automatiquement toutes les lignes enfant liées.
+              </li>
+            </ul>
+          </div>
+        </div>
+      )}
+
       {/* Nouvel onglet Données */}
       {activeTab === 'data' && (
         <div className="bg-white shadow p-4 rounded mb-8">
@@ -1483,11 +1926,15 @@ class CommandeSchema(Schema):
               className="border p-2 rounded w-full"
             >
               <option value="">Choisir une table...</option>
-              {tables.map(table => (
-                <option key={table.name} value={table.name}>
-                  {table.name} ({table.module})
-                </option>
-              ))}
+              {Array.isArray(tables) && tables.map((table, index) => {
+                const tableName = typeof table === 'string' ? table : (table?.name || 'unknown');
+                const moduleName = typeof table === 'object' ? (table?.module || '-') : '-';
+                return (
+                  <option key={`table-${index}-${tableName}`} value={tableName}>
+                    {tableName} ({moduleName})
+                  </option>
+                );
+              })}
             </select>
           </div>
           
@@ -1559,37 +2006,21 @@ Note : Les colonnes id, created_at, updated_at sont ignorées automatiquement`}
                   </p>
                   
                   <div className="space-y-2">
-                    {selectedTableForData === 'niveau_qualification' && (
-                      <>
-                        <div className="flex items-center gap-3">
-                          <label className="font-medium text-yellow-900 w-24">Niveau :</label>
-                          <select 
-                            value={columnMapping.niveau || ''}
-                            onChange={e => setColumnMapping({...columnMapping, niveau: e.target.value})}
-                            className="border p-2 rounded flex-1"
-                          >
-                            <option value="">Choisir une colonne...</option>
-                            {Object.entries(columnMapping).map(([key, value]) => (
-                              <option key={key} value={key}>{value}</option>
-                            ))}
-                          </select>
-                        </div>
-                        
-                        <div className="flex items-center gap-3">
-                          <label className="font-medium text-yellow-900 w-24">Catégorie :</label>
-                          <select 
-                            value={columnMapping.categorie || ''}
-                            onChange={e => setColumnMapping({...columnMapping, categorie: e.target.value})}
-                            className="border p-2 rounded flex-1"
-                          >
-                            <option value="">Choisir une colonne...</option>
-                            {Object.entries(columnMapping).map(([key, value]) => (
-                              <option key={key} value={key}>{value}</option>
-                            ))}
-                          </select>
-                        </div>
-                      </>
-                    )}
+                    {tableColumns.map((tableColumn, index) => (
+                      <div key={`column-${index}-${tableColumn}`} className="flex items-center gap-3">
+                        <label className="font-medium text-yellow-900 w-24">{tableColumn.charAt(0).toUpperCase() + tableColumn.slice(1)} :</label>
+                        <select
+                          value={columnMapping[tableColumn] || ''}
+                          onChange={e => setColumnMapping({...columnMapping, [tableColumn]: e.target.value})}
+                          className="border p-2 rounded flex-1"
+                        >
+                          <option value="">Choisir une colonne...</option>
+                          {Object.keys(parsedData[0] || {}).map(key => (
+                            <option key={key} value={key}>{key}</option>
+                          ))}
+                        </select>
+                      </div>
+                    ))}
                   </div>
                   
                   <div className="mt-4 flex gap-2">
@@ -1687,21 +2118,26 @@ Note : Les colonnes id, created_at, updated_at sont ignorées automatiquement`}
           </thead>
           <tbody>
             {tables.length === 0 && <tr><td colSpan={5} className="text-center p-4">Aucune table générée</td></tr>}
-            {Array.isArray(tables) && tables.map((t, idx) => (
-              <tr key={idx}>
-                <td className="border p-2">{t.name}</td>
-                <td className="border p-2">{t.module}</td>
-                <td className="border p-2">{t.columns ? t.columns.length : '-'}</td>
-                <td className="border p-2">
-                  {t.created_at && t.created_at !== '-' && !isNaN(new Date(t.created_at.replace(' ', 'T') + 'Z'))
-                    ? new Date(t.created_at.replace(' ', 'T') + 'Z').toLocaleString()
-                    : '-'}
-                </td>
-                <td className="border p-2">
-                  {/* Bouton supprimé pour 12.1 : pas de suppression */}
-                </td>
-              </tr>
-            ))}
+            {Array.isArray(tables) && tables.map((t, idx) => {
+              const tableName = typeof t === 'string' ? t : (t?.name || `table-${idx}`);
+              const moduleName = typeof t === 'object' ? (t?.module || t?.module_name || '-') : '-';
+              const columnCount = typeof t === 'object' ? (Array.isArray(t.columns) ? t.columns.length : (typeof t.columns === 'number' ? t.columns : '-')) : '-';
+              const createdAt = typeof t === 'object' && t?.created_at && t.created_at !== '-' && !isNaN(new Date(t.created_at.replace(' ', 'T') + 'Z'))
+                ? new Date(t.created_at.replace(' ', 'T') + 'Z').toLocaleString()
+                : '-';
+              
+              return (
+                <tr key={`table-${idx}-${tableName}`}>
+                  <td className="border p-2">{tableName}</td>
+                  <td className="border p-2">{moduleName}</td>
+                  <td className="border p-2">{columnCount}</td>
+                  <td className="border p-2">{createdAt}</td>
+                  <td className="border p-2">
+                    {/* Bouton supprimé pour 12.1 : pas de suppression */}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

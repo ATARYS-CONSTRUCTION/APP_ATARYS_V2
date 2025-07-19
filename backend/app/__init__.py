@@ -66,6 +66,22 @@ def create_app(config_name='development'):
     except Exception as e:
         print(f"[ATARYS] Blueprint table_sync non chargé : {e}")
 
+    # Enregistrement du blueprint relation_generator
+    try:
+        from app.routes.relation_generator import relation_generator_bp
+        app.register_blueprint(relation_generator_bp)
+        print("[ATARYS] Blueprint relation_generator enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint relation_generator non chargé : {e}")
+
+    # Enregistrement du blueprint database_api (nouveau service unifié)
+    try:
+        from app.routes.database_api import database_api_bp
+        app.register_blueprint(database_api_bp)
+        print("[ATARYS] Blueprint database_api enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint database_api non chargé : {e}")
+
     # Enregistrement des modules existants
     try:
         from app.routes.module_1 import module_1_bp

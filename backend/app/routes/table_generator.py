@@ -244,16 +244,79 @@ def validate_foreign_key():
     """Valider une clé étrangère"""
     try:
         data = request.get_json()
+        
+        source_table = data.get('source_table')
+        source_column = data.get('source_column')
+        target_table = data.get('target_table')
+        target_column = data.get('target_column')
+        
+        if not all([source_table, source_column, target_table, target_column]):
+            return jsonify({
+                'success': False,
+                'message': 'Tous les paramètres sont requis'
+            }), 400
+        
+        is_valid = table_generator.validate_foreign_key(
+            source_table, source_column, target_table, target_column
+        )
+        
+        valid_msg = ('Clé étrangère valide' if is_valid 
+                    else 'Clé étrangère invalide')
+        return jsonify({
+            'success': True,
+            'data': {
+                'is_valid': is_valid,
+                'message': valid_msg
+            }
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': f'Erreur validation : {str(e)}'
+        }), 500
+
+
+@table_generator_bp.route('/<table_name>/bulk-insert', methods=['POST'])
+def bulk_insert_data(table_name):
+    """
+    Insérer des données en masse dans une table dynamique
+    
+    POST /api/table-generator/{table_name}/bulk-insert
+    Body: {"data": [{"col1": "val1", "col2": "val2"}, ...]}
+    """
+    try:
+        data = request.get_json()
+        
         if not data:
             return jsonify({
                 'success': False,
                 'message': 'Données JSON requises'
             }), 400
         
-        result = table_generator.validate_foreign_key(data)
-        return jsonify(result)
+        # Validation des données
+        if 'data' not in data or not isinstance(data['data'], list):
+            return jsonify({
+                'success': False,
+                'message': 'Champ "data" requis avec une liste de données'
+            }), 400
+        
+        # Insertion via le service
+        result = table_generator.bulk_insert_data(table_name, data['data'])
+        
+        if result['success']:
+            return jsonify({
+                'success': True,
+                'message': f'{len(data["data"])} lignes insérées dans {table_name}',
+                'data': result.get('data', {})
+            }), 201
+        else:
+            return jsonify({
+                'success': False,
+                'message': result['message']
+            }), 400
+            
     except Exception as e:
         return jsonify({
             'success': False,
-            'message': f'Erreur lors de la validation : {str(e)}'
+            'message': f'Erreur serveur: {str(e)}'
         }), 500 

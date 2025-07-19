@@ -14,6 +14,9 @@ import ChantiersEnCours from './pages/ChantiersEnCours'
 import ChantiersArchives from './pages/ChantiersArchives'
 import CalculArdoises from './pages/CalculArdoises'
 import BaseDeDonnees from './pages/BaseDeDonnees'
+import Module9_1 from './pages/Module9_1'
+import Module9_2 from './pages/Module9_2'
+import Module9_3 from './pages/Module9_3'
 
 function App() {
   return (
@@ -35,6 +38,11 @@ function App() {
               <Route path="/chantiers-signes" element={<ChantiersSignes />} />
               <Route path="/chantiers-en-cours" element={<ChantiersEnCours />} />
               <Route path="/chantiers-archives" element={<ChantiersArchives />} />
+              
+              {/* Module 9 - Social */}
+              <Route path="/module-9-1" element={<Module9_1 />} />
+              <Route path="/module-9-2" element={<Module9_2 />} />
+              <Route path="/module-9-3" element={<Module9_3 />} />
               
               {/* Module 10 - Outils */}
               <Route path="/calcul-ardoises" element={<CalculArdoises />} />

@@ -1,0 +1,191 @@
+﻿Unnamed: 0;Unnamed: 1;Unnamed: 2;Unnamed: 3;Unnamed: 4;Unnamed: 5;Unnamed: 6;Unnamed: 7;Unnamed: 8;Unnamed: 9;Unnamed: 10
+;M. Herve DUPONCEL;;M. Herve DUPONCEL;;;;;;Numéro;25358
+;45 rue de la Gressaudière;;45 rue de la Gressaudière;;;;;;Date de création;12/01/2025
+;35170 Bruz;;35170 Bruz;;;;;;Date de validité;11/02/2025
+;;;;;;;;;;
+;Isolation de toiture par l'extérieur;;;;;;;;;
+;;;;;;;;;;
+;Référence;Libellé;Prix Achat;Coef;Prix Unitaire;Quantité;U;% rem;% tva;PrixTotal
+;;Date de première visite le 30/07/2024;;;;;;;;
+;;Métrés à confirmer;;;;;;;;
+;;;;;;;;;;
+;;"Devis comprenant
+
+Toiture
+Dépose de la couverture ardoises sur la maison (non compris garage)
+Isolation des rampants et de la lucarne jusqu'au comble perdu, compris 
+Couverture neuve
+Changement des vélux côté Nord
+Dépose et repose du vélux côté Sud
+
+";;;;;;;;
+;;;;;;;;;;
+;;Composition des complexes: voir plan de principe joint.;;;;;;;;
+;;;;;;;;;;
+;1x;OUVRAGES COMMUNS;;;;;;;;
+;;;;;;;;;;
+;1.2 002;Montage et démontage d'échafaudage pour temps du chantier. Compris toute sujétions de sécurité;1059.7;1.3;1377.61;1;F;;5.5;1377.61
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;21;H;;5.5;1247.61
+;MAT001;Echafaudage COMABI R200;100;1.3;130;1;F;;5.5;130
+;1.6 002;Installation et repliement en couverture de bâche de couvreur.;624.78;1.3;812.21;1;F;;5.5;812.21
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;12;H;;5.5;712.92
+;B2506X8;BACHE COUVREUR 250G/M² 6,00X8,00ML      BLEU AVEC?OEILLETS EN LAITON;76.3776;1.3;99.29;1;UN;;5.5;99.29
+;1.3 001;Dépose couverture ardoises et liteaux;9.14;1.3;11.88;92;M2;;5.5;1092.96
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;18.4;H;;5.5;1093.14
+;1.3 007;Dépose Isolation (murs et toiture);4.57;1.3;5.94;39;M2;;5.5;231.66
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;3.9;H;;5.5;231.7
+;1.3 016;Dépose Fenêtre de toit;45.7;1.3;59.41;3;U;;5.5;178.23
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;3;H;;5.5;178.23
+;1.6 001;Nettoyage en fin de chantier comprenant le ramassage et la sortie des déchets et emballages;182.8;1.3;237.64;1;F;;5.5;237.64
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;4;H;;5.5;237.64
+;;;;;;;;;;
+;;Sous total :;;;;;;;;3930.31
+;;;;;;;;;;
+;;;;;;;;;;
+;5x;ISOLATION TOITURE EN RAMPANT PAR L'EXTERIEUR;;;;;;;;
+;;;;;;;;;;
+;;R = 6.65  +1.3 = 7.95;;;;;;;;
+;;;;;;;;;;
+;;;;;;;;;;
+;5.1 005;"Frein-vapeur Proclima DASATOP. Pose par l'extérieur pour rénovation. Adhésifs PROCLIMA TESCON VANA.
+Raccord de frein-vapeur sur le comble à confirmer";33.56;1.3;43.63;39;M2;;5.5;1701.57
+;MO1;"MAIN D'OEUVRE 
+";45.7;1.3;59.41;23.4;H;;5.5;1390.19
+;ETAN012;DASATOP Frein-vapeur de rénovation hygrovariable pour une pose en créneaux par l’extérieur;2.5;1.3;3.25;46.8;M²;;5.5;152.1
+;21600132;TESCON VANA 60MMX30,00ML                ADHESIF USAGE INTERIEUR/EXTERIEUR       -12 % CARTON DE 20;20.9324;1.3;27.21;5.85;UN;;5.5;159.18
+;5.2 009;Isolation en panneau de laine de bois semi rigide.STEICO FLEX 240 MM. Densité 60kg/m3, bords droits 1220x575 mm. Lambda = 0.036 R = 6.65. Compris pose d'un chevron 45x45 sur les chevrons porteurs existants;43.04;1.3;55.95;39;M2;;5.5;2182.05
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;9.75;H;;5.5;579.25
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;39;F;;5.5;73.71
+;STE3846082;STEICO FLEX36 240MM 1220X565 R 6,65     COLIS DE 1,3786  M2 2 PX                PALETTE DE 13,786 M2 10COLIS;23.5193;1.3;30.58;42.9;M2;;5.5;1311.88
+;BOISDOUG01;Chevron douglas 42x63 mm L=5.00;1.34;1.299;1.74;124.8;ML;;5.5;217.15
+;5.2 015;Isolation lucarne de toit. Toiture Steico Flex 60 mm, jouée Panneau isolant fibre de bois rigide Steico Universel 60 mm. Compris pare-pluie et raccords d'étanchéité.;465.01;1.3;604.53;1;U;;5.5;604.53
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;7;H;;5.5;415.87
+;STEICOUNIVERD35;STEICO UNIVERSAL  DRY  EP 35 MM         PAREPLUIE/ECRAN SOUS TOITURE RIGIDE     2230X600X35 R 0,75 PAL DE 64 PX;12.9;1.3;16.77;6;M2;;5.5;100.62
+;STE384600;LDB FLEX F 36 60MM 1220X575 R 1,65      COLIS DE 5,612 M2  8 PX                 PALETTE DE 56,12 M2  10 COLIS;5.7988;1.3;7.54;6;M2;;5.5;45.24
+;21600130;FREIN VAPEUR ARMÉ INTELLO+  50X1,50ML   HYGROVARIABLE VALEUR SD 0,25 À  25M     SYSTEME SOUS AVIS TECHNIQUE;210.0008;1.3;273;0.1;UN;;5.5;27.3
+;21600132;TESCON VANA 60MMX30,00ML                ADHESIF USAGE INTERIEUR/EXTERIEUR       -12 % CARTON DE 20;20.9324;1.3;27.21;0.5;UN;;5.5;13.61
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;1;F;;5.5;1.89
+;2.5 011;Panneaux pare-pluie et isolants (support d'enduit)  60 mm. STEICO INTEGRAL Lambda = 0.042 R=1,3. Densité 140kg/m3. Fixation par vis avec rondelles adaptées.;33.95;1.3;44.13;39;M2;;5.5;1721.07
+;2.4 018;Chevrons 44x60 mm BM douglas C18. (partie comble perdus);19.03;1.301;24.75;53;M2;;5.5;1311.75
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;7.95;H;;5.5;472.31
+;22030657;CHARPENTE DOUGLAS 63X44X5,00;782.34;1.3;1017.04;0.53;M3;;5.5;539.03
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;159;F;;5.5;300.51
+;2.5 003;Pare-pluie  HPV et contrelatte cl3 45x27 mm sur chevrons. Compris scotch sur recouvrements et sujétion d'étanchéité à l'air. ;18.46;1.301;24.01;92;M2;;5.5;2208.92
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;18.4;H;;5.5;1093.14
+;101733;SUP'AIR 1,50M X 50 M                    ECRAN DE SOUS TOITURE  R2               REMISE 5 % A LA PALETTE;80.2613;1.3;104.34;1.84;UN;;5.5;191.99
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;138;F;;5.5;260.82
+;27X45X4500MARRO;TASSEAUX CALIB RAB  27X45X4500 CL3      //MARRON //PAL DE 330 PIECES;1.0765;1.301;1.4;294.4;ML;;5.5;412.16
+;21600132;TESCON VANA 60MMX30,00ML                ADHESIF USAGE INTERIEUR/EXTERIEUR       -12 % CARTON DE 20;20.9324;1.3;27.21;9.2;UN;;5.5;250.33
+;2.5 005;Raccord de pare-pluie sur fenêtre de toit;65.65;1.3;85.34;3;U;;5.5;256.02
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;3;H;;5.5;178.23
+;21600132;TESCON VANA 60MMX30,00ML                ADHESIF USAGE INTERIEUR/EXTERIEUR       -12 % CARTON DE 20;20.9324;1.3;27.21;1.5;UN;;5.5;40.82
+;101733;SUP'AIR 1,50M X 50 M                    ECRAN DE SOUS TOITURE  R2               REMISE 5 % A LA PALETTE;80.2613;1.3;104.34;0.3;UN;;5.5;31.3
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;3;F;;5.5;5.67
+;2.4 026;"Débord de toiture en rive et égout inf. à 400 mm.
+Chevrons douglas 45x63 mm fixés sur panneau isolant de toiture (support de planches de rives)
+Planche de rive et égout  22x150 mm, BM douglas C18 raboté. Fixation par vis inox";35;1.3;45.5;40;ML;;5.5;1820
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;16;H;;5.5;950.56
+;22030657;CHARPENTE DOUGLAS 63X44X5,00;782.34;1.3;1017.04;0.36;M3;;5.5;366.13
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;80;F;;5.5;151.2
+;25X150X4000DOUG;PLANCHE DOUGLAS 1 FACE HORS AUBIER      25 X 150 X 4000;22.6001;1.3;29.38;12;M2;;5.5;352.56
+;;;;;;;;;;
+;;Sous total :;;;;;;;;11805.91
+;;;;;;;;;;
+;3x;COUVERTURE;;;;;;;;
+;;;;;;;;;;
+;;Evacuation EP;;;;;;;;
+;3.1 001;Gouttières 1/2 ronde Zinc naturel. Dvp 25;28.87;1.3;37.52;21;ML;;10;787.92
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;6.3;H;;10;374.28
+;UMI204665000;GOUTTIERE 1/2 RONDE 25 ZINC NATUREL 4M00-5% PAR 20 U                            PALETTE DE 250 U NOUS CONSULTER;31.8557;1.3;41.41;6.3;UN;;10;260.88
+;20330029;CROCHET VADOT DOS PLAT DE 25  GALVA                                             REF QSFVE25/CZ01;0.5836;1.302;0.76;67.2;UN;;10;51.07
+;Q002;Forfait soudure;1.5;1.3;1.95;42;F;;10;81.9
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;10.5;F;;10;19.85
+;3.1 018;Descente EP tuyaux cylindriques zinc naturel D=80;26.88;1.3;34.95;11.4;ML;;10;398.43
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;2.28;H;;10;135.45
+;UMI204026000;TUYAU TRONCONIQUE SOUDE D 80  LG 2M     ZINC NATUREL                            -5% PAR 20 U;19.7552;1.3;25.68;7.98;UN;;10;204.93
+;20360005;COLLIER D 80  TARAUDE GALVA DESCENTE    , CARTON DE 25U                         REF QSFCF5180/C;0.985;1.299;1.28;28.5;UN;;10;36.48
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;11.4;F;;10;21.55
+;3.1 022;Jeu de coude zinc naturel D80. Compris soudure et raccordement.;41.67;1.3;54.18;3;U;;10;162.54
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;1.5;H;;10;89.12
+;UMI204026000;TUYAU TRONCONIQUE SOUDE D 80  LG 2M     ZINC NATUREL                            -5% PAR 20 U;19.7552;1.3;25.68;0.75;UN;;10;19.26
+;UMI220007726;COUDE CINTRE 90° D 80  ZINC NATUREL     -5% PAR CARTON DE 50 U;4.3509;1.301;5.66;7.5;UN;;10;42.45
+;Q002;Forfait soudure;1.5;1.3;1.95;6;F;;10;11.7
+;;;;;;;;;;
+;;Couverture ardoises;;;;;;;;
+;3.3 004;Liteaux 18x48 mm et ardoises naturelles 320x220 mm CE-NF 1ER CHOIX Garantie 30ans. Pente 40°. Crochet 9 mm.;77.69;1.302;101.17;92;M2;;10;9307.64
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;50.6;H;;10;3006.15
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.304;1.5;3496;U;;10;5244
+;CAINOX182,79A;CROCHET AGRAFE INOX 18% D2,7 EN  9      BOITE DE 500;40.443;1.3;52.58;7.36;UN;;10;386.99
+;CAINOX182,79P;CROCHET POINTES INOX 18% D2,7 EN  9     BOITE DE 700;46.0817;1.3;59.91;0.736;UN;;10;44.09
+;22320091;18X38X4,20M LITEAUX NORD CALIBRE CL2    -15% A LA PALETTE DE 3402 ML            TRAITECLASSE2;0.6166;1.297;0.8;782;ML;;10;625.6
+;3.3 006;Faitâge en terre cuite Rouge. Clouage avec rondelles d'étanchéité.;30.41;1.3;39.52;11.7;ML;;10;462.38
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;3.51;H;;10;208.53
+;20130021;FAITIERE ARDOISE DE 0,40 ROUGE          -8% PAR PALETTE DE 120;4.1769;1.3;5.43;35.685;UN;;10;193.77
+;20310035;CLOU TORSADE PARAPLUIE 3,8X110 D20 NOIR BOITE DE 100;18.5344;1.3;24.09;0.585;UN;;10;14.09
+;22310052;18X150X4,00  VOLIGE EPICEA TRAITEE II                                           TRAITECLASSE2;7.8989;1.3;10.27;2.34;M2;;10;24.03
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;11.7;F;;10;22.11
+;3.3 018;Ventilation de comble zinc anthra (chatière plate) 335x310;56.36;1.301;73.33;6;U;;10;439.98
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;3;H;;10;178.23
+;UMI210679000;CHATIERE INTEGRA 335 X 310 ANTHRA       -5% PAR CARTON DE 12 U;20.558;1.3;26.73;6;UN;;10;160.38
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.304;1.5;60;U;;10;90
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;6;F;;10;11.34
+;3.3 019;Sortie de toit ventilation de chute diamètre 125 mm pour couverture ardoise. Chatière VM ZINC INTEGRA zinc anthra. Compris réducteur 125/80.;94.69;1.301;123.15;1;U;;10;123.15
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;1;H;;10;59.41
+;UMI220015168;CHATIERE INTEGRA VMC / VENTILATION CHUTEDIAM 125  470X340 ANTHRA;30.544;1.3;39.71;1;UN;;10;39.71
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.304;1.5;10;U;;10;15
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;1;F;;10;1.89
+;UMI220015170;REDUCTEUR P/VENTILATION INTEGRA         125/80;5.4952;1.299;7.14;1;UN;;10;7.14
+;3.3 020;Sortie de toit ventilation de chute diamètre 160 mm pour couverture ardoise. Chatière VM ZINC INTEGRA zinc anthra.;106.57;1.301;138.6;1;U;;10;138.6
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;1;H;;10;59.41
+;UMI220015169;CHATIERE INTEGRA POUR VMC DIAM 160;47.9244;1.3;62.3;1;UN;;10;62.3
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.304;1.5;10;U;;10;15
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;1;F;;10;1.89
+;3.3 028;Dépose et repose d'un solin de poêle;270.25;1.301;351.5;1;U;;10;351.5
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;5;H;;10;297.05
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.304;1.5;30;U;;10;45
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;5;F;;10;9.45
+;3.3 026;Lucarne en ardoises naturelles comprenant jouée de lucarne en ardoises, rive à noquet zinc pour raccord de couverture, noulet zinc naturel, faîtage en tuile.;817.86;1.3;1063.17;1;U;;10;1063.17
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;14;H;;10;831.74
+;UMI200597000;FEUILLE ZINC NATUREL 100X200X0,65       -5% PAR 75 FEUILLES                     PALETTE DE 150U NOUS CONSULTER;57.46;1.3;74.7;2;UN;;10;149.4
+;22320091;18X38X4,20M LITEAUX NORD CALIBRE CL2    -15% A LA PALETTE DE 3402 ML            TRAITECLASSE2;0.6166;1.297;0.8;50;ML;;10;40
+;20130021;FAITIERE ARDOISE DE 0,40 ROUGE          -8% PAR PALETTE DE 120;4.1769;1.3;5.43;6;UN;;10;32.58
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;5;F;;10;9.45
+;3.3 011;Rive biaise en ardoises naturelles;26.66;1.302;34.71;10.5;ML;;10;364.46
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;3.15;H;;10;187.14
+;ARD1;Ardoise 32x22 selon tarif MBR;1.15;1.304;1.5;105;U;;10;157.5
+;Q001;Forfait Quincaillerie;1.45;1.303;1.89;10.5;F;;10;19.85
+;;;;;;;;;;
+;;Fenêtre de toit;;;;;;;;
+;;Reprise de placo à prévoir en intérieur;;;;;;;;
+;3.5 GGL 2076;*Fourniture et pose d'une fenêtre de toit VELUX GGL MK04 2076 CONFORT           A ROTATION FINITION BLANCHE WHITE FINISH 78 CM X 98 CM Uw = 1,2W/(m².K) Sw = 0.23. Raccord Encastré EDN;680.52;1.3;884.68;1;U;;5.5;884.68
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;6;H;;5.5;356.46
+;GGLMK042076;FENETRE GGL MK04 2076 CONFORT           A ROTATION FINITION BLANCHE WHITE FINISH78 CM X 98 CM;330;1.3;429;1;UN;;5.5;429
+;EDNMK040000;RACCORD EDN MK04 POUR ARDOISES          POSE ENCASTREE                          78 X 98;76.32;1.3;99.22;1;UN;;5.5;99.22
+;3.5 GGL 2076;*Fourniture et pose d'une fenêtre de toit VELUX GPL MK04 2076  CONFORT          PROJECTION FINITION BLANCHE WHITE FINISH 78 CM X 98 CM Uw = 1,2W/(m².K) Sw = 0.23. Raccord Encastré EDN;847.52;1.3;1101.78;1;U;;5.5;1101.78
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;6;H;;5.5;356.46
+;EDNMK040000;RACCORD EDN MK04 POUR ARDOISES          POSE ENCASTREE                          78 X 98;76.32;1.3;99.22;1;UN;;5.5;99.22
+;GPLMK042076;FENETRE GPL MK04 2076  CONFORT          PROJECTION FINITION BLANCHE WHITE FINISH78 CM X 98 CM;497;1.3;646.1;1;UN;;5.5;646.1
+;0.0 000A;Repose d'une fenêtre de toit Vélux 114x118 SK06.;274.2;1.3;356.46;1;;;5.5;356.46
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;6;H;;5.5;356.46
+;;;;;;;;;;
+;;Sous total :;;;;;;;;15942.69
+;;;;;;;;;;
+;;Option : (non compris dans le total);;;;;;;;
+;3.5 SSL;Fourniture et pose d'un volet roulant photovoltaique Vélux SSL MK04 78X98;631.74;1.3;821.26;2;U;;10;1642.52
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;6;H;;10;356.46
+;VELSSLMK040000;VOLET ROULANT SOLAIRE SSL MKO4          78X98;494.64;1.3;643.03;2;UN;;10;1286.06
+;3.5 SSL;"Fourniture et pose d'un volet roulant photovoltaique Vélux SSL SK06 114X118
+";755.58;1.3;982.25;1;U;;10;982.25
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;3;H;;10;178.23
+;VELSSLSK060000;VOLET ROULANT SOLAIRE SSL SKO6          114 X 118;618.48;1.3;804.02;1;UN;;10;804.02
+;3.5 GGL 2076;*Fourniture et pose d'une fenêtre de toit VELUX GPL MK04 2076  CONFORT          PROJECTION FINITION BLANCHE WHITE FINISH 78 CM X 98 CM Uw = 1,2W/(m².K) Sw = 0.23. Raccord Encastré EDN;847.52;1.3;1101.78;1;U;;10;1101.78
+;MO1;MAIN D'OEUVRE 1;45.7;1.3;59.41;6;H;;10;356.46
+;EDNMK040000;RACCORD EDN MK04 POUR ARDOISES          POSE ENCASTREE                          78 X 98;76.32;1.3;99.22;1;UN;;10;99.22
+;GPLMK042076;FENETRE GPL MK04 2076  CONFORT          PROJECTION FINITION BLANCHE WHITE FINISH78 CM X 98 CM;497;1.3;646.1;1;UN;;10;646.1
+;;Fin d'option;;;;;;;;
+;;;;;;;;;;
+;;;;;;;;;;
+;;;;;;;;;;
+;;;;;;;;;Total HT;31678.91
+;;;;;;;;;Tot. TVA;2354.33
+;;;;;;;;;Total TTC;34033.24

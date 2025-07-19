@@ -7,9 +7,20 @@ docs/02-architecture/ATARYS_MODULES.md)
 - Strings avec longueur max obligatoire
 - __repr__ explicite
 """
-from app.models.base import BaseModel
-from app import db
 from datetime import datetime
+from app import db
+from app.models.base import BaseModel
 
-# Modèles du module 5 - DEVIS_FACTURATION
-# Ajouter ici les modèles du module 5 selon les besoins
+
+class FamilleOuvrages(BaseModel):
+    __tablename__ = 'famille_ouvrages'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    num_bd_atarys = db.Column(db.String(10))
+    libelle = db.Column(db.String(100), nullable=False)
+
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def __repr__(self):
+        return f"<FamilleOuvrages {self.id}>"

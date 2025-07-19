@@ -45,7 +45,7 @@ Entreprise charpente-couverture-menuiserie de 10 personnes. Valeurs : technicit�
 #### **✅ ÉLÉMENTS 100% OPÉRATIONNELS V2**
 - **Frontend React** - Structure complète fonctionnelle (port 3000)
 - **Backend Flask** - API REST opérationnelle (port 5000)
-- **Base de données** - SQLite V2 avec 176 lignes articles
+- **Base de données** - SQLite V2 avec tables de test (TestAuditTable, TestCle2)
 - **API REST** - Interface d'administration (port 5000)
 - **Documentation** - Architecture complète et cohérente
 - **Nomenclature** - 13 modules ATARYS avec sous-modules définis
@@ -53,22 +53,22 @@ Entreprise charpente-couverture-menuiserie de 10 personnes. Valeurs : technicit�
 - **APIs REST** - Format standardisé `{success, data, message}`
 - **Pattern BaseModel** - SQLAlchemy 2.0+ avec types standards
 
-#### **✅ MODULES IMPLÉMENTÉS V2**
-- **Module 5.1** - Articles ATARYS (OPÉRATIONNEL)
-  - Table `articles_atarys` : 176 lignes
-  - API `/api/articles-atarys/` : CRUD complet
-  - Logique UPSERT : Création/mise à jour automatique
-  - Interface Flask-Admin : Gestion des données
+#### **✅ MODULES PARTIELLEMENT IMPLÉMENTÉS V2**
+- **Module 5** - DEVIS_FACTURATION (EN COURS)
+  - Modèle `FamilleOuvrages` créé
+  - Structure SQLAlchemy définie
+  - API à implémenter
 
-- **Module 12.1** - Base de Données (OPÉRATIONNEL)
+- **Module 12** - PARAMÈTRES (EN COURS)
+  - Tables de test : `TestAuditTable`, `TestCle2`
+  - Relations avec clés étrangères
   - Interface de gestion des données
-  - Compteur de lignes dynamique
-  - Import Excel intelligent
-  - Création dynamique de tables
+  - Service de création dynamique de tables
 
 #### **🔄 MODULES EN COURS V2**
-- **Module 1.1** - Planning Salariés (EN COURS)
-- **Module 10.1** - Calcul Ardoises (EN COURS)
+- **Module 1** - PLANNING (STRUCTURE CRÉÉE)
+- **Module 10** - CALCULS (STRUCTURE CRÉÉE)
+- **Modules 2-4, 6-9, 11, 13** - STRUCTURES CRÉÉES, MODÈLES À DÉFINIR
 
 #### **📋 RÉFÉRENCE TECHNIQUE V1 CONSERVÉE**
 - **Dossiers V1** - `0 APP ATARYS/` et `0 APP ATARYS - Copie/` pour référence
@@ -304,3 +304,68 @@ cd backend; python run_flask_admin.py
 ---
 
 **✅ PROJET ATARYS V2 - Architecture opérationnelle, développement efficace !**
+
+### **🎨 Frontend V2**
+
+### **Pages Implémentées**
+- **Module 12.1** : `BaseDeDonnees.jsx` (Base de données - OPÉRATIONNEL)
+- **Module 1.1** : `PlanningSalaries.jsx` (Planning salariés - OPÉRATIONNEL)
+- **Module 10.1** : `CalculArdoises.jsx` (Calcul ardoises - EN COURS)
+
+### **Composants Dynamiques**
+
+#### **1. AddRowForm.jsx**
+- Formulaire dynamique basé sur JSON Schema
+- Validation en temps réel
+- Conversion automatique des types
+- Intégration avec l'API
+
+#### **2. CreateTableForm.jsx**
+- Interface multi-étapes pour création de tables
+- Suggestions intelligentes selon le nom des colonnes
+- Génération automatique du code SQLAlchemy
+- Intégration avec l'API de création
+
+### **Fonctionnalités Avancées**
+
+#### **Gestion des Données**
+- **Collage Excel** : Import direct depuis Excel
+- **Validation** : Filtrage des lignes vides
+- **Conversion types** : String → Number, Boolean
+- **Logique UPSERT** : Création/mise à jour automatique
+
+#### **Interface Utilisateur**
+- **Compteur de lignes** : Affichage dynamique (176 lignes)
+- **Boutons d'action** : Ajouter ligne, créer table
+- **Gestion d'erreurs** : Messages explicites
+- **Responsive** : Adaptation mobile/desktop
+
+### **🎯 BONNES PRATIQUES TABLEAUX ATARYS**
+
+#### **Interactions Utilisateur**
+- **Simple clic** : Sélection de la ligne (highlight)
+- **Double clic** : Ouverture du formulaire de modification
+- **Boutons d'action** : Modifier, Supprimer, Actions spéciales
+- **Feedback visuel** : Ligne sélectionnée avec bordure colorée
+
+#### **Structure Tableau Standard**
+```jsx
+<tr
+  key={item.id}
+  onClick={() => handleRowClick(item)}
+  onDoubleClick={() => handleEdit(item)}
+  className={`hover:bg-gray-50 cursor-pointer ${
+    selectedItem?.id === item.id ? 'bg-blue-50 border-l-4 border-blue-500' : ''
+  }`}
+>
+```
+
+#### **Gestion des Relations**
+- **Affichage des relations** : Utiliser `find()` pour récupérer les libellés
+- **Exemple** : `niveauQualifications.find(q => q.id === salary.niveau_qualification_id)?.niveau`
+- **Fallback** : Toujours prévoir un fallback `|| '-'` pour les valeurs nulles
+
+#### **Formulaires de Modification**
+- **Champs obligatoires** : Validation côté frontend ET backend
+- **Sélection multiple** : Utiliser `multiple` et `size` pour les listes
+- **Instructions utilisateur** : Textes d'aide pour les interactions complexes

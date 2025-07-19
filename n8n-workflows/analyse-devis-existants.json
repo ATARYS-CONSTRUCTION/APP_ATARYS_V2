@@ -1,0 +1,50 @@
+{
+  "name": "Analyse Devis Historiques ATARYS",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "C:\\ATARYS\\Devis\\**\\*.pdf",
+        "options": {}
+      },
+      "name": "Scan Dossiers Devis",
+      "type": "n8n-nodes-base.readPdf",
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "messages": [
+          {
+            "role": "system",
+            "content": "Tu es un expert en analyse de devis BTP. Extrait les informations clés de ce devis : client, date, montant HT, type de travaux, matériaux, main d'œuvre, délai. Réponds en JSON structuré."
+          },
+          {
+            "role": "user", 
+            "content": "{{ $json.text }}"
+          }
+        ]
+      },
+      "name": "Extraction IA Devis",
+      "type": "n8n-nodes-base.openAi",
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "ID_GOOGLE_SHEET_ANALYSE",
+        "options": {}
+      },
+      "name": "Export Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [650, 300]
+    }
+  ],
+  "connections": {
+    "Scan Dossiers Devis": {
+      "main": [["Extraction IA Devis"]]
+    },
+    "Extraction IA Devis": {
+      "main": [["Export Google Sheets"]]
+    }
+  }
+}

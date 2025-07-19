@@ -50,7 +50,8 @@ class TableGeneratorService:
             'Timestamp': 'db.Timestamp',
             'JSON': 'db.JSON',
             'LargeBinary': 'db.LargeBinary',
-            'Enum': 'db.Enum'
+            'Enum': 'db.Enum',
+            'ForeignKey': 'db.Integer'
         }
         
         # Mapping vers SQLite
@@ -67,7 +68,8 @@ class TableGeneratorService:
             'Timestamp': 'TEXT',
             'JSON': 'TEXT',
             'LargeBinary': 'BLOB',
-            'Enum': 'TEXT'
+            'Enum': 'TEXT',
+            'ForeignKey': 'INTEGER'
         }
     
     def create_table_professional(self, table_data):
@@ -1374,7 +1376,181 @@ class {class_name}Schema(Schema):
     
     def _pascal_to_snake(self, pascal_case):
         """Convertir PascalCase en snake_case"""
+        import re
         return re.sub(r'(?<!^)(?=[A-Z])', '_', pascal_case).lower()
+
+    def bulk_insert_data(self, table_name, data_list):
+        """
+        Insérer des données en masse dans une table dynamique
+        
+        Args:
+            table_name (str): Nom de la table
+            data_list (list): Liste de dictionnaires de données
+        
+        Returns:
+            dict: {'success': bool, 'message': str, 'data': dict}
+        """
+        try:
+            # 1. Vérifier que la table existe
+            if not self._table_exists(table_name):
+                return {
+                    'success': False,
+                    'message': f"Table '{table_name}' n'existe pas"
+                }
+            
+            # 2. Récupérer la structure de la table
+            columns = self._get_table_columns(table_name)
+            if not columns:
+                return {
+                    'success': False,
+                    'message': f"Impossible de récupérer la structure de la table '{table_name}'"
+                }
+            
+            # 3. Valider et nettoyer les données
+            cleaned_data = []
+            for row in data_list:
+                if not isinstance(row, dict):
+                    continue
+                
+                # Filtrer les lignes vides
+                if not any(str(value).strip() for value in row.values()):
+                    continue
+                
+                # Nettoyer les données
+                cleaned_row = {}
+                for col_name, value in row.items():
+                    if col_name in columns:
+                        # Convertir les types selon la colonne
+                        cleaned_value = self._convert_value_type(value, columns[col_name])
+                        cleaned_row[col_name] = cleaned_value
+                
+                if cleaned_row:  # Ne pas ajouter de lignes vides
+                    cleaned_data.append(cleaned_row)
+            
+            if not cleaned_data:
+                return {
+                    'success': False,
+                    'message': "Aucune donnée valide à insérer"
+                }
+            
+            # 4. Insérer les données
+            inserted_count = 0
+            for row in cleaned_data:
+                try:
+                    # Construire la requête SQL dynamique
+                    columns_str = ', '.join(row.keys())
+                    placeholders = ', '.join(['?' for _ in row])
+                    values = list(row.values())
+                    
+                    query = f"INSERT INTO {table_name} ({columns_str}) VALUES ({placeholders})"
+                    
+                    # Exécuter l'insertion avec sqlite3 direct
+                    import sqlite3
+                    import os
+                    db_path = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'data', 'atarys_data.db')
+                    conn = sqlite3.connect(db_path)
+                    cursor = conn.cursor()
+                    
+                    cursor.execute(query, values)
+                    conn.commit()
+                    conn.close()
+                    inserted_count += 1
+                        
+                except Exception as e:
+                    # Continuer avec les autres lignes en cas d'erreur
+                    print(f"Erreur insertion ligne {row}: {str(e)}")
+                    continue
+            
+            return {
+                'success': True,
+                'message': f"{inserted_count} lignes insérées sur {len(cleaned_data)} données valides",
+                'data': {
+                    'inserted_count': inserted_count,
+                    'total_processed': len(data_list),
+                    'valid_data_count': len(cleaned_data)
+                }
+            }
+            
+        except Exception as e:
+            return {
+                'success': False,
+                'message': f"Erreur lors de l'insertion en masse : {str(e)}"
+            }
+
+    def _table_exists(self, table_name):
+        """Vérifier si une table existe"""
+        try:
+            # Utiliser le chemin absolu de la base de données
+            import os
+            db_path = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'data', 'atarys_data.db')
+            
+            # Vérifier directement avec sqlite3
+            import sqlite3
+            conn = sqlite3.connect(db_path)
+            cursor = conn.cursor()
+            
+            # Vérifier dans sqlite_master
+            cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name=?", [table_name])
+            if cursor.fetchone():
+                conn.close()
+                return True
+            
+            # Méthode alternative: essayer PRAGMA
+            try:
+                cursor.execute(f"PRAGMA table_info({table_name})")
+                columns = cursor.fetchall()
+                conn.close()
+                return len(columns) > 0
+            except:
+                conn.close()
+                return False
+                    
+        except Exception as e:
+            print(f"Erreur vérification table {table_name}: {e}")
+            return False
+
+    def _get_table_columns(self, table_name):
+        """Récupérer les colonnes d'une table"""
+        try:
+            # Utiliser le chemin absolu de la base de données
+            import os
+            db_path = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'data', 'atarys_data.db')
+            
+            # Vérifier directement avec sqlite3
+            import sqlite3
+            conn = sqlite3.connect(db_path)
+            cursor = conn.cursor()
+            
+            cursor.execute(f"PRAGMA table_info({table_name})")
+            columns = {}
+            for row in cursor.fetchall():
+                columns[row[1]] = row[2]  # nom, type
+            conn.close()
+            return columns
+        except Exception as e:
+            print(f"Erreur récupération colonnes {table_name}: {e}")
+            return {}
+
+    def _convert_value_type(self, value, column_type):
+        """Convertir la valeur selon le type de colonne"""
+        if value is None or value == '':
+            return None
+        
+        try:
+            if 'INTEGER' in column_type.upper():
+                return int(value) if value else 0
+            elif 'REAL' in column_type.upper() or 'FLOAT' in column_type.upper():
+                return float(value) if value else 0.0
+            elif 'TEXT' in column_type.upper():
+                return str(value) if value else ''
+            elif 'BOOLEAN' in column_type.upper():
+                if isinstance(value, bool):
+                    return value
+                return str(value).lower() in ('true', '1', 'yes', 'oui')
+            else:
+                return str(value) if value else ''
+        except (ValueError, TypeError):
+            return str(value) if value else ''
 
 
 # Instance globale du service
