@@ -2,119 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { PageLayout, Card } from '../components/Layout';
 import { useMenu } from '../contexts/MenuContext';
 
-// Données des salariés (copiées du fichier JSON de référence)
-const SALARIES_DATA = [
-  {
-    "id": 1,
-    "prenom": "ROMAIN",
-    "nom": "GOUJON",
-    "salaire_brut_horaire": 14.59,
-    "nombre_heure_hebdo": 39.0,
-    "date_entree": "2018-05-14",
-    "date_sortie": "",
-    "niveau_id": 5,
-    "colonne_planning": 1
-  },
-  {
-    "id": 2,
-    "prenom": "VINCENT",
-    "nom": "CORMONT",
-    "salaire_brut_horaire": 14.59,
-    "nombre_heure_hebdo": 35.0,
-    "date_entree": "2020-09-14",
-    "date_sortie": "",
-    "niveau_id": 5,
-    "colonne_planning": 2
-  },
-  {
-    "id": 3,
-    "prenom": "ITAI",
-    "nom": "BENGAL",
-    "salaire_brut_horaire": 14.59,
-    "nombre_heure_hebdo": 32.0,
-    "date_entree": "2017-01-18",
-    "date_sortie": "",
-    "niveau_id": 5,
-    "colonne_planning": 3
-  },
-  {
-    "id": 4,
-    "prenom": "REMI",
-    "nom": "LINARES",
-    "salaire_brut_horaire": 10.69,
-    "nombre_heure_hebdo": 35.0,
-    "date_entree": "2023-03-01",
-    "date_sortie": "2025-07-30",
-    "niveau_id": 8,
-    "colonne_planning": 4
-  },
-  {
-    "id": 5,
-    "prenom": "MERLIN",
-    "nom": "RABILLER-LAHAYE",
-    "salaire_brut_horaire": 12.16,
-    "nombre_heure_hebdo": 35.0,
-    "date_entree": "2024-09-01",
-    "date_sortie": "2025-08-30",
-    "niveau_id": 8,
-    "colonne_planning": 5
-  },
-  {
-    "id": 6,
-    "prenom": "MARTIN",
-    "nom": "ARRIBARD",
-    "salaire_brut_horaire": 12.16,
-    "nombre_heure_hebdo": 35.0,
-    "date_entree": "2024-09-01",
-    "date_sortie": "2026-08-31",
-    "niveau_id": 9,
-    "colonne_planning": 6
-  },
-  {
-    "id": 7,
-    "prenom": "DAVID",
-    "nom": "BETIN",
-    "salaire_brut_horaire": 15.5,
-    "nombre_heure_hebdo": 35.0,
-    "date_entree": "2025-04-14",
-    "date_sortie": "",
-    "niveau_id": 6,
-    "colonne_planning": 7
-  },
-  {
-    "id": 8,
-    "prenom": "YANN",
-    "nom": "OILLO",
-    "salaire_brut_horaire": 16.8,
-    "nombre_heure_hebdo": 39.0,
-    "date_entree": "2019-02-01",
-    "date_sortie": "",
-    "niveau_id": 7,
-    "colonne_planning": 8
-  },
-  {
-    "id": 9,
-    "prenom": "JULIEN",
-    "nom": "LE BADEZET",
-    "salaire_brut_horaire": 18.0,
-    "nombre_heure_hebdo": 42.0,
-    "date_entree": "2015-03-01",
-    "date_sortie": "",
-    "niveau_id": 7,
-    "colonne_planning": 9
-  },
-  {
-    "id": 10,
-    "prenom": "PAOLO",
-    "nom": "IZQUIERDO",
-    "salaire_brut_horaire": 10.69,
-    "nombre_heure_hebdo": 35.0,
-    "date_entree": "2025-09-01",
-    "date_sortie": "2026-08-31",
-    "niveau_id": 9,
-    "colonne_planning": 5
-  }
-];
+// Suppression des données hardcodées - remplacées par un appel API dynamique
 
 function getWeekNumber(date) {
   const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -183,18 +71,20 @@ function isHoliday(date) {
       || date.getTime() === pentecostMonday.getTime();
 }
 
+// Fonction adaptée pour travailler avec les objets salariés complets
 function getSalariesForDate(date, salaries) {
   if (!salaries || !Array.isArray(salaries)) return Array(12).fill("");
   
   const result = Array(12).fill("");
-  salaries.forEach(s => {
-    if (!s || !s.date_entree || !s.colonne_planning) return;
+  salaries.forEach(salary => {
+    if (!salary || !salary.date_entree || !salary.colonne_planning) return;
     
-    const entree = new Date(s.date_entree);
-    const sortie = s.date_sortie ? new Date(s.date_sortie) : null;
+    const entree = new Date(salary.date_entree);
+    const sortie = salary.date_sortie ? new Date(salary.date_sortie) : null;
     
     if (entree <= date && (!sortie || date <= sortie)) {
-      result[s.colonne_planning - 1] = s.prenom;
+      // Utiliser le prénom du salarié (dans le champ 'nom' de la base de données)
+      result[salary.colonne_planning - 1] = salary.nom;
     }
   });
   return result;
@@ -209,9 +99,37 @@ function PlanningSalaries() {
   const [rows, setRows] = useState([]);
   const [dateVisible, setDateVisible] = useState(new Date());
   const [todayRowIndex, setTodayRowIndex] = useState(null);
+  
+  // États pour la gestion des données dynamiques
+  const [salaries, setSalaries] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Utiliser les données statiques
-  const salaries = SALARIES_DATA;
+  // Chargement des salariés depuis l'API
+  useEffect(() => {
+    const fetchSalaries = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const response = await fetch('/api/salaries/?actif=true');
+        const data = await response.json();
+        
+        if (data.success) {
+          setSalaries(data.data);
+        } else {
+          setError('Erreur lors du chargement des salariés');
+        }
+      } catch (error) {
+        console.error('Erreur lors du chargement des salariés:', error);
+        setError('Erreur de connexion au serveur');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSalaries();
+  }, []);
 
   useEffect(() => {
     if (!salaries) return;
@@ -233,7 +151,7 @@ function PlanningSalaries() {
       if (isWeekend || isHolidayDay) bg = "bg-gray-200";
       if (isToday) {
         bg = "bg-blue-200";
-        setTodayRowIndex(tempRows.length);
+        todayRowIndex = tempRows.length;
       }
       tempRows.push({
         date: new Date(d),
@@ -244,6 +162,7 @@ function PlanningSalaries() {
     }
 
     setRows(tempRows);
+    setTodayRowIndex(todayRowIndex);
   }, [salaries]);
 
   // Effet pour gérer le défilement vers la date du jour
@@ -269,7 +188,7 @@ function PlanningSalaries() {
 
     const timer = setTimeout(scrollToToday, 100);
     return () => clearTimeout(timer);
-  }, [isMounted, todayRowIndex]);
+  }, [isMounted, todayRowIndex, rows]); // Ajout de 'rows' dans les dépendances
 
   // Effet pour gérer la mise à jour de la date visible au défilement
   useEffect(() => {
@@ -326,6 +245,45 @@ function PlanningSalaries() {
     const limited = allSalaries.slice(0, maxSalariesColumns);
     return limited;
   };
+
+  // Affichage de chargement
+  if (loading) {
+    return (
+      <PageLayout variant="ultrawide" title="Planning ATARYS">
+        <Card padding="none" className="pb-4">
+          <div className="flex justify-center items-center p-8">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+              <p className="text-gray-600">Chargement des salariés...</p>
+            </div>
+          </div>
+        </Card>
+      </PageLayout>
+    );
+  }
+
+  // Affichage d'erreur
+  if (error) {
+    return (
+      <PageLayout variant="ultrawide" title="Planning ATARYS">
+        <Card padding="none" className="pb-4">
+          <div className="flex justify-center items-center p-8">
+            <div className="text-center">
+              <div className="text-red-500 text-4xl mb-4">⚠️</div>
+              <p className="text-red-600 font-semibold mb-2">Erreur de chargement</p>
+              <p className="text-gray-600">{error}</p>
+              <button 
+                onClick={() => window.location.reload()} 
+                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              >
+                Réessayer
+              </button>
+            </div>
+          </div>
+        </Card>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout variant="ultrawide" title="Planning ATARYS">

@@ -175,6 +175,14 @@ def create_app(config_name='development'):
     except Exception as e:
         print(f"[ATARYS] Blueprint module_13 non chargé : {e}")
 
+    # Enregistrement du blueprint Google Contacts
+    try:
+        from app.routes.google_contacts_api import google_contacts_bp
+        app.register_blueprint(google_contacts_bp)
+        print("[ATARYS] Blueprint google_contacts enregistré avec succès")
+    except Exception as e:
+        print(f"[ATARYS] Blueprint google_contacts non chargé : {e}")
+
     # Route de santé pour vérifier que l'app fonctionne
     @app.route('/health')
     def health_check():

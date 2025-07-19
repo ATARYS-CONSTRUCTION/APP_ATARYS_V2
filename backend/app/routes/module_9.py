@@ -97,7 +97,21 @@ def delete_niveau_qualification(item_id):
 @module_9_bp.route('/api/salaries/', methods=['GET'])
 def list_salaries():
     try:
-        items = Salaries.query.all()
+        # Récupérer le paramètre actif depuis la requête
+        actif = request.args.get('actif', type=str)
+        
+        if actif == 'true':
+            # Filtrer les salariés actifs (sans date de sortie ou date de sortie dans le futur)
+            from datetime import date
+            today = date.today()
+            items = Salaries.query.filter(
+                (Salaries.date_sortie.is_(None)) | 
+                (Salaries.date_sortie > today)
+            ).all()
+        else:
+            # Retourner tous les salariés
+            items = Salaries.query.all()
+        
         return jsonify({
             'success': True,
             'data': salaries_schemas.dump(items),

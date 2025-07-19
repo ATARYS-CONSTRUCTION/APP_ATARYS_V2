@@ -43,6 +43,25 @@ Cette documentation décrit les workflows principaux de l'application ATARYS V2,
 >
 ```
 
+### **📅 Planning Salariés - Liaison Dynamique**
+
+#### **RÈGLE ABSOLUE : Données dynamiques pour le planning**
+- **TOUJOURS** : Utiliser les données de la base de données pour le planning
+- **JAMAIS** : Hardcoder les données des salariés dans le planning
+- **STANDARD** : API `/api/salaries/?actif=true` pour récupérer les salariés actifs
+
+#### **Documentation Complète**
+- 📋 **Voir** : `docs/03-regles-standards/PLANNING_SALARIES_DYNAMIC.md`
+- ✅ **Implémentation** : `frontend/src/pages/PlanningSalaries.jsx`
+- 🔧 **API** : `backend/app/routes/module_9.py` - route `list_salaries()`
+
+#### **Fonctionnalités OBLIGATOIRES**
+1. **Chargement dynamique** : Appel API au montage du composant
+2. **Gestion des états** : Loading, Error, Success
+3. **Positionnement intelligent** : Utilisation du champ `colonne_planning`
+4. **Filtrage des actifs** : Seuls les salariés actifs sont affichés
+5. **Gestion des dates** : Respect des dates d'entrée/sortie
+
 #### **Fonctionnalités Associées OBLIGATOIRES**
 1. **Sélection visuelle** : Ligne sélectionnée avec bordure bleue
 2. **Hover effect** : Effet de survol sans masquer la sélection
