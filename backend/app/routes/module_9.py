@@ -11,8 +11,8 @@ import subprocess
 from flask import Blueprint, jsonify, request
 from marshmallow import Schema, fields
 from app import db
-from app.models.module_9 import NiveauQualification, Salaries
-from app.schemas.module_9 import NiveauQualificationSchema, SalariesSchema
+from app.models.module_9 import NiveauQualification, Salaries, Ville
+from app.schemas.module_9 import NiveauQualificationSchema, SalariesSchema, VilleSchema
 from app.utils.onedrive_detector import onedrive_detector
 
 module_9_bp = Blueprint('module_9', __name__)
@@ -25,6 +25,8 @@ niveau_qualification_schema = NiveauQualificationSchema()
 niveau_qualification_schemas = NiveauQualificationSchema(many=True)
 salaries_schema = SalariesSchema()
 salaries_schemas = SalariesSchema(many=True)
+ville_schema = VilleSchema()
+ville_schemas = VilleSchema(many=True)
 
 # Routes CRUD pour NiveauQualification
 @module_9_bp.route('/api/niveau_qualification/', methods=['GET'])
@@ -124,6 +126,11 @@ def list_salaries():
 def create_salaries():
     try:
         data = request.get_json()
+        
+        # NETTOYAGE: Supprimer les anciens champs obsolètes
+        data.pop('code_postal', None)
+        data.pop('ville', None)
+        
         errors = salaries_schema.validate(data)
         if errors:
             return jsonify({'success': False, 'message': errors}), 400
@@ -177,13 +184,37 @@ def create_salaries():
         db.session.rollback()
         return jsonify({'success': False, 'message': str(e)}), 400
 
+@module_9_bp.route('/api/salaries/<int:item_id>', methods=['GET'])
+def get_salary(item_id):
+    try:
+        item = Salaries.query.get_or_404(item_id)
+        return jsonify({
+            'success': True,
+            'data': salaries_schema.dump(item),
+            'message': 'Salarié récupéré avec succès'
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 400
+
 @module_9_bp.route('/api/salaries/<int:item_id>', methods=['PUT'])
 def update_salaries(item_id):
     try:
         item = Salaries.query.get_or_404(item_id)
         data = request.get_json()
+        
+        # DEBUG: Afficher les données reçues
+        print(f"🔍 DEBUG - Données reçues pour salarié {item_id}:")
+        print(f"   {data}")
+        
+        # NETTOYAGE: Supprimer les anciens champs obsolètes
+        data.pop('code_postal', None)
+        data.pop('ville', None)
+        
+        print(f"✅ Données nettoyées: {data}")
+        
         errors = salaries_schema.validate(data)
         if errors:
+            print(f"❌ Erreurs de validation: {errors}")
             return jsonify({'success': False, 'message': errors}), 400
         
         # Conversion des chaînes de dates en objets date Python
@@ -342,5 +373,57 @@ def get_onedrive_info():
             'success': False, 
             'message': f'Erreur lors de la récupération des infos: {str(e)}'
         }), 500
+
+
+# Routes CRUD pour Ville
+@module_9_bp.route('/api/villes/', methods=['GET'])
+def list_villes():
+    try:
+        items = Ville.query.all()
+        return jsonify({
+            'success': True,
+            'data': ville_schemas.dump(items),
+            'message': f'{len(items)} villes trouvées'
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 400
+
+
+@module_9_bp.route('/api/villes/search', methods=['GET'])
+def search_villes():
+    try:
+        code_postal = request.args.get('code_postal')
+        ville = request.args.get('ville')
+        
+        query = Ville.query
+        
+        if code_postal:
+            query = query.filter(Ville.code_postal.like(f'{code_postal}%'))
+        
+        if ville:
+            query = query.filter(Ville.communes.ilike(f'%{ville}%'))
+        
+        items = query.limit(20).all()
+        
+        return jsonify({
+            'success': True,
+            'data': ville_schemas.dump(items),
+            'message': f'{len(items)} villes trouvées'
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 400
+
+
+@module_9_bp.route('/api/villes/<int:item_id>', methods=['GET'])
+def get_ville(item_id):
+    try:
+        item = Ville.query.get_or_404(item_id)
+        return jsonify({
+            'success': True,
+            'data': ville_schema.dump(item),
+            'message': 'Ville récupérée avec succès'
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 400
 
 

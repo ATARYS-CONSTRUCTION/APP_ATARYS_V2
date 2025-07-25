@@ -310,42 +310,71 @@ if __name__ == '__main__':
 
 ## 📊 Documentation des Tables
 
-### Table `test_cle2`
+### Table `salaries`
 
-**Description** : Table de test pour la gestion des clés étrangères.
+**Description** : Table des salariés avec relation vers les villes.
 
 **Colonnes** :
 - `id` (INTEGER, PK) : Identifiant unique
-- `libelle` (VARCHAR(30)) : Libellé de l'enregistrement
-- `niveau_qualification_id` (INTEGER, FK) : Référence vers la table `niveau_qualification`
+- `nom` (VARCHAR(100)) : Nom du salarié
+- `prenom` (VARCHAR(100)) : Prénom du salarié
+- `salaire_brut_horaire` (NUMERIC(10, 2)) : Salaire horaire brut
+- `nbre_heure_hebdo` (NUMERIC(10, 2)) : Nombre d'heures hebdomadaires
+- `type_contrat` (VARCHAR(50)) : Type de contrat (CDI, CDD, etc.)
+- `date_entree` (DATE) : Date d'entrée dans l'entreprise
+- `date_sortie` (DATE) : Date de sortie (optionnel)
+- `niveau_qualification_id` (INTEGER, FK) : Référence vers `niveau_qualification`
+- `colonne_planning` (VARCHAR(100)) : Position dans le planning
+- `email` (VARCHAR(200)) : Adresse email
+- `num_telephone` (VARCHAR(20)) : Numéro de téléphone
+- `adresse` (VARCHAR(200)) : Adresse postale
+- `ville_id` (INTEGER, FK) : Référence vers `villes` (AJOUTÉ)
+- `date_naissance` (DATE) : Date de naissance
+- `num_securite_social` (VARCHAR(20)) : Numéro de sécurité sociale
+- `ondrive_path` (VARCHAR(500)) : Chemin OneDrive
 - `created_at` (DATETIME) : Date de création
 - `updated_at` (DATETIME) : Date de mise à jour
 
 **Relations** :
+- `ville_id` → `villes.id` (ON DELETE SET NULL)
 - `niveau_qualification_id` → `niveau_qualification.id` (ON DELETE SET NULL)
 
 **Endpoints API** :
-- `GET /api/test_cle2` : Liste tous les enregistrements
-- `GET /api/test_cle2/<id>` : Récupère un enregistrement par son ID
-- `POST /api/test_cle2` : Crée un nouvel enregistrement
-- `PUT /api/test_cle2/<id>` : Met à jour un enregistrement
-- `DELETE /api/test_cle2/<id>` : Supprime un enregistrement
+- `GET /api/salaries` : Liste tous les salariés
+- `GET /api/salaries/<id>` : Récupère un salarié par son ID
+- `POST /api/salaries` : Crée un nouveau salarié
+- `PUT /api/salaries/<id>` : Met à jour un salarié
+- `DELETE /api/salaries/<id>` : Supprime un salarié
 
-**Exemple de données** :
-```json
-{
-  "id": 1,
-  "libelle": "Exemple",
-  "niveau_qualification_id": 1,
-  "niveau_qualification": {
-    "id": 1,
-    "niveau": "N1P1",
-    "categorie": "Ouvrier d'exécution"
-  },
-  "created_at": "2025-07-19T10:00:00",
-  "updated_at": "2025-07-19T10:00:00"
-}
-```
+### Table `villes`
+
+**Description** : Table de référence pour toutes les villes françaises.
+
+**Colonnes** :
+- `id` (INTEGER, PK) : Identifiant unique
+- `communes` (VARCHAR(100)) : Nom de la commune
+- `code_postal` (INTEGER) : Code postal
+- `code_insee` (INTEGER) : Code INSEE
+- `departement` (INTEGER) : Numéro du département
+- `latitude` (FLOAT) : Coordonnée GPS latitude
+- `longitude` (FLOAT) : Coordonnée GPS longitude
+- `zone_nv` (INTEGER) : Zone climatique (1, 2, ou 3)
+- `distance_km_oiseau` (FLOAT) : Distance à vol d'oiseau
+- `distance_km_routes` (FLOAT) : Distance par les routes
+- `temps_route_min` (FLOAT) : Temps de trajet en minutes
+- `created_at` (DATETIME) : Date de création
+- `updated_at` (DATETIME) : Date de mise à jour
+
+**Relations** :
+- `salaries` (one-to-many) : Les salariés qui habitent dans cette ville
+
+**Endpoints API** :
+- `GET /api/villes` : Liste toutes les villes
+- `GET /api/villes/search?code_postal=35000` : Recherche par code postal
+- `GET /api/villes/search?ville=rennes` : Recherche par nom de ville
+- `GET /api/villes/<id>` : Récupère une ville par son ID
+
+
 
 ### Table `niveau_qualification`
 
@@ -359,13 +388,31 @@ if __name__ == '__main__':
 - `updated_at` (DATETIME) : Date de mise à jour
 
 **Relations** :
-- `test_cle2` (one-to-many) : Les enregistrements de test_cle2 qui référencent ce niveau
+- Aucune relation active pour le moment
 
 ### **Phase 3 : Modules Additionnels (2-3 semaines)**
 1. **Modules 1.1/1.2** : Planning
 2. **Modules 7.1/7.2** : Gestion et tableaux de bord
 3. **Modules 6.x** : Atelier
 4. **Modules 8.x** : Comptabilité
+
+---
+
+## 🚨 **Règle d'Or - Déclencheurs Automatiques**
+
+### **⚠️ IMPORTANT : Nouveaux Endpoints**
+> Lors de la création de nouveaux endpoints/commandes dans l'application, TOUJOURS demander s'il faut ajouter un déclencheur automatique pour générer des tâches.
+
+### **Exemples de Questions Obligatoires :**
+- **Nouvel endpoint** `/api/nouvelle-commande/` → "Faut-il un déclencheur automatique ?"
+- **Nouvelle table** `nouvelle_table` → "Cette table déclenche-t-elle des tâches automatiques ?"
+- **Nouveau module** → "Ce module nécessite-t-il des déclencheurs automatiques ?"
+
+### **Service Disponible :**
+- **Fichier** : `backend/app/services/tache_automatique_service.py`
+- **Statut** : ✅ **OPÉRATIONNEL**
+- **Déclencheurs actuels** : 3 (chantier_creation, chantier_signature, insertion_salarié)
+- **Extension** : Facile d'ajouter de nouveaux déclencheurs selon les besoins
 
 ---
 
@@ -401,6 +448,75 @@ if __name__ == '__main__':
 ---
 
 **✅ Base de données ATARYS V2 - Architecture modulaire opérationnelle !** 
+
+### **Tables Module 2 - SYSTÈME TÂCHES AUTOMATIQUES** (STRUCTURE FINALE)
+
+> **⚠️ NOUVELLE STRUCTURE** basée sur l'Excel de déclencheurs  
+> **Architecture : 2 tables séparées + règles automatiques**  
+> **Document détaillé** : `docs/02-architecture/02-modules/module-02/STRUCTURE_TACHES_AUTOMATIQUES.md`
+
+#### **Table `taches_chantiers` - Tâches liées aux chantiers**
+
+```sql
+CREATE TABLE taches_chantiers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titre VARCHAR(200) NOT NULL,
+    description TEXT,
+    utilisateur VARCHAR(50) NOT NULL,  -- YANN, JULIEN
+    statut VARCHAR(20) DEFAULT 'A_FAIRE',
+    priorite VARCHAR(10) DEFAULT 'NORMALE',
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+    date_echeance DATETIME,
+    date_completion DATETIME,
+    temps_estime DECIMAL(5,2),
+    temps_passe DECIMAL(5,2),
+    notes TEXT,
+    auto_generee BOOLEAN DEFAULT 0,
+    declencheur VARCHAR(50),  -- Événement déclencheur
+    famille_tach_id INTEGER,
+    chantier_id INTEGER NOT NULL,  -- OBLIGATOIRE pour tâches chantiers
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (famille_tach_id) REFERENCES famille_tach(id),
+    FOREIGN KEY (chantier_id) REFERENCES chantiers(id)
+);
+```
+
+#### **Table `taches_administratives` - Tâches administratives générales**
+
+```sql
+CREATE TABLE taches_administratives (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titre VARCHAR(200) NOT NULL,
+    description TEXT,
+    utilisateur VARCHAR(50) NOT NULL,  -- YANN, JULIEN
+    statut VARCHAR(20) DEFAULT 'A_FAIRE',
+    priorite VARCHAR(10) DEFAULT 'NORMALE',
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+    date_echeance DATETIME,
+    date_completion DATETIME,
+    temps_estime DECIMAL(5,2),
+    temps_passe DECIMAL(5,2),
+    notes TEXT,
+    auto_generee BOOLEAN DEFAULT 0,
+    declencheur VARCHAR(50),  -- Événement déclencheur
+    famille_tach_id INTEGER,
+    chantier_id INTEGER,  -- OPTIONNEL pour tâches administratives
+    type_administratif VARCHAR(50),  -- FISCAL, RH, COMPTABLE, GENERAL
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (famille_tach_id) REFERENCES famille_tach(id),
+    FOREIGN KEY (chantier_id) REFERENCES chantiers(id)
+);
+```
+
+#### **Avantages de l'Approche Deux Tables**
+
+✅ **Séparation claire** : Tâches chantiers vs administratives  
+✅ **Contraintes adaptées** : `chantier_id` obligatoire pour tâches chantiers  
+✅ **Requêtes optimisées** : Filtrage plus efficace par type  
+✅ **Évolutivité** : Champs spécifiques par type (`type_administratif`)  
+✅ **Maintenance** : Logique métier séparée et claire  
 
 ---
 

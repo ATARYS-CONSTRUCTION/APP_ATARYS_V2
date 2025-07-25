@@ -325,6 +325,17 @@ Backend → Response JSON → Frontend Refresh
 - Gestion des doublons
 - Intégrité des données
 
+### **4. Déclencheurs Automatiques**
+- **Configuration** : Interface admin pour définir les déclencheurs
+- **Détection automatique** : Intégration dans les endpoints
+- **Génération** : Service automatique de création des tâches
+- **Suivi** : Interface de gestion des tâches
+
+### **5. Règle d'Or - Nouveaux Déclencheurs**
+> **⚠️ IMPORTANT :** Lors de la création de nouvelles commandes/endpoints dans l'application, TOUJOURS demander s'il faut ajouter un déclencheur automatique pour générer des tâches.
+> 
+> **Exemple :** Création d'un nouvel endpoint `/api/nouvelle-commande/` → Demander : "Faut-il un déclencheur automatique pour cette commande ?"
+
 ---
 
 ## 📈 **Évolution et Roadmap**
@@ -339,6 +350,127 @@ Backend → Response JSON → Frontend Refresh
 - **PostgreSQL** : Migration production
 - **Tests unitaires** : Couverture complète
 - **Documentation API** : Swagger/OpenAPI
+- **Déclencheurs automatiques** : Système complet de tâches automatiques
+
+---
+
+## 🚀 **Système de Déclencheurs Automatiques**
+
+### **📋 Vue d'Ensemble**
+
+ATARYS V2 intègre un système de déclencheurs automatiques qui génère des tâches en fonction d'événements métier. Cette approche permet une automatisation complète sans modification de code.
+
+### **🎯 Architecture des Déclencheurs**
+
+#### **1. Configuration (Base de Données)**
+```python
+# Table famille_tach - Configuration des déclencheurs
+{
+    "famille_tache": "chantier",
+    "type_tache": "Chantier création",
+    "declencheur": "chantier_creation",
+    "auto_generee": True,
+    "statut": "A faire",
+    "date_echeance": "x jours après creation"
+}
+```
+
+#### **2. Détection (Endpoints API)**
+```python
+# Intégration dans les endpoints existants
+@chantier_bp.route('/api/chantiers/', methods=['POST'])
+def create_chantier():
+    # 1. Créer l'entité
+    chantier = Chantier(**data)
+    db.session.add(chantier)
+    db.session.commit()
+    
+    # 2. DÉCLENCHEUR AUTOMATIQUE
+    service = TacheAutomatiqueService()
+    contexte = {'chantier_id': chantier.id}
+    taches_creees = service.declencher_taches('chantier_creation', contexte)
+    
+    return jsonify({
+        'success': True,
+        'data': chantier_schema.dump(chantier),
+        'taches_creees': len(taches_creees)
+    })
+```
+
+#### **3. Génération (Service Automatique)**
+```python
+class TacheAutomatiqueService:
+    def declencher_taches(self, evenement: str, contexte: dict):
+        # 1. Chercher les tâches templates
+        taches_templates = FamilleTach.query.filter_by(
+            declencheur=evenement,
+            auto_generee=True
+        ).all()
+        
+        # 2. Créer les tâches selon le type (chantier ou administratif)
+        taches_creees = []
+        for template in taches_templates:
+            if template.famille_tache == 'chantier' and contexte.get('chantier_id'):
+                # Créer une tâche chantier
+                nouvelle_tache = TachesChantiers(
+                    titre=template.titre,
+                    famille_tach=template.famille_tache,
+                    type_tache=template.type_tache,
+                    chantier_id=contexte.get('chantier_id'),
+                    statut=template.statut,
+                    auto_generee=True,
+                    declencheur=evenement
+                )
+            else:
+                # Créer une tâche administrative
+                nouvelle_tache = TachesAdministratives(
+                    titre=template.titre,
+                    famille_tach=template.famille_tache,
+                    type_tache=template.type_tache,
+                    chantier_id=contexte.get('chantier_id'),  # Nullable
+                    statut=template.statut,
+                    auto_generee=True,
+                    declencheur=evenement,
+                    type_administratif=template.type_administratif or 'GENERAL'
+                )
+            
+            db.session.add(nouvelle_tache)
+            taches_creees.append(nouvelle_tache)
+        
+        db.session.commit()
+        return taches_creees
+```
+
+### **🎯 Déclencheurs Configurés**
+
+#### **Module 3 - Chantiers**
+- `chantier_creation` : Création d'un nouveau chantier
+- `chantier_signature` : Signature d'un chantier
+- `chantier_en_cours` : Chantier en cours d'exécution
+- `chantier_termine` : Fin d'un chantier
+
+#### **Module 9 - Salariés**
+- `insertion_salarié` : Création d'un nouveau salarié
+
+#### **Module 1 - Planning**
+- `modification_planning` : Modification du planning
+
+### **📋 Avantages du Système**
+
+#### **Flexibilité Maximale**
+- ✅ **Configuration sans code** : L'admin peut tout configurer via l'interface
+- ✅ **Ajout de déclencheurs** : Nouveaux événements sans redéploiement
+- ✅ **Modification des règles** : Changement des logiques de calcul en temps réel
+
+#### **Maintenance Réduite**
+- ✅ **Pas de redéploiement** : Modifications via interface admin
+- ✅ **Configuration centralisée** : Tous les déclencheurs dans une table
+- ✅ **Auditabilité** : Historique des configurations
+
+#### **Évolutivité**
+- ✅ **Nouveaux événements** : Ajout facile de déclencheurs
+- ✅ **Règles métier** : Configuration des logiques de calcul
+- ✅ **Notifications** : Possibilité d'ajouter des alertes
 
 ---
 
@@ -364,4 +496,4 @@ cd backend; python run_flask_admin.py
 
 ---
 
-**✅ Architecture ATARYS V2 - Système modulaire, extensible et performant !** 
+**✅ Architecture ATARYS V2 - Système modulaire, extensible et performant avec déclencheurs automatiques !** 

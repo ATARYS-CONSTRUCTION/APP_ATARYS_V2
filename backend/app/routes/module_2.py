@@ -10,4 +10,5 @@ from flask import Blueprint, jsonify, request
 module_2_bp = Blueprint('module_2', __name__)
 
 # Routes du module 2 - LISTE_DES_TACHES
-# Ajouter ici les routes du module 2 selon les besoins 
+# Les routes seront créées selon vos besoins spécifiques
+# et uniquement après validation explicite

@@ -15,3 +15,5 @@ package_dir = Path(__file__).parent
 for _, module_name, _ in pkgutil.iter_modules([str(package_dir)]):
     if module_name.startswith('module_'):
         importlib.import_module(f'app.models.{module_name}')
+
+

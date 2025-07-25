@@ -386,4 +386,95 @@ def create_chantier():
 
 ---
 
+## 🔗 **Exemple Réel : Modification Table Salaries - Relation avec Villes**
+
+### **Contexte**
+Remplacer les colonnes `ville` et `code_postal` en dur dans la table `salaries` par une relation avec la table `villes` existante.
+
+### **Migration Effectuée**
+```python
+# 1. Ajouter la colonne ville_id
+db.session.execute(text("""
+    ALTER TABLE salaries 
+    ADD COLUMN ville_id INTEGER REFERENCES villes(id)
+"""))
+
+# 2. Supprimer les anciennes colonnes
+db.session.execute(text("""
+    ALTER TABLE salaries DROP COLUMN ville
+"""))
+
+db.session.execute(text("""
+    ALTER TABLE salaries DROP COLUMN code_postal
+"""))
+```
+
+### **Modèles SQLAlchemy**
+```python
+# backend/app/models/module_9.py
+class Ville(BaseModel):
+    __tablename__ = 'villes'
+    __table_args__ = {'extend_existing': True}
+    
+    communes = db.Column(db.String(100), nullable=False)
+    code_postal = db.Column(db.Integer, nullable=False)
+    # ... autres colonnes
+
+class Salaries(BaseModel):
+    __tablename__ = 'salaries'
+    
+    # Adresse (MIS À JOUR)
+    adresse = db.Column(db.String(200))
+    ville_id = db.Column(db.Integer, db.ForeignKey('villes.id'))
+    
+    # Relations (AJOUTÉ)
+    ville = db.relationship('Ville', backref='salaries')
+```
+
+### **API REST Ajoutée**
+```http
+# Recherche de villes
+GET /api/villes/search?code_postal=35000
+GET /api/villes/search?ville=rennes
+
+# Réponse
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "communes": "Rennes",
+      "code_postal": 35000,
+      "departement": 35
+    }
+  ],
+  "message": "5 villes trouvées"
+}
+```
+
+### **Schémas Marshmallow**
+```python
+# backend/app/schemas/module_9.py
+class VilleSchema(Schema):
+    communes = fields.String(required=True)
+    code_postal = fields.Integer(required=True)
+    # ... autres champs
+
+class SalariesSchema(Schema):
+    # Adresse (MIS À JOUR)
+    adresse = fields.String(allow_none=True)
+    ville_id = fields.Integer(allow_none=True)
+    
+    # Relation ville (AJOUTÉ)
+    ville = fields.Nested('VilleSchema', dump_only=True)
+```
+
+### **Avantages Obtenus**
+- ✅ **Intégrité des données** : Contraintes de clé étrangère
+- ✅ **Interface utilisateur** : Autocomplétion intelligente
+- ✅ **Maintenance** : Données centralisées
+- ✅ **Performance** : Index optimisés
+
+---
+
 **Ce tutoriel suit les standards ATARYS V2 et utilise les outils intégrés pour une création de relations robuste et maintenable.** 

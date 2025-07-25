@@ -12,6 +12,156 @@ Cette documentation décrit les workflows principaux de l'application ATARYS V2,
 
 ---
 
+## 🚀 **SYSTÈME DE DÉCLENCHEURS AUTOMATIQUES**
+
+### **📋 Vue d'Ensemble des Déclencheurs**
+
+Le système ATARYS V2 intègre un mécanisme de déclencheurs automatiques qui génère des tâches en fonction d'événements métier. Cette approche permet une automatisation complète sans modification de code.
+
+#### **Principe de Fonctionnement**
+1. **Configuration** : L'administrateur définit les tâches templates dans la table `famille_tach`
+2. **Détection** : Les événements métier déclenchent automatiquement les tâches
+3. **Génération** : Le service `TacheAutomatiqueService` crée les tâches réelles
+4. **Suivi** : Les tâches sont assignées et suivies dans l'interface
+
+### **🎯 Déclencheurs Configurés**
+
+#### **Déclencheurs Chantier (Module 3)**
+- `chantier_creation` : Création d'un nouveau chantier
+- `chantier_signature` : Signature d'un chantier
+- `chantier_preparation` : Phase de préparation du chantier
+- `chantier_en_cours` : Chantier en cours d'exécution
+- `chantier_termine` : Fin d'un chantier
+
+#### **Déclencheurs RH (Module 9)**
+- `insertion_salarié` : Création d'un nouveau salarié
+
+#### **Déclencheurs Planning (Module 1)**
+- `modification_planning` : Modification du planning (fonction dispo sur planning et liste_chantier et chantier)
+
+### **🏗️ Workflow d'Intégration des Déclencheurs**
+
+#### **Étape 1 : Configuration par l'Administrateur**
+```python
+# Exemple de configuration dans famille_tach
+{
+    "famille_tache": "chantier",
+    "type_tache": "Chantier création",
+    "declencheur": "chantier_creation",
+    "auto_generee": True,
+    "statut": "A faire",
+    "date_echeance": "x jours après creation"
+}
+```
+
+#### **Étape 2 : Intégration dans les Endpoints**
+```python
+# Exemple dans module_3.py - Création chantier
+@chantier_bp.route('/api/chantiers/', methods=['POST'])
+def create_chantier():
+    # 1. Créer le chantier
+    chantier = Chantier(**data)
+    db.session.add(chantier)
+    db.session.commit()
+    
+    # 2. DÉCLENCHEUR AUTOMATIQUE : Appeler le service
+    service = TacheAutomatiqueService()
+    contexte = {'chantier_id': chantier.id}
+    taches_creees = service.declencher_taches('chantier_creation', contexte)
+    
+    return jsonify({
+        'success': True,
+        'data': chantier_schema.dump(chantier),
+        'taches_creees': len(taches_creees)
+    })
+```
+
+#### **Étape 3 : Service de Génération Automatique**
+```python
+class TacheAutomatiqueService:
+    def declencher_taches(self, evenement: str, contexte: dict):
+        """Déclencher les tâches automatiques selon l'événement"""
+        
+        # 1. Chercher toutes les tâches avec ce déclencheur
+        taches_templates = FamilleTach.query.filter_by(
+            declencheur=evenement,
+            auto_generee=True
+        ).all()
+        
+        # 2. Pour chaque template, créer une tâche selon le type
+        taches_creees = []
+        for template in taches_templates:
+            if template.famille_tache == 'chantier' and contexte.get('chantier_id'):
+                # Créer une tâche chantier
+                nouvelle_tache = TachesChantiers(
+                    titre=template.titre,
+                    famille_tach=template.famille_tache,
+                    type_tache=template.type_tache,
+                    chantier_id=contexte.get('chantier_id'),
+                    statut=template.statut,
+                    date_creation=self._calculer_date_creation(template, contexte),
+                    date_echeance=self._calculer_echeance(template, contexte),
+                    auto_generee=True,
+                    declencheur=evenement
+                )
+            else:
+                # Créer une tâche administrative
+                nouvelle_tache = TachesAdministratives(
+                    titre=template.titre,
+                    famille_tach=template.famille_tache,
+                    type_tache=template.type_tache,
+                    chantier_id=contexte.get('chantier_id'),  # Nullable pour admin
+                    statut=template.statut,
+                    date_creation=self._calculer_date_creation(template, contexte),
+                    date_echeance=self._calculer_echeance(template, contexte),
+                    auto_generee=True,
+                    declencheur=evenement,
+                    type_administratif=template.type_administratif or 'GENERAL'
+                )
+            
+            db.session.add(nouvelle_tache)
+            taches_creees.append(nouvelle_tache)
+        
+        db.session.commit()
+        return taches_creees
+```
+
+### **📋 Familles de Tâches**
+
+#### **Temporelle**
+- **Définition** : Tâches avec périodicité (tous les mois, toutes les semaines, tous les jours)
+- **Exemples** : Période déclarative fiscale, audit annuel, campagne comptable
+- **Logique date** : `date récurrente si temporelle`
+
+#### **Ponctuelle**
+- **Définition** : Tâches à exécution unique, non répétitive
+- **Exemples** : Création contrat, déclaration exceptionnelle, signature acte
+- **Logique date** : `date de création si ponctuelle`
+
+#### **Chantier**
+- **Définition** : Tâches propres à un chantier spécifique
+- **Exemples** : Chantier création, Chantier signature, Chantier en cours
+- **Logique date** : `date du declencheur si chantier`
+
+### **🎯 Avantages du Système de Déclencheurs**
+
+#### **Flexibilité Maximale**
+- ✅ **Configuration sans code** : L'admin peut tout configurer via l'interface
+- ✅ **Ajout de déclencheurs** : Nouveaux événements sans redéploiement
+- ✅ **Modification des règles** : Changement des logiques de calcul en temps réel
+
+#### **Maintenance Réduite**
+- ✅ **Pas de redéploiement** : Modifications via interface admin
+- ✅ **Configuration centralisée** : Tous les déclencheurs dans une table
+- ✅ **Auditabilité** : Historique des configurations
+
+#### **Évolutivité**
+- ✅ **Nouveaux événements** : Ajout facile de déclencheurs
+- ✅ **Règles métier** : Configuration des logiques de calcul
+- ✅ **Notifications** : Possibilité d'ajouter des alertes
+
+---
+
 ## 🎯 **STANDARDS INTERFACE UTILISATEUR ATARYS**
 
 ### **📋 Comportement Double-Clic OBLIGATOIRE**
@@ -208,7 +358,7 @@ CREATE TABLE example_table (
 ### **3. Intégration Immédiate**
 1. **Création du fichier modèle** dans `backend/app/models/`
 2. **Création de la table** dans la base SQLite
-3. **Intégration dans l’API REST** automatique
+3. **Intégration dans l'API REST** automatique
 4. **Disponibilité immédiate** dans l'interface
 
 ---
@@ -232,6 +382,11 @@ CREATE TABLE example_table (
    - Vérification de l'unicité de la référence
    - Création de l'enregistrement en base
    - Attribution d'un ID unique
+
+4. **DÉCLENCHEUR AUTOMATIQUE** : Génération des tâches
+   - Appel du service `TacheAutomatiqueService`
+   - Création des tâches liées au chantier
+   - Notification des tâches créées
 
 #### **Règles de Validation**
 - `reference_chantier` : obligatoire, unique, format libre
@@ -300,6 +455,28 @@ UPDATE chantiers SET
 - **Calcul automatique** des coûts selon qualification
 - **Planning optimisé** selon les compétences
 
+### **DÉCLENCHEUR AUTOMATIQUE : Création Salarié**
+```python
+# Exemple dans module_9.py - Création salarié
+@salaries_bp.route('/api/salaries/', methods=['POST'])
+def create_salary():
+    # 1. Créer le salarié
+    salary = Salaries(**data)
+    db.session.add(salary)
+    db.session.commit()
+    
+    # 2. DÉCLENCHEUR AUTOMATIQUE : Appeler le service
+    service = TacheAutomatiqueService()
+    contexte = {'salary_id': salary.id}
+    taches_creees = service.declencher_taches('insertion_salarié', contexte)
+    
+    return jsonify({
+        'success': True,
+        'data': salary_schema.dump(salary),
+        'taches_creees': len(taches_creees)
+    })
+```
+
 ---
 
 ## 🏗️ **Workflow Calcul Ardoises (Module 10.1 - EN COURS)**
@@ -353,6 +530,12 @@ UPDATE chantiers SET
 - **Validation** : Filtrage des lignes vides
 - **Logique UPSERT** : Création/mise à jour automatique
 
+### **Déclencheurs ↔ Tâches**
+- **Configuration** : Interface admin pour définir les déclencheurs
+- **Détection automatique** : Intégration dans les endpoints
+- **Génération** : Service automatique de création des tâches
+- **Suivi** : Interface de gestion des tâches
+
 ---
 
 ## 📈 **Indicateurs & Reporting V2**
@@ -374,6 +557,12 @@ UPDATE chantiers SET
 - **Détail des devis** par chantier
 - **Planning** par période
 - **Calculs ardoises** historiques
+
+### **Métriques Déclencheurs**
+- **Tâches générées** par déclencheur
+- **Taux de conversion** des événements en tâches
+- **Temps de traitement** des déclencheurs
+- **Erreurs de génération** et corrections
 
 ---
 
@@ -402,6 +591,7 @@ UPDATE chantiers SET
 2. **Import Excel** intelligent
 3. **Logique UPSERT** automatique
 4. **Interface responsive** mobile/desktop
+5. **Déclencheurs automatiques** configurables
 
 ---
 
@@ -412,12 +602,14 @@ UPDATE chantiers SET
 - **États workflow** : Projet → En cours → Terminé
 - **Recherche** : Filtrage par état, client, date
 - **Export** : Liste des chantiers en Excel/PDF
+- **Déclencheurs** : Tâches automatiques selon les états
 
 ### **Module 9.1 - Liste Salariés**
 - **Gestion RH** : Fiches salariés complètes
 - **Planning** : Affectation des tâches
 - **Compétences** : Association métiers/qualifications
 - **Reporting** : Heures travaillées, disponibilités
+- **Déclencheurs** : Tâches automatiques lors de la création
 
 ### **Module 10.1 - Calcul Ardoises**
 - **Calculateur** : Interface de saisie des paramètres
@@ -425,6 +617,12 @@ UPDATE chantiers SET
 - **Modèles ardoises** : Catalogue des produits
 - **Résultats** : Quantités, prix, recommandations
 
+### **Module 2.1 - Liste des Tâches**
+- **Gestion** : Interface de création et modification
+- **Déclencheurs** : Configuration des tâches automatiques
+- **Suivi** : Statuts et échéances
+- **Notifications** : Alertes et rappels
+
 ---
 
-**✅ Workflows ATARYS V2 - Processus métier optimisés avec fonctionnalités avancées !**
+**✅ Workflows ATARYS V2 - Processus métier optimisés avec fonctionnalités avancées et déclencheurs automatiques !**

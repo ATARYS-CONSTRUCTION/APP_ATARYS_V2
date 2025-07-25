@@ -61,8 +61,7 @@ function BaseDeDonnees() {
     autoIncrement: true
   });
 
-  // Ajout d'un état pour les valeurs Enum (par colonne) ; les infos ForeignKey sont désormais stockées dans chaque colonne
-  const [enumValues, setEnumValues] = useState([]);
+  // Les valeurs ENUM sont maintenant stockées dans chaque colonne individuellement
 
   // Nouveaux états pour les dropdowns de relations
   const [availableTables, setAvailableTables] = useState([]);
@@ -324,10 +323,11 @@ function BaseDeDonnees() {
   };
   const addColumn = () => {
     let newCol = { ...columns[columns.length - 1] };
-    if (newCol.type === 'Enum') newCol.enumValues = enumValues.filter(v => v.trim() !== '');
+    // Ne pas copier les valeurs ENUM de la colonne précédente
+    if (newCol.type === 'Enum') newCol.enumValues = [];
     if (newCol.type === 'ForeignKey') newCol.isForeignKey = true;
     setColumns(cols => [...cols, newCol]);
-    setEnumValues([]);
+    // Ne plus réinitialiser enumValues globalement
   };
   const removeColumn = idx => setColumns(cols => cols.length > 1 ? cols.filter((_, i) => i !== idx) : cols);
 
@@ -367,7 +367,7 @@ function BaseDeDonnees() {
       class_name: tableName.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(''),
       columns: columns.map(col => ({
         ...col,
-        enumValues: col.enumValues,
+        enumValues: col.enumValues || [],
         isForeignKey: col.isForeignKey,
         foreignKeyTable: col.foreignKeyTable,
         foreignKeyColumn: col.foreignKeyColumn
@@ -1313,9 +1313,9 @@ class CommandeSchema(Schema):
                     <label className="text-xs">Valeurs Enum (une par ligne)</label>
                     <textarea
                       className="border p-1 rounded"
-                      rows={2}
-                      value={enumValues.join('\n')}
-                      onChange={e => setEnumValues(e.target.value.split('\n'))}
+                      rows={3}
+                      value={col.enumValues ? col.enumValues.join('\n') : ''}
+                      onChange={e => handleColumnChange(idx, 'enumValues', e.target.value.split('\n'))}
                       placeholder="ex: Brouillon\nValidé\nArchivé"
                     />
                   </div>

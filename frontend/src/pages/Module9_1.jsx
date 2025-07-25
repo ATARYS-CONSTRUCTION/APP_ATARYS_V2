@@ -23,18 +23,23 @@ const Module9_1 = () => {
     email: '',
     num_telephone: '',
     adresse: '',
-    code_postal: '',
-    ville: '',
+    ville_id: '', // MIS À JOUR : remplace code_postal et ville
     date_naissance: '',
     num_securite_social: '',
     ondrive_path: '',
     famille_ouvrages_ids: []
   });
 
+  // États pour l'autocomplétion des villes
+  const [villes, setVilles] = useState([]);
+  const [villeSearch, setVilleSearch] = useState('');
+  const [showVilleDropdown, setShowVilleDropdown] = useState(false);
+
   useEffect(() => {
     fetchSalaries();
     fetchNiveauQualifications();
     fetchFamilleOuvrages();
+    fetchVilles(); // AJOUTÉ : charger les villes
   }, []);
 
   const fetchSalaries = async () => {
@@ -73,6 +78,54 @@ const Module9_1 = () => {
     }
   };
 
+  // AJOUTÉ : Fonction pour charger les villes
+  const fetchVilles = async () => {
+    try {
+      const response = await fetch('/api/villes/');
+      const data = await response.json();
+      if (data.success) {
+        setVilles(data.data);
+      }
+    } catch (error) {
+      console.error('Erreur lors du chargement des villes:', error);
+    }
+  };
+
+  // AJOUTÉ : Fonction pour rechercher des villes
+  const searchVilles = async (query) => {
+    try {
+      const response = await fetch(`/api/villes/search?ville=${encodeURIComponent(query)}`);
+      const data = await response.json();
+      if (data.success) {
+        setVilles(data.data);
+        setShowVilleDropdown(true);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la recherche de villes:', error);
+    }
+  };
+
+  // AJOUTÉ : Fonction pour sélectionner une ville
+  const selectVille = (ville) => {
+    setFormData({ ...formData, ville_id: ville.id });
+    setVilleSearch(`${ville.communes} (${ville.code_postal})`);
+    setShowVilleDropdown(false);
+  };
+
+  // AJOUTÉ : Gestionnaire pour fermer le dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showVilleDropdown && !event.target.closest('.relative')) {
+        setShowVilleDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showVilleDropdown]);
+
   // Fonction pour filtrer les salariés actifs/inactifs
   const getFilteredSalaries = () => {
     const today = new Date();
@@ -101,8 +154,8 @@ const Module9_1 = () => {
         if (dataToSend[key] === '' || dataToSend[key] === null || dataToSend[key] === undefined) {
           // Ne pas envoyer les champs vides pour type_contrat et autres champs optionnels
           if (key === 'type_contrat' || key === 'date_sortie' || key === 'email' || 
-              key === 'num_telephone' || key === 'adresse' || key === 'code_postal' || 
-              key === 'ville' || key === 'date_naissance' || key === 'num_securite_social' || 
+              key === 'num_telephone' || key === 'adresse' || key === 'ville_id' || // MIS À JOUR
+              key === 'date_naissance' || key === 'num_securite_social' || 
               key === 'ondrive_path' || key === 'niveau_qualification_id' || key === 'colonne_planning' ||
               key === 'famille_ouvrages_ids') {
             dataToSend[key] = null;
@@ -157,13 +210,13 @@ const Module9_1 = () => {
           email: '',
           num_telephone: '',
           adresse: '',
-          code_postal: '',
-          ville: '',
+          ville_id: '', // MIS À JOUR
           date_naissance: '',
           num_securite_social: '',
           ondrive_path: '',
           famille_ouvrages_ids: []
         });
+        setVilleSearch(''); // AJOUTÉ : réinitialiser la recherche de ville
         fetchSalaries();
       } else {
         console.error('Erreur API:', result);
@@ -408,13 +461,18 @@ const Module9_1 = () => {
                         email: salary.email || '',
                         num_telephone: salary.num_telephone || '',
                         adresse: salary.adresse || '',
-                        code_postal: salary.code_postal || '',
-                        ville: salary.ville || '',
+                        ville_id: salary.ville_id || '',
                         date_naissance: salary.date_naissance || '',
                         num_securite_social: salary.num_securite_social || '',
                         ondrive_path: salary.ondrive_path || '',
                         famille_ouvrages_ids: salary.famille_ouvrages_ids || []
                       });
+                      // AJOUTÉ : Mettre à jour la recherche de ville
+                      if (salary.ville) {
+                        setVilleSearch(`${salary.ville.communes} (${salary.ville.code_postal})`);
+                      } else {
+                        setVilleSearch('');
+                      }
                       setShowModal(true);
                     }}
                     className={`hover:bg-gray-50 cursor-pointer transition-colors duration-150 ${
@@ -444,10 +502,10 @@ const Module9_1 = () => {
                       {salary.adresse || '-'}
                     </td>
                     <td className="px-3 py-2">
-                      {salary.code_postal || '-'}
+                      {salary.ville && salary.ville.code_postal ? salary.ville.code_postal : '-'}
                     </td>
                     <td className="px-3 py-2">
-                      {salary.ville || '-'}
+                      {salary.ville && salary.ville.communes ? salary.ville.communes : '-'}
                     </td>
                     <td className="px-3 py-2">
                       {formatDate(salary.date_naissance) || '-'}
@@ -665,23 +723,42 @@ const Module9_1 = () => {
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">Code postal</label>
-                      <input
-                        type="text"
-                        value={formData.code_postal}
-                        onChange={(e) => setFormData({...formData, code_postal: e.target.value})}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                      />
-                    </div>
-                    <div>
+                    <div className="relative">
                       <label className="block text-sm font-medium text-gray-700">Ville</label>
                       <input
                         type="text"
-                        value={formData.ville}
-                        onChange={(e) => setFormData({...formData, ville: e.target.value})}
+                        value={villeSearch}
+                        onChange={(e) => {
+                          const query = e.target.value;
+                          setVilleSearch(query);
+                          if (query.length >= 2) {
+                            searchVilles(query);
+                          } else {
+                            setShowVilleDropdown(false);
+                          }
+                        }}
+                        onFocus={() => {
+                          if (villeSearch.length >= 2) {
+                            setShowVilleDropdown(true);
+                          }
+                        }}
+                        placeholder="Tapez le nom de la ville ou le code postal..."
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                       />
+                      {showVilleDropdown && villes.length > 0 && (
+                        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+                          {villes.map((ville) => (
+                            <div
+                              key={ville.id}
+                              onClick={() => selectVille(ville)}
+                              className="px-4 py-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-b-0"
+                            >
+                              <div className="font-medium">{ville.communes}</div>
+                              <div className="text-sm text-gray-600">{ville.code_postal}</div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700">Date de naissance</label>

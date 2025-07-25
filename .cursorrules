@@ -158,6 +158,9 @@ def create_app(config_name='development'):
 8. **TOUJOURS demander confirmation avant de créer des éléments non documentés**
 9. **RESPECTER les commandes PowerShell Windows** (pas de &&, utiliser ; ou séparer les commandes)
 10. **TOUJOURS référencer la base de données dans /data/** (pas dans /backend/)
+11. **TOUJOURS chercher si un fichier traitant d'un sujet proche existe avant de créer un nouveau fichier**
+12. **JAMAIS modifier de fichiers sans validation explicite de l'utilisateur** - Toujours demander confirmation avant toute modification de code
+13. **JAMAIS utiliser d'emojis dans les réponses** - L'utilisateur préfère un style sobre et professionnel sans emojis
 
 ## 📚 RACCOURCIS DOCUMENTATION
 
@@ -169,6 +172,19 @@ def create_app(config_name='development'):
 - docs/02-architecture/API_ENDPOINTS.md - Toutes les APIs
 - docs/02-architecture/DATABASE_SCHEMA.md - Structure complète
 - docs/02-architecture/ATARYS_ARCHITECTURE.md - Architecture technique
+
+## 🔍 **RECHERCHE DE FICHIERS EXISTANTS**
+
+### **Avant de créer un nouveau fichier, TOUJOURS chercher :**
+1. **Fichiers traitant du même sujet** dans `docs/03-regles-standards/`
+2. **Documentation similaire** dans `docs/02-architecture/`
+3. **Guides existants** dans `docs/01-guides-principaux/`
+4. **Fusion possible** avec un fichier existant
+
+### **Exemples de fusion réussie :**
+- ✅ `DECLENCHEURS_AUTOMATIQUES_ETAT.md` + `GESTION_ECHEANCES_PROFESSIONNELLE.md` → Un seul fichier
+- ✅ Éviter la création de multiples fichiers pour des sujets liés
+- ✅ Préférer l'ajout de sections dans un fichier existant
 
 ## 🔧 RÉSOLUTION PROBLÈMES
 

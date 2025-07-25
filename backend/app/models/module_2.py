@@ -1,5 +1,5 @@
 """
-Module 2 - Modèles SQLAlchemy - LISTE_DES_TACHES
+Module 2 - Modèles SQLAlchemy - ÉCHÉANCES
 Respecte les standards ATARYS V2 (voir .cursorrules et 
 docs/02-architecture/ATARYS_MODULES.md)
 - Hérite toujours de BaseModel
@@ -7,9 +7,12 @@ docs/02-architecture/ATARYS_MODULES.md)
 - Strings avec longueur max obligatoire
 - __repr__ explicite
 """
-from app.models.base import BaseModel
-from app import db
+
 from datetime import datetime
 
-# Modèles du module 2 - LISTE_DES_TACHES
-# Ajouter ici les modèles du module 2 selon les besoins
+from app import db
+from app.models.base import BaseModel
+
+
+# Les modèles seront créés selon vos besoins spécifiques
+# et uniquement après validation explicite

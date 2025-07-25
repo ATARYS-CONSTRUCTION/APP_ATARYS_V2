@@ -11,6 +11,32 @@ from app.models.base import BaseModel
 from app import db
 
 
+class Ville(BaseModel):
+    __tablename__ = 'villes'
+    __table_args__ = {'extend_existing': True}
+    
+    # Informations de base
+    communes = db.Column(db.String(100), nullable=False)
+    code_postal = db.Column(db.Integer, nullable=False)
+    code_insee = db.Column(db.Integer)
+    departement = db.Column(db.Integer)
+    
+    # Coordonnées géographiques (gestion des virgules françaises)
+    latitude = db.Column(db.String(20))  # Changé en String pour éviter les erreurs de conversion
+    longitude = db.Column(db.String(20))  # Changé en String pour éviter les erreurs de conversion
+    
+    # Zone climatique
+    zone_nv = db.Column(db.Integer)
+    
+    # Distances et temps (gestion des virgules françaises)
+    distance_km_oiseau = db.Column(db.String(20))  # Changé en String
+    distance_km_routes = db.Column(db.String(20))   # Changé en String
+    temps_route_min = db.Column(db.String(20))      # Changé en String
+    
+    def __repr__(self):
+        return f'<Ville {self.communes} ({self.code_postal})>'
+
+
 class NiveauQualification(BaseModel):
     __tablename__ = 'niveau_qualification'
     
@@ -61,8 +87,7 @@ class Salaries(BaseModel):
     
     # Adresse
     adresse = db.Column(db.String(200))
-    code_postal = db.Column(db.String(10))
-    ville = db.Column(db.String(100))
+    ville_id = db.Column(db.Integer, db.ForeignKey('villes.id'))
     
     # Informations personnelles
     date_naissance = db.Column(db.Date)
@@ -74,6 +99,7 @@ class Salaries(BaseModel):
     # Relations
     niveau_qualification = db.relationship('NiveauQualification',
                                          backref='salaries')
+    ville = db.relationship('Ville', backref='salaries')
     famille_ouvrages = db.relationship(
         'FamilleOuvrages',
         secondary=salaries_famille_ouvrages,
