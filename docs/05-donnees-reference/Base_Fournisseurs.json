@@ -1,0 +1,177 @@
+{
+  "MBR": {
+    "identifiant": [
+      "MBR",
+      "METIERS DU BOIS",
+      "Route de l'Artipole",
+      "02 99 05 35 76",
+      "FR4548122030900027",
+      "481 220 309 00027",
+      "ARTIPOLE"
+    ],
+    "format": ""
+  },
+  "DELAIRE": {
+    "identifiant": [
+      "DELAIRE",
+      "7-9, rue de l'Erbonière",
+      "FR 01 500 453 907",
+      "50045390700015"
+    ],
+    "format": ""
+  },
+  "FOUSSIER": {
+    "identifiant": [
+      "FOUSSIER",
+      "Z.A. du Monné",
+      "FR 70 3000 2068 2400 0006 6103 H64",
+      "CS20008",
+      "ALLONNES"
+    ],
+    "format": ""
+  },
+  "CREAMETAL": {
+    "identifiant": [
+      "CREAMETAL",
+      "35 rue Edison",
+      "509 610 242 00018",
+      "FR61509610242"
+    ],
+    "format": ""
+  },
+  "ECO SAIN HABITAT": {
+    "identifiant": [
+      "ECO SAIN HABITAT",
+      "Z.A. de Biardel",
+      "51226619800013",
+      "FR76 3004 7140 1900 0219 0610 191",
+      "ECO SAIN",
+      "BIOSFAIRE"
+    ],
+    "format": ""
+  },
+  "RUBION": {
+    "identifiant": [
+      "RUBION",
+      "Rue des Maréchales",
+      "37867045900023",
+      "FR60378670459"
+    ],
+    "format": ""
+  },
+  "WELLJOB": {
+    "identifiant": [
+      "WELLJOB",
+      "123 Rue de Nantes",
+      "0230710140",
+      "FR52 804898609"
+    ],
+    "format": ""
+  },
+  "ORLO": {
+    "identifiant": [
+      "ORLO",
+      "FR79398154823",
+      "02 99 68 34 34",
+      "ZA LA PERRIERE",
+      "39815482300023"
+    ],
+    "format": ""
+  },
+  "LTM": {
+    "identifiant": [
+      "LTM"
+    ],
+    "format": ""
+  },
+  "ASTURIENNE": {
+    "identifiant": [
+      "ASTURIENNE",
+      "10 rue de la Cerisaie",
+      "02.99.84.80.20",
+      "777346099"
+    ],
+    "format": ""
+  },
+  "LOXAM scan": {
+    "identifiant": [
+      "LOXAM scan"
+    ],
+    "format": ""
+  },
+  "COCERTO ENTREPRISE": {
+    "identifiant": [
+      "COCERTO ENTREPRISE",
+      "1 RUE EDOUARD NIGNON",
+      "FR 92 871 800 751",
+      "FR76 3004 7141 2100 0217 3060 197"
+    ],
+    "format": ""
+  },
+  "KILOUTOU": {
+    "identifiant": [
+      "KILOUTOU",
+      "KILOUTOU",
+      "31768606101652",
+      "SAS au capital de 10 441 555"
+    ],
+    "format": ""
+  },
+  "BRETAGNE MATERIAUX": {
+    "identifiant": [
+      "BRETAGNE MATERIAUX"
+    ],
+    "format": ""
+  },
+  "CRIT": {
+    "identifiant": [
+      "CRIT"
+    ],
+    "format": ""
+  },
+  "GEDIMO": {
+    "identifiant": [
+      "GEDIMO",
+      "GEDIMO",
+      "CARQUEFOU",
+      "https:",
+      "gedimo-sas.odoo.com",
+      "terms"
+    ],
+    "format": ""
+  },
+  "STATION RENNAISE D'AFFUTAGE": {
+    "identifiant": [
+      "STATION RENNAISE D'AFFUTAGE",
+      "5, rue Charles Jourde",
+      "02 99 35 30 30",
+      "324 970 425 00025",
+      "FR 80 32 49 70 4"
+    ],
+    "format": ""
+  },
+  "LEROY MERLIN": {
+    "identifiant": [
+      "LEROY MERLIN"
+    ],
+    "format": ""
+  },
+  "BRICODEPOT": {
+    "identifiant": [
+      "BRICODEPOT"
+    ],
+    "format": ""
+  },
+  "nan": {
+    "identifiant": [
+      "nan"
+    ],
+    "format": ""
+  },
+  "SCAN": {
+    "identifiant": [
+      "SCAN"
+    ],
+    "format": ""
+  }
+}

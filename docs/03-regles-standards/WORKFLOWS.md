@@ -625,4 +625,185 @@ def create_salary():
 
 ---
 
-**✅ Workflows ATARYS V2 - Processus métier optimisés avec fonctionnalités avancées et déclencheurs automatiques !**
+## 🔌 **Workflows d'Intégration Externe**
+
+### **Standards d'Intégration ATARYS**
+
+**Objectif :** Règles obligatoires pour intégrer des outils externes (n8n, APIs tierces) de manière sécurisée et cohérente.
+
+### **🔐 Sécurité Obligatoire**
+
+#### **Authentification**
+```python
+# Variables d'environnement requises
+API_SECRET_KEY=your_32_char_secret_key              # OBLIGATOIRE
+WEBHOOK_SIGNATURE_SECRET=your_webhook_secret        # Pour validation signatures
+EXTERNAL_SERVICE_TOKEN=encrypted_service_token      # Chiffré en base
+
+# Interdictions absolues
+❌ JAMAIS de clés API en dur dans le code
+❌ JAMAIS de secrets dans les commits Git
+❌ JAMAIS de tokens en clair dans les logs
+```
+
+#### **Validation Webhooks**
+```python
+# Validation obligatoire pour tous les webhooks entrants
+def valider_signature_webhook(payload, signature, secret):
+    expected = hmac.new(secret.encode('utf-8'), payload.encode('utf-8'), hashlib.sha256).hexdigest()
+    return hmac.compare_digest(f"sha256={expected}", signature)
+
+# Usage obligatoire dans toutes les routes webhook
+@app.route('/api/webhook/externe', methods=['POST'])
+def webhook_externe():
+    signature = request.headers.get('X-Signature-256')
+    if not valider_signature_webhook(request.data, signature, WEBHOOK_SECRET):
+        return jsonify({'error': 'Signature invalide'}), 401
+```
+
+### **📊 Format JSON Standardisé**
+
+#### **Structure Obligatoire**
+```json
+{
+  "metadata": {
+    "service_source": "n8n|api_externe|webhook",
+    "version": "1.0",
+    "timestamp": "2025-01-20T10:30:00Z",
+    "request_id": "uuid-unique"
+  },
+  "data": {
+    // Données métier spécifiques
+  },
+  "validation": {
+    "schema_version": "1.0",
+    "checksum": "sha256_des_donnees"
+  }
+}
+```
+
+#### **Réponses ATARYS Standardisées**
+```json
+{
+  "success": true|false,
+  "data": { /* données */ },
+  "message": "Message explicite",
+  "metadata": {
+    "processing_time_ms": 150,
+    "timestamp": "2025-01-20T10:30:15Z"
+  }
+}
+```
+
+### **🛠️ Standards Techniques**
+
+#### **Nomenclature Endpoints**
+```python
+# Structure obligatoire des URLs
+/api/integration/{service}/{action}
+
+# Exemples corrects
+/api/integration/n8n-webhook          # Réception données n8n
+/api/integration/bank-sync            # Synchronisation bancaire  
+/api/integration/supplier-catalog     # Catalogue fournisseur
+
+# Interdictions
+❌ /api/n8n/                         # Trop générique
+❌ /webhook/                          # Pas dans la convention ATARYS
+```
+
+#### **Gestion d'Erreurs**
+```python
+# Codes HTTP standardisés
+200 OK           # Traitement réussi
+201 Created      # Données créées avec succès
+400 Bad Request  # Données invalides
+401 Unauthorized # Authentification échouée
+500 Internal Server Error # Erreur ATARYS
+503 Service Unavailable  # ATARYS en maintenance
+```
+
+### **⚡ Performance et Fiabilité**
+
+#### **Rate Limiting Obligatoire**
+```python
+# Limites spécifiques par service
+@limiter.limit("60 per minute")  # n8n fréquent
+def recevoir_n8n():
+    pass
+
+@limiter.limit("10 per minute")  # Sync bancaire rare
+def sync_bank():
+    pass
+```
+
+#### **Retry et Circuit Breaker**
+```python
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
+def call_external_api(url, data):
+    response = requests.post(url, json=data, timeout=30)
+    response.raise_for_status()
+    return response.json()
+```
+
+### **📋 Workflow d'Intégration Type**
+
+#### **1. Réception de Données Externes**
+```
+Webhook externe → Validation signature → Sanitisation données → Traitement métier → Réponse
+```
+
+#### **2. Appel de Service Externe**
+```
+Déclencheur ATARYS → Circuit breaker → Retry automatique → Traitement réponse → Stockage
+```
+
+#### **3. Traitement Asynchrone**
+```
+Réception immédiate → Task queue → Traitement background → Notification utilisateur
+```
+
+### **🚨 Monitoring et Alertes**
+
+#### **Logs Obligatoires**
+```python
+def log_integration_event(service, action, success, error=None):
+    log_entry = {
+        'timestamp': datetime.utcnow().isoformat(),
+        'service': service,
+        'action': action,
+        'success': success,
+        'user_id': get_current_user_id()
+    }
+    if error:
+        integration_logger.error(f"Integration failed: {json.dumps(log_entry)}")
+    else:
+        integration_logger.info(f"Integration success: {json.dumps(log_entry)}")
+```
+
+#### **Métriques Prometheus**
+```python
+integration_requests_total = Counter('atarys_integration_requests_total', ['service', 'status'])
+integration_processing_time = Histogram('atarys_integration_processing_seconds', ['service'])
+```
+
+### **✅ Checklist Intégration**
+
+#### **Avant Mise en Production**
+- [ ] Authentification par API key implémentée
+- [ ] Validation signature webhook fonctionnelle  
+- [ ] Sanitisation des inputs testée
+- [ ] Rate limiting actif
+- [ ] Circuit breaker configuré
+- [ ] Logs de sécurité configurés
+- [ ] Tests d'intégration validés
+- [ ] Monitoring et alertes actifs
+
+#### **Standards par Service**
+- **n8n** : 60 req/min, timeout 30s, retry 3x, signature HMAC
+- **APIs bancaires** : 10 req/min, timeout 60s, chiffrement end-to-end
+- **Fournisseurs** : 30 req/min, cache 24h, fallback offline
+
+---
+
+**✅ Workflows ATARYS V2 - Processus métier et intégrations externes sécurisées !**

@@ -49,6 +49,59 @@
 
 ---
 
+## 🌐 **Architecture de Stockage Hybride (2025)**
+
+### **📊 Migration OneDrive → Hostinger**
+> **Phase expérimentale** : Évaluation du stockage centralisé sur serveur applicatif
+
+#### **🎯 Objectifs de la migration :**
+- **Centralisation** : Fichiers entreprise + application sur même serveur
+- **Performance** : Accès direct serveur sans dépendance OneDrive locale  
+- **Collaboration** : Partage de liens directs Hostinger
+- **Sécurité** : Contrôle total des données sur infrastructure maîtrisée
+
+#### **🔧 Architecture Hybride Implémentée :**
+
+```
+📱 ATARYS App (Frontend)
+    ↓ Clic "OneDrive"
+🔍 Détection automatique (hostinger_path_mapper)
+    ↓
+🌐 SI synchronisé → Hostinger File Manager (Navigateur)
+📁 SI non synchronisé → OneDrive local (Explorateur)
+```
+
+#### **📡 Synchronisation automatique :**
+- **Tool** : rclone v1.70.3+
+- **Fréquence** : Continue (développement) 
+- **Direction** : OneDrive Windows → Hostinger Linux
+- **Mapping** : Caractères spéciaux automatiquement corrigés
+
+#### **🗂️ Dossiers migrés :**
+```
+OneDrive Windows          →  Hostinger Linux
+Administration            →  Administration
+Chantiers                →  Chantiers  
+Comptabilité 2025        →  Comptabilite_2025
+Documents Types          →  Documents_Types
+Images                   →  Images
+Organisation ATARYS      →  Organisation_ATARYS
+Stavařina               →  Stavarina
+```
+
+#### **⚡ Impact Développement :**
+- **Aucun changement UI** : Boutons "OneDrive" inchangés
+- **Redirection transparente** : Utilisateur ne voit pas la différence
+- **Fallback automatique** : OneDrive local si Hostinger indisponible
+- **URLs partageable** : Liens Hostinger File Manager
+
+#### **📊 Phase d'évaluation (2025) :**
+- **Durée** : 3-6 mois de test
+- **Critères** : Performance, fiabilité, adoption utilisateur
+- **Rollback possible** : Retour OneDrive si échec
+
+---
+
 ## 📁 **Structure du Projet V2**
 
 ### **Architecture Modulaire Opérationnelle**
@@ -496,4 +549,124 @@ cd backend; python run_flask_admin.py
 
 ---
 
-**✅ Architecture ATARYS V2 - Système modulaire, extensible et performant avec déclencheurs automatiques !** 
+## 🤖 **Intégration n8n → Agent IA → ATARYS**
+
+### **Architecture d'Intégration Intelligente**
+
+**Objectif :** Automatiser l'extraction et la ventilation intelligente des factures/LCR via n8n et agent IA ATARYS.
+
+**Flux principal :**
+```
+PDF Upload → n8n (extraction) → Agent IA (matching) → ATARYS (validation) → Comptabilisation
+```
+
+### **Composants d'Intégration**
+
+#### **1. n8n Workflows Hub**
+```
+📁 n8n Workflows Spécialisés
+├── 8.1 extraction_tva.json        ✅ OPÉRATIONNEL
+├── 8.2 extraction_devis.json      🔄 À créer
+├── 8.3 extraction_factures.json   🔄 À créer
+└── 8.4 planning_automatique.json  🔄 À créer
+```
+
+#### **2. Agent IA ATARYS (Module 13.1)**
+```python
+# Service d'orchestration intelligent
+class ATARYSAIOrchestrator:
+    def analyze_document()      # Classification automatique
+    def trigger_n8n_workflow()  # Déclenchement workflow approprié
+    def process_extraction()    # Traitement résultats n8n
+    def intelligent_matching()  # Ventilation intelligente aux chantiers
+```
+
+#### **3. Base de Données d'Intégration (Module 8.1)**
+```sql
+-- Tables d'intégration
+extractions_documents     # Journal des PDF traités
+factures_extraites       # Factures extraites par n8n
+bons_livraison_extraits  # Détail des bons avec ventilation IA
+```
+
+### **Format JSON Standardisé**
+
+```json
+{
+  "workflow_info": {
+    "id": "8.1",
+    "name": "extraction_tva",
+    "timestamp": "2025-01-20T10:30:00Z"
+  },
+  "source_document": {
+    "filename": "facture_mbr_ca000190.pdf",
+    "file_hash": "sha256_hash"
+  },
+  "extraction_result": {
+    "numero_facture": "CA000190",
+    "fournisseur": "MBR",
+    "total_ht": 6984.74,
+    "bons_livraison": [...]
+  },
+  "ia_analysis": {
+    "matching_results": [...],
+    "confidence_score": 0.95
+  }
+}
+```
+
+### **APIs d'Intégration**
+
+```python
+# Réception des extractions n8n
+POST /api/integration/n8n-webhook
+
+# Accès BDD pour l'IA (depuis n8n)
+GET  /api/n8n/chantiers-actifs
+GET  /api/n8n/matching-chantier
+
+# Agent IA orchestrateur
+POST /api/ai-orchestrator/analyze-document
+POST /api/ai-orchestrator/trigger-workflow
+```
+
+### **Algorithmes de Matching IA**
+
+#### **Types de Matching**
+1. **Exact** (Score: 100%) : Correspondance directe mots-clés
+2. **Flou** (Score: 70-90%) : Similarité textuelle
+3. **Historique** (Score: 50-80%) : Patterns de livraisons passées
+4. **Contextuel** (Score: 40-70%) : Montants, timing, type matériaux
+
+#### **Scoring Unifié**
+```python
+score_final = (
+    exact_score * 1.0 +
+    fuzzy_score * 0.8 +
+    historical_score * 0.6 +
+    contextual_score * 0.4
+) / total_weight
+```
+
+### **Apprentissage Automatique**
+- **Feedback Loop** : Chaque correction utilisateur améliore l'algorithme
+- **Pattern Recognition** : Détection automatique de nouveaux patterns
+- **Performance** : Précision cible >85%
+
+### **Configuration Intégration**
+
+```bash
+# Variables d'environnement
+N8N_WEBHOOK_BASE_URL=https://your-n8n.domain.com/webhook/
+AI_CONFIDENCE_THRESHOLD=0.8
+AI_LEARNING_ENABLED=true
+```
+
+### **Métriques d'Intégration**
+- **Précision IA** : 87% (s'améliore avec l'usage)
+- **Temps traitement** : 2-3 minutes par PDF
+- **Gain productivité** : 85% de temps gagné sur saisie comptable
+
+---
+
+**✅ Architecture ATARYS V2 - Système modulaire avec intégration intelligente n8n/IA !** 

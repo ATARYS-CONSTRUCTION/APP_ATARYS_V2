@@ -293,13 +293,41 @@ def open_explorer():
                 'message': 'Chemin relatif manquant'
             }), 400
         
+        # Import du mapper Hostinger
+        from ..services.hostinger_path_mapper import hostinger_mapper
+        
+        # Vérifier si le chemin est disponible sur Hostinger
+        is_on_hostinger = hostinger_mapper.is_path_on_hostinger(relative_path)
+        
+        if is_on_hostinger:
+            # NOUVEAU : Rediriger vers Hostinger File Manager
+            hostinger_url = hostinger_mapper.convert_to_hostinger_url(relative_path)
+            
+            if hostinger_url:
+                try:
+                    # Ouvrir l'URL Hostinger dans le navigateur
+                    import webbrowser
+                    webbrowser.open(hostinger_url)
+                    
+                    return jsonify({
+                        'success': True,
+                        'message': 'Dossier ouvert sur Hostinger File Manager',
+                        'hostinger_url': hostinger_url,
+                        'relative_path': relative_path,
+                        'location': 'hostinger'
+                    })
+                except Exception as e:
+                    # Si échec Hostinger, continuer avec OneDrive local
+                    pass
+        
+        # FALLBACK : Système OneDrive local (comportement original)
         # Utiliser le détecteur OneDrive pour résoudre le chemin
         resolved_path = onedrive_detector.resolve_relative_path(relative_path)
         
         if not resolved_path:
             return jsonify({
                 'success': False, 
-                'message': 'OneDrive non trouvé sur le système'
+                'message': 'OneDrive non trouvé sur le système et dossier non synchronisé sur Hostinger'
             }), 404
         
         # Vérifier que le dossier existe
@@ -309,23 +337,25 @@ def open_explorer():
                 'message': f'Le dossier n\'existe pas: {resolved_path}'
             }), 404
         
-        # Ouvrir l'explorateur Windows
+        # Ouvrir l'explorateur Windows (fallback)
         try:
             os.startfile(resolved_path)
             return jsonify({
                 'success': True, 
-                'message': f'Explorateur ouvert: {resolved_path}',
+                'message': f'Explorateur Windows ouvert: {resolved_path}',
                 'resolved_path': resolved_path,
-                'relative_path': relative_path
+                'relative_path': relative_path,
+                'location': 'local'
             })
         except Exception as e:
             # Fallback avec subprocess
             subprocess.run(['explorer', resolved_path], check=True)
             return jsonify({
                 'success': True, 
-                'message': f'Explorateur ouvert: {resolved_path}',
+                'message': f'Explorateur Windows ouvert: {resolved_path}',
                 'resolved_path': resolved_path,
-                'relative_path': relative_path
+                'relative_path': relative_path,
+                'location': 'local'
             })
             
     except Exception as e:
@@ -425,5 +455,35 @@ def get_ville(item_id):
         })
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 400
+
+@module_9_bp.route('/api/test-hostinger-mapping', methods=['POST'])
+def test_hostinger_mapping():
+    """Teste le mapping OneDrive → Hostinger"""
+    try:
+        data = request.get_json()
+        relative_path = data.get('path')
+        
+        if not relative_path:
+            return jsonify({
+                'success': False,
+                'message': 'Chemin relatif manquant'
+            }), 400
+        
+        # Import du mapper Hostinger
+        from ..services.hostinger_path_mapper import hostinger_mapper
+        
+        # Obtenir toutes les informations de mapping
+        mapping_info = hostinger_mapper.get_mapping_info(relative_path)
+        
+        return jsonify({
+            'success': True,
+            'mapping_info': mapping_info
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': f'Erreur lors du test: {str(e)}'
+        }), 500
 
 

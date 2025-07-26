@@ -1,0 +1,374 @@
+{
+  "name": "ATARYS - Template Extraction de Données",
+  "nodes": [
+    {
+      "parameters": {
+        "notice": "🎯 WORKFLOW TEMPLATE ATARYS\n\nCe workflow montre le format de sortie standard pour l'intégration avec l'API ATARYS V2.\n\n📋 MODULES SUPPORTÉS :\n- Module 5 : Articles ATARYS (devis/facturation)\n- Module 3 : Chantiers\n- Module 9 : Salariés\n\n🔧 FORMAT DE SORTIE :\nJSON compatible avec les endpoints ATARYS existants\n\n📊 STRUCTURE DONNÉES :\n- Respect du BaseModel pattern\n- Numeric(10,2) pour les montants financiers\n- Validation selon DATABASE_SCHEMA.md"
+      },
+      "id": "notice-template",
+      "name": "📋 Notice Template ATARYS",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [240, 140]
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch",
+        "branches": [
+          {
+            "name": "Module 5 - Articles ATARYS"
+          },
+          {
+            "name": "Module 3 - Chantiers"
+          },
+          {
+            "name": "Module 9 - Salariés"
+          }
+        ]
+      },
+      "id": "switch-module",
+      "name": "🏗️ Switch Module ATARYS",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "workflow_info",
+              "name": "workflow_info",
+              "value": {
+                "source_file": "{{ $json.filename || 'devis_exemple.xlsx' }}",
+                "extraction_date": "{{ $now.toISOString() }}",
+                "workflow_name": "extraction_articles_atarys",
+                "module_atarys": 5,
+                "table_target": "articles_atarys"
+              },
+              "type": "object"
+            },
+            {
+              "id": "data",
+              "name": "data",
+              "value": [
+                {
+                  "reference": "ARD-001",
+                  "libelle": "Ardoise de couverture 32x22cm",
+                  "prix_achat": "1.25",
+                  "coefficient": "2.5",
+                  "prix_unitaire": "3.13",
+                  "unite": "unité",
+                  "tva_pct": "20.00",
+                  "famille": "COUVERTURE",
+                  "actif": true,
+                  "date_import": "{{ $now.format('yyyy-MM-dd') }}",
+                  "date_maj": "{{ $now.format('yyyy-MM-dd') }}"
+                },
+                {
+                  "reference": "ZIN-002", 
+                  "libelle": "Zinc pour gouttière",
+                  "prix_achat": "8.50",
+                  "coefficient": "1.8",
+                  "prix_unitaire": "15.30",
+                  "unite": "ml",
+                  "tva_pct": "20.00",
+                  "famille": "ZINGUERIE",
+                  "actif": true,
+                  "date_import": "{{ $now.format('yyyy-MM-dd') }}",
+                  "date_maj": "{{ $now.format('yyyy-MM-dd') }}"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "id": "validation",
+              "name": "validation",
+              "value": {
+                "total_records": 2,
+                "valid_records": 2,
+                "errors": [],
+                "api_endpoint": "/api/articles-atarys/bulk-import",
+                "format_version": "2.0"
+              },
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "format-module5",
+      "name": "📊 Format Module 5 - Articles",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [680, 200]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "workflow_info",
+              "name": "workflow_info", 
+              "value": {
+                "source_file": "{{ $json.filename || 'chantiers_2025.xlsx' }}",
+                "extraction_date": "{{ $now.toISOString() }}",
+                "workflow_name": "extraction_chantiers",
+                "module_atarys": 3,
+                "table_target": "chantiers"
+              },
+              "type": "object"
+            },
+            {
+              "id": "data",
+              "name": "data",
+              "value": [
+                {
+                  "numero_chantier": "2025-001",
+                  "nom_chantier": "Rénovation Maison Dupont",
+                  "client_nom": "M. Dupont",
+                  "client_email": "dupont@email.com",
+                  "adresse_chantier": "123 Rue de la Paix, 35000 Rennes",
+                  "date_debut": "2025-02-01",
+                  "date_fin_prevue": "2025-03-15",
+                  "montant_ht": "25000.00",
+                  "montant_ttc": "30000.00",
+                  "statut": "EN_COURS",
+                  "type_travaux": "RENOVATION_TOITURE",
+                  "surface_m2": "120.50",
+                  "notes": "Chantier prioritaire - Client VIP"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "id": "validation",
+              "name": "validation",
+              "value": {
+                "total_records": 1,
+                "valid_records": 1,
+                "errors": [],
+                "api_endpoint": "/api/chantiers/bulk-import",
+                "format_version": "2.0"
+              },
+              "type": "object"
+            }
+          ]
+        }
+      },
+      "id": "format-module3",
+      "name": "🏗️ Format Module 3 - Chantiers",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [680, 340]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "workflow_info",
+              "name": "workflow_info",
+              "value": {
+                "source_file": "{{ $json.filename || 'salaries_2025.xlsx' }}",
+                "extraction_date": "{{ $now.toISOString() }}",
+                "workflow_name": "extraction_salaries",
+                "module_atarys": 9,
+                "table_target": "salaries"
+              },
+              "type": "object"
+            },
+            {
+              "id": "data",
+              "name": "data",
+              "value": [
+                {
+                  "nom": "Martin",
+                  "prenom": "Pierre",
+                  "salaire_brut_horaire": "18.50",
+                  "nbre_heure_hebdo": "35.00",
+                  "type_contrat": "CDI",
+                  "date_entree": "2024-01-15",
+                  "niveau_qualification_id": 2,
+                  "colonne_planning": "Pierre M.",
+                  "email": "pierre.martin@atarys.fr",
+                  "num_telephone": "06.12.34.56.78",
+                  "adresse": "45 Avenue de la République",
+                  "ville_id": 150,
+                  "date_naissance": "1985-03-20",
+                  "num_securite_social": "1850320123456",
+                  "ondrive_path": "./OneDrive/Administration/Volet social/0-Dossier salarié/Martin_Pierre"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "id": "validation",
+              "name": "validation",
+              "value": {
+                "total_records": 1,
+                "valid_records": 1,
+                "errors": [],
+                "api_endpoint": "/api/salaries/bulk-import",
+                "format_version": "2.0"
+              },
+              "type": "object"
+            }
+          ]
+        }
+      },
+      "id": "format-module9",
+      "name": "👥 Format Module 9 - Salariés",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [680, 480]
+    },
+    {
+      "parameters": {
+        "notice": "🎯 FORMAT DE SORTIE ATARYS\n\n📋 STRUCTURE OBLIGATOIRE :\n{\n  \"workflow_info\": {\n    \"source_file\": \"nom_fichier.xlsx\",\n    \"extraction_date\": \"ISO_DATE\",\n    \"module_atarys\": 1-13,\n    \"table_target\": \"nom_table\"\n  },\n  \"data\": [array_of_records],\n  \"validation\": {\n    \"total_records\": number,\n    \"valid_records\": number,\n    \"errors\": [],\n    \"api_endpoint\": \"/api/module/bulk-import\"\n  }\n}\n\n💰 MONTANTS FINANCIERS :\n- Format: \"1234.56\" (string)\n- Conversion: Numeric(10,2) côté API\n- Validation: 2 décimales max\n\n📅 DATES :\n- Format: \"YYYY-MM-DD\"\n- Validation: ISO 8601\n\n✅ VALIDATION :\n- Champs obligatoires selon BaseModel\n- Types respectés selon DATABASE_SCHEMA.md"
+      },
+      "id": "notice-format",
+      "name": "📊 Notice Format de Sortie",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:5000{{ $json.validation.api_endpoint }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Source",
+              "value": "n8n-workflow"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "workflow_info",
+              "value": "={{ $json.workflow_info }}"
+            },
+            {
+              "name": "data",
+              "value": "={{ $json.data }}"
+            },
+            {
+              "name": "validation",
+              "value": "={{ $json.validation }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "api-atarys",
+      "name": "🚀 POST vers API ATARYS",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "notice": "🔧 PRÉREQUIS ATARYS :\n\n✅ Tables existantes (opérationnelles) :\n- articles_atarys (176 lignes)\n- villes (données complètes)\n- niveau_qualification\n\n⚠️ Tables à créer (si besoin) :\n- chantiers\n- salaries (existe partiellement)\n\n📋 Endpoints API nécessaires :\n- POST /api/articles-atarys/bulk-import\n- POST /api/chantiers/bulk-import  \n- POST /api/salaries/bulk-import\n\n🗄️ Base de données :\n- SQLite : data/atarys_data.db\n- BaseModel pattern obligatoire\n- Numeric(10,2) pour montants\n\n🚀 Pour tester :\n1. Lancer backend ATARYS (port 5000)\n2. Importer ce workflow dans n8n\n3. Adapter les endpoints selon tables existantes\n4. Tester avec données réelles"
+      },
+      "id": "notice-prerequis",
+      "name": "⚙️ Prérequis & Installation",
+      "type": "n8n-nodes-base.stickyNote", 
+      "typeVersion": 1,
+      "position": [240, 500]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "switch-module": {
+      "main": [
+        [
+          {
+            "node": "format-module5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "format-module3", 
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "format-module9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "format-module5": {
+      "main": [
+        [
+          {
+            "node": "api-atarys",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "format-module3": {
+      "main": [
+        [
+          {
+            "node": "api-atarys",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "format-module9": {
+      "main": [
+        [
+          {
+            "node": "api-atarys",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "template-atarys-v2",
+  "meta": {
+    "templateCreatedBy": "ATARYS Team",
+    "description": "Template de workflow n8n pour l'extraction de données vers l'API ATARYS V2. Montre le format de sortie standard pour les modules 3, 5, et 9.",
+    "version": "2.0"
+  },
+  "id": "template-extraction-atarys",
+  "tags": [
+    {
+      "createdAt": "2025-01-25T10:00:00.000Z",
+      "updatedAt": "2025-01-25T10:00:00.000Z",
+      "id": "atarys",
+      "name": "ATARYS"
+    },
+    {
+      "createdAt": "2025-01-25T10:00:00.000Z", 
+      "updatedAt": "2025-01-25T10:00:00.000Z",
+      "id": "extraction",
+      "name": "Data Extraction"
+    }
+  ]
+} 

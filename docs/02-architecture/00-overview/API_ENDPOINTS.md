@@ -229,6 +229,70 @@ PUT    /api/salaries/<id>     # Modifier salarié
 DELETE /api/salaries/<id>     # Supprimer salarié
 ```
 
+#### **📁 Gestion des Fichiers (IMPLÉMENTÉ 2025)**
+
+#### **POST `/api/open-explorer`** ✅ MODIFIÉ 2025
+**Description** : Ouvre un dossier OneDrive (avec redirection Hostinger)
+**Corps** :
+```json
+{
+  "path": "./OneDrive/Administration/Volet social/0-Dossier salarié/Nom_Prenom"
+}
+```
+
+**Logique 2025 (Architecture Hybride) :**
+```python
+1. Vérifier si chemin synchronisé sur Hostinger
+2. SI OUI → Générer URL Hostinger File Manager → Ouvrir navigateur
+3. SI NON → Résoudre chemin OneDrive local → Ouvrir explorateur
+4. Retourner statut + location (hostinger|local)
+```
+
+**Réponse Hostinger** :
+```json
+{
+  "success": true,
+  "message": "Dossier ouvert sur Hostinger File Manager",
+  "hostinger_url": "https://hpanel.hostinger.com/file-manager?path=...",
+  "relative_path": "./OneDrive/Administration/...",
+  "location": "hostinger"
+}
+```
+
+**Réponse Fallback OneDrive** :
+```json
+{
+  "success": true,
+  "message": "Explorateur Windows ouvert: C:\\Users\\...",
+  "resolved_path": "C:\\Users\\Dell15\\OneDrive\\...",
+  "relative_path": "./OneDrive/Administration/...",
+  "location": "local"
+}
+```
+
+#### **POST `/api/test-hostinger-mapping`** 🆕 NOUVEAU 2025
+**Description** : Teste le mapping OneDrive → Hostinger
+**Corps** :
+```json
+{
+  "path": "./OneDrive/Administration/Dossier"
+}
+```
+
+**Réponse** :
+```json
+{
+  "success": true,
+  "mapping_info": {
+    "onedrive_path": "./OneDrive/Administration/Dossier",
+    "is_on_hostinger": true,
+    "hostinger_url": "https://hpanel.hostinger.com/file-manager?path=...",
+    "hostinger_path": "/home/atarys/Administration/Dossier",
+    "synchronized_folders": ["Administration", "Chantiers", ...]
+  }
+}
+```
+
 ### **Module 10.1 - CALCUL ARDOISES** (PRIORITÉ 3)
 **Objectif :** Calculateur d'ardoises selon zones climatiques
 **Modèles :** À créer selon `DATABASE_SCHEMA.md`
@@ -379,4 +443,313 @@ CORS(app)  # Autorise toutes les origines en développement
 
 ---
 
-**✅ APIs ATARYS V2 - Backend opérationnel avec modules prioritaires en cours !** 
+## 🤖 APIs d'Intégration n8n/IA
+
+> **Architecture complète :** Voir [ATARYS_ARCHITECTURE.md](ATARYS_ARCHITECTURE.md#intégration-n8n--agent-ia--atarys)  
+> **Workflows d'intégration :** Voir [WORKFLOWS.md](../../03-regles-standards/WORKFLOWS.md#workflows-dintégration-externe)
+
+### **Réception des Workflows n8n**
+
+#### **Webhook Principal n8n → ATARYS**
+```http
+POST /api/integration/n8n-webhook
+Content-Type: application/json
+X-Signature-256: sha256=signature_hmac
+
+{
+  "workflow_info": {
+    "id": "8.1",
+    "name": "extraction_tva",
+    "timestamp": "2025-01-20T10:30:00Z"
+  },
+  "source_document": {
+    "filename": "facture_mbr_ca000190.pdf",
+    "file_hash": "sha256_hash"
+  },
+  "extraction_result": {
+    "numero_facture": "CA000190",
+    "fournisseur": "MBR",
+    "total_ht": 6984.74,
+    "bons_livraison": [...]
+  }
+}
+```
+
+**Réponse :**
+```json
+{
+  "success": true,
+  "data": {
+    "extraction_id": 123,
+    "facture_id": 456,
+    "nb_bons": 3,
+    "needs_validation": true
+  },
+  "message": "Extraction intégrée avec succès"
+}
+```
+
+### **APIs pour n8n (Accès BDD)**
+
+#### **Chantiers Actifs**
+```http
+GET /api/n8n/chantiers-actifs
+Authorization: Bearer n8n_api_key
+```
+
+**Réponse :**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 125,
+      "nom": "Maison DEBOIS rue des Lilas",
+      "client": "M. DEBOIS",
+      "mots_cles": ["DEBOIS", "190DEBOIS", "MO/190DEBOIS"]
+    }
+  ]
+}
+```
+
+#### **Matching Intelligent**
+```http
+GET /api/n8n/matching-chantier?reference=DEBOIS&montant=1000
+Authorization: Bearer n8n_api_key
+```
+
+**Réponse :**
+```json
+{
+  "success": true,
+  "data": {
+    "chantier_principal": {
+      "id": 125,
+      "nom": "Maison DEBOIS rue des Lilas",
+      "confidence": 0.98,
+      "raison": "Correspondance exacte 'DEBOIS'"
+    },
+    "alternatives": [
+      {
+        "id": 89,
+        "nom": "Extension DEBOIS annexe",
+        "confidence": 0.65
+      }
+    ]
+  }
+}
+```
+
+### **Gestion des Extractions**
+
+#### **Extractions en Attente de Validation**
+```http
+GET /api/extractions/pending
+```
+
+**Réponse :**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 123,
+      "nom_fichier": "facture_mbr_ca000190.pdf",
+      "statut": "SUCCES",
+      "confidence_globale": 0.95,
+      "nb_factures": 1,
+      "nb_bons": 3,
+      "created_at": "2025-01-20T10:30:00Z"
+    }
+  ],
+  "message": "2 extractions à valider"
+}
+```
+
+#### **Validation Extraction**
+```http
+POST /api/extractions/123/validate
+Content-Type: application/json
+
+{
+  "corrections": {
+    "factures": {
+      "456": {
+        "fournisseur": "MBR CORRECTED",
+        "total_ht": 7000.00
+      }
+    }
+  },
+  "commentaire": "Correction montant facture"
+}
+```
+
+#### **Affectation Bon → Chantier**
+```http
+POST /api/bons/789/affecter-chantier
+Content-Type: application/json
+
+{
+  "chantier_id": 125,
+  "type_affectation": "CHANTIER",
+  "commentaire": "Matériaux charpente"
+}
+```
+
+### **Agent IA Orchestrateur**
+
+#### **Analyse Document**
+```http
+POST /api/ai-orchestrator/analyze-document
+Content-Type: multipart/form-data
+
+file: [PDF binaire]
+```
+
+**Réponse :**
+```json
+{
+  "success": true,
+  "data": {
+    "document_type": "facture_fournisseur",
+    "workflow_recommande": "8.1",
+    "confidence": 0.92,
+    "n8n_execution_id": "exec_123456"
+  },
+  "message": "Document analysé, workflow 8.1 déclenché"
+}
+```
+
+#### **Workflows Disponibles**
+```http
+GET /api/ai-orchestrator/workflows-available
+```
+
+**Réponse :**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "8.1",
+      "name": "extraction_tva",
+      "description": "Extraction factures/LCR avec bons de livraison",
+      "types_documents": ["facture_fournisseur", "lcr"],
+      "status": "ACTIVE"
+    },
+    {
+      "id": "8.2", 
+      "name": "extraction_devis",
+      "description": "Extraction devis clients",
+      "types_documents": ["devis_client"],
+      "status": "DEVELOPMENT"
+    }
+  ]
+}
+```
+
+### **Métriques et Monitoring**
+
+#### **Statistiques d'Extraction**
+```http
+GET /api/integration/stats?periode=30
+```
+
+**Réponse :**
+```json
+{
+  "success": true,
+  "data": {
+    "extractions": {
+      "total": 245,
+      "succes": 235,
+      "erreurs": 10,
+      "taux_succes": 95.9
+    },
+    "ia_matching": {
+      "precision": 87.5,
+      "suggestions_acceptees": 203,
+      "corrections_utilisateur": 42
+    },
+    "temps_moyen": {
+      "extraction_n8n": 2.3,
+      "validation_utilisateur": 4.1
+    }
+  }
+}
+```
+
+#### **Statut des Services**
+```http
+GET /api/integration/health
+```
+
+**Réponse :**
+```json
+{
+  "success": true,
+  "data": {
+    "n8n_service": {
+      "status": "UP",
+      "last_check": "2025-01-20T10:35:00Z",
+      "response_time_ms": 150
+    },
+    "ai_service": {
+      "status": "UP", 
+      "model_version": "claude-sonnet-4",
+      "requests_today": 1240
+    },
+    "database": {
+      "status": "UP",
+      "connections_active": 5,
+      "query_avg_ms": 25
+    }
+  }
+}
+```
+
+### **Sécurité et Authentification**
+
+#### **Headers Obligatoires**
+```http
+# Pour n8n
+Authorization: Bearer n8n_api_key_from_env
+X-Signature-256: sha256=hmac_signature
+
+# Pour agent IA
+Authorization: Bearer ai_service_token
+X-Request-ID: uuid_unique
+```
+
+#### **Rate Limits**
+- **n8n webhooks** : 60 requêtes/minute
+- **APIs de consultation** : 100 requêtes/minute  
+- **Agent IA** : 30 requêtes/minute
+- **Validation/Affectation** : 200 requêtes/minute
+
+### **Codes d'Erreur Spécifiques**
+
+```json
+{
+  "success": false,
+  "error": "INVALID_WORKFLOW_DATA",
+  "code": 4001,
+  "message": "Données workflow n8n invalides",
+  "details": {
+    "missing_fields": ["workflow_info.id"],
+    "invalid_fields": ["extraction_result.total_ht"]
+  }
+}
+```
+
+**Codes d'erreur :**
+- `4001` : Données workflow invalides
+- `4002` : Signature webhook incorrecte
+- `4003` : Document non supporté
+- `4004` : Chantier introuvable pour affectation
+- `5001` : Service n8n indisponible
+- `5002` : Service IA temporairement surchargé
+
+---
+
+**✅ APIs ATARYS V2 - Backend opérationnel avec intégration intelligente n8n/IA !** 

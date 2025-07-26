@@ -78,6 +78,41 @@ Entreprise charpente-couverture-menuiserie de 10 personnes. Valeurs : technicit�
 
 #### **🎯 À DÉVELOPPER EN V2**
 - **Module 3.1** - LISTE CHANTIERS (priorité 1)
+
+---
+
+## 🌐 **Migration Hostinger 2025 (Phase Expérimentale)**
+
+### **📊 Changement Architectural Majeur :**
+- **Stockage centralisé** : Fichiers entreprise sur serveur applicatif
+- **Redirection automatique** : Liens OneDrive → Hostinger File Manager
+- **Synchronisation continue** : rclone OneDrive → Serveur Linux
+
+### **🎯 Impact Développement :**
+- **Nouveau service** : `hostinger_path_mapper.py`
+- **Endpoint modifié** : `/api/open-explorer` avec redirection intelligente
+- **Fallback automatique** : OneDrive local si Hostinger indisponible
+- **Tests requis** : Vérifier mapping caractères spéciaux
+
+### **📋 À surveiller en développement :**
+```python
+# Vérifier mapping correct
+./OneDrive/Comptabilité 2025 → /home/atarys/Comptabilite_2025
+./OneDrive/Stavařina → /home/atarys/Stavarina
+
+# Tester redirection
+Clic "OneDrive" → Hostinger File Manager (navigateur)
+Fallback → OneDrive local (explorateur)
+
+# Monitoring synchronisation
+rclone sync status quotidien
+Logs erreurs dans backend
+```
+
+### **⚠️ Phase d'évaluation :**
+- **Durée** : 3-6 mois (2025)
+- **Rollback possible** : Retour OneDrive exclusif si échec
+- **Documentation** : Retours d'expérience obligatoires
 - **Module 9.1** - Liste Salariés (priorité 2)
 - **Module 10.1** - Calcul Ardoises (priorité 3)
 - **Modules additionnels** - Selon roadmap Phase 1-3

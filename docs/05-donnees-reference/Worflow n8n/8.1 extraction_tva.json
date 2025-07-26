@@ -1,0 +1,205 @@
+{
+  "name": "extraction_LCR82",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {
+          "allowFileUploads": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -768,
+        32
+      ],
+      "id": "8667c067-660f-4045-88e2-ca3803e956f9",
+      "name": "When chat message received",
+      "webhookId": "a153f3df-2617-4ca7-8df9-4146715c856c"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parser JSON robuste pour extraction ATARYS\nconst input = $input.first().json;\nconst claudeResponse = input.content || input.output || \"\";\n\n// Fonction de validation des montants\nfunction validerMontant(montant) {\n  if (typeof montant === 'string') {\n    // Nettoyer et convertir les montants français (virgule -> point)\n    const nettoye = montant.replace(/[^\\d,.-]/g, '').replace(',', '.');\n    const nombre = parseFloat(nettoye);\n    return isNaN(nombre) ? 0.00 : Math.round(nombre * 100) / 100;\n  }\n  const nombre = parseFloat(montant) || 0;\n  return Math.round(nombre * 100) / 100;\n}\n\n// Fonction de validation des dates\nfunction validerDate(dateStr) {\n  if (!dateStr || dateStr === \"NON_TROUVE\") return \"NON_TROUVE\";\n  \n  // Convertir différents formats vers DD/MM/YYYY\n  const patterns = [\n    /(\\d{1,2})[\\/.-](\\d{1,2})[\\/.-](\\d{4})/,  // DD/MM/YYYY\n    /(\\d{1,2})[\\/.-](\\d{1,2})[\\/.-](\\d{2})$/,  // DD/MM/YY\n    /(\\d{4})[\\/.-](\\d{1,2})[\\/.-](\\d{1,2})/   // YYYY/MM/DD\n  ];\n  \n  for (const pattern of patterns) {\n    const match = dateStr.match(pattern);\n    if (match) {\n      if (match[3].length === 2) {\n        // Convertir YY en YYYY\n        const year = parseInt(match[3]);\n        const fullYear = year > 50 ? 1900 + year : 2000 + year;\n        return `${match[1].padStart(2, '0')}/${match[2].padStart(2, '0')}/${fullYear}`;\n      } else if (match[0].startsWith(match[3])) {\n        // Format YYYY/MM/DD -> DD/MM/YYYY\n        return `${match[3].padStart(2, '0')}/${match[2].padStart(2, '0')}/${match[1]}`;\n      } else {\n        // Format DD/MM/YYYY\n        return `${match[1].padStart(2, '0')}/${match[2].padStart(2, '0')}/${match[3]}`;\n      }\n    }\n  }\n  \n  return dateStr; // Retourner tel quel si aucun pattern ne correspond\n}\n\n// Fonction de nettoyage des fournisseurs\nfunction normaliserFournisseur(fournisseur) {\n  const mapping = {\n    'M.B.R': 'MBR',\n    'SA M.B.R': 'MBR',\n    'COCERTO ENTREPRISE': 'COCERTO',\n    'DELAIRE FERS ET MÉTAUX': 'DELAIRE',\n    'S.A.S. FOUSSIER': 'FOUSSIER',\n    'CRIT SAS': 'CRIT'\n  };\n  \n  return mapping[fournisseur] || fournisseur;\n}\n\nlet donneesFacture;\n\ntry {\n  if (!claudeResponse) {\n    throw new Error(\"Aucune réponse de Claude\");\n  }\n  \n  console.log(\"=== DEBUT PARSING ===\");\n  console.log(\"Réponse brute:\", claudeResponse.substring(0, 300) + \"...\");\n  \n  // Extraction du JSON avec patterns multiples\n  let jsonString = claudeResponse.toString().trim();\n  \n  // Tentatives d'extraction du JSON\n  const extractionPatterns = [\n    /```json\\s*([\\s\\S]*?)\\s*```/i,\n    /```\\s*([\\s\\S]*?)\\s*```/,\n    /\\{[\\s\\S]*\\}/\n  ];\n  \n  let jsonExtrait = null;\n  for (const pattern of extractionPatterns) {\n    const match = jsonString.match(pattern);\n    if (match) {\n      jsonExtrait = match[1] || match[0];\n      console.log(\"Pattern utilisé:\", pattern.toString());\n      break;\n    }\n  }\n  \n  if (!jsonExtrait) {\n    console.log(\"Tentative de parsing direct...\");\n    jsonExtrait = jsonString;\n  }\n  \n  console.log(\"JSON à parser:\", jsonExtrait.substring(0, 200) + \"...\");\n  \n  // Parse du JSON\n  donneesFacture = JSON.parse(jsonExtrait);\n  console.log(\"Parsing JSON réussi !\");\n  \n  // === VALIDATION ET NETTOYAGE ===\n  \n  // Numéro de facture\n  if (!donneesFacture.numero_facture || donneesFacture.numero_facture.trim() === \"\") {\n    donneesFacture.numero_facture = `EXTRACT_${Date.now()}`;\n  }\n  \n  // Date\n  donneesFacture.date_facture = validerDate(donneesFacture.date_facture);\n  \n  // Fournisseur\n  donneesFacture.fournisseur = normaliserFournisseur(donneesFacture.fournisseur || \"INCONNU\");\n  \n  // Montants\n  donneesFacture.total_ht = validerMontant(donneesFacture.total_ht);\n  donneesFacture.total_ttc = validerMontant(donneesFacture.total_ttc);\n  \n  // Référence chantier\n  if (!donneesFacture.reference_chantier) {\n    donneesFacture.reference_chantier = \"NON_TROUVE\";\n  }\n  \n  // Validation des bons de livraison\n  if (!Array.isArray(donneesFacture.bons_livraison)) {\n    donneesFacture.bons_livraison = [];\n  }\n  \n  // Nettoyer chaque bon\n  donneesFacture.bons_livraison = donneesFacture.bons_livraison.map((bon, index) => {\n    const bonNettoye = {\n      numero_bon: bon.numero_bon || `BON_${index + 1}`,\n      description: (bon.description || \"Description non disponible\").substring(0, 200),\n      montant_ht: validerMontant(bon.montant_ht),\n      reference_client: bon.reference_client || \"NON_SPECIFIE\"\n    };\n    \n    // Log pour debugging\n    console.log(`Bon ${index + 1}:`, bonNettoye.numero_bon, bonNettoye.montant_ht + \"€\");\n    \n    return bonNettoye;\n  });\n  \n  // Si aucun bon trouvé, créer un bon par défaut\n  if (donneesFacture.bons_livraison.length === 0) {\n    donneesFacture.bons_livraison.push({\n      numero_bon: \"BON_UNIQUE\",\n      description: \"Facture sans détail de bons de livraison\",\n      montant_ht: donneesFacture.total_ht,\n      reference_client: \"NON_SPECIFIE\"\n    });\n  }\n  \n  // Calcul de vérification\n  const totalBons = donneesFacture.bons_livraison.reduce((sum, bon) => sum + bon.montant_ht, 0);\n  const ecart = Math.abs(donneesFacture.total_ht - totalBons);\n  \n  // Métadonnées finales\n  donneesFacture.statut_parsing = \"SUCCES\";\n  donneesFacture.timestamp_extraction = new Date().toISOString();\n  donneesFacture.controle_montants = {\n    total_facture_ht: donneesFacture.total_ht,\n    total_bons_ht: Math.round(totalBons * 100) / 100,\n    ecart: Math.round(ecart * 100) / 100,\n    coherent: ecart < 0.01\n  };\n  \n  console.log(\"=== EXTRACTION REUSSIE ===\");\n  console.log(`Fournisseur: ${donneesFacture.fournisseur}`);\n  console.log(`Facture: ${donneesFacture.numero_facture}`);\n  console.log(`Total HT: ${donneesFacture.total_ht}€`);\n  console.log(`Nombre de bons: ${donneesFacture.bons_livraison.length}`);\n  console.log(`Contrôle: ${donneesFacture.controle_montants.coherent ? 'OK' : 'ATTENTION'}`);\n  \n} catch (error) {\n  console.error(\"=== ERREUR PARSING ===\");\n  console.error(\"Message:\", error.message);\n  console.error(\"Stack:\", error.stack);\n  console.log(\"Input complet:\", JSON.stringify(input, null, 2));\n  \n  // Fallback avec informations détaillées\n  donneesFacture = {\n    nom_fichier: input.filename || input.nom_fichier || \"FICHIER_INCONNU\",\n    numero_facture: `ERREUR_${Date.now()}`,\n    date_facture: new Date().toLocaleDateString('fr-FR'),\n    fournisseur: \"ERREUR_EXTRACTION\",\n    total_ht: 0.00,\n    total_ttc: 0.00,\n    reference_chantier: \"NON_TROUVE\",\n    bons_livraison: [{\n      numero_bon: \"ERREUR_PARSING\",\n      description: `Échec extraction: ${error.message}`,\n      montant_ht: 0.00,\n      reference_client: \"ERREUR\"\n    }],\n    statut_parsing: \"ERREUR\",\n    erreur_details: {\n      message: error.message,\n      type: error.name,\n      reponse_longueur: claudeResponse ? claudeResponse.length : 0\n    },\n    reponse_brute: claudeResponse ? claudeResponse.substring(0, 1000) : \"REPONSE_VIDE\",\n    timestamp_extraction: new Date().toISOString()\n  };\n}\n\nreturn { json: donneesFacture };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        256,
+        32
+      ],
+      "id": "52a3536c-9d0a-422a-9b92-3aa093c48aef",
+      "name": "Parser réponse Claude"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Générateur Excel Direct - Crée un vrai fichier Excel\nconst input = $input.first().json;\nconst donnees = input; // Les données du parser\n\nconsole.log(\"=== GÉNÉRATION EXCEL DIRECT ===\");\n\n// Préparer les données pour Excel\nconst lignesExcel = [];\n\n// En-têtes\nlignesExcel.push([\n  \"Type_Document\", \"Fichier_Source\", \"Fournisseur\", \"Numero\", \n  \"Date_Facture\", \"Montant_HT\", \"Montant_TTC\", \"Reference\", \n  \"Statut\", \"Date_Traitement\", \"Notes\"\n]);\n\n// Informations de base\nconst dateTraitement = new Date().toLocaleDateString('fr-FR');\nconst fichierSource = donnees.nom_fichier || \"FICHIER_PDF\";\n\n// Ligne facture\nlignesExcel.push([\n  \"FACTURE\",\n  fichierSource,\n  donnees.fournisseur || \"INCONNU\",\n  donnees.numero_facture || \"N/A\",\n  donnees.date_facture || \"N/A\",\n  donnees.total_ht || 0,\n  donnees.total_ttc || 0,\n  donnees.reference_chantier || \"NON_TROUVE\",\n  \"FACTURE_PRINCIPALE\",\n  dateTraitement,\n  `${(donnees.bons_livraison || []).length} bons de livraison`\n]);\n\n// Lignes bons\nif (donnees.bons_livraison && Array.isArray(donnees.bons_livraison)) {\n  donnees.bons_livraison.forEach((bon, index) => {\n    lignesExcel.push([\n      \"BON_LIVRAISON\",\n      fichierSource,\n      donnees.fournisseur || \"INCONNU\", \n      bon.numero_bon || `BON_${index + 1}`,\n      donnees.date_facture || \"N/A\",\n      bon.montant_ht || 0,\n      \"\", // TTC vide pour les bons\n      bon.reference_client || \"NON_SPECIFIE\",\n      \"A_VENTILER\",\n      dateTraitement,\n      `Bon ${index + 1}/${donnees.bons_livraison.length}`\n    ]);\n  });\n}\n\n// Créer un CSV propre avec séparateur point-virgule (mieux pour Excel français)\nconst csvContent = lignesExcel.map(ligne => \n  ligne.map(cell => {\n    if (cell === null || cell === undefined) return '';\n    const str = String(cell);\n    // Utiliser point-virgule comme séparateur pour Excel français\n    if (str.includes(';') || str.includes('\"') || str.includes('\\n')) {\n      return '\"' + str.replace(/\"/g, '\"\"') + '\"';\n    }\n    return str;\n  }).join(';') // Point-virgule au lieu de virgule\n).join('\\n');\n\nconst filename = `ATARYS_${donnees.fournisseur || 'EXTRACTION'}_${donnees.numero_facture || 'FACTURE'}_${new Date().toISOString().slice(0,10)}`;\n\nconsole.log(`✅ Excel généré: ${lignesExcel.length} lignes`);\nconsole.log(`✅ Fournisseur: ${donnees.fournisseur}`);\nconsole.log(`✅ Bons: ${(donnees.bons_livraison || []).length}`);\n\n// RETOUR DIRECT DU FICHIER (format correct pour n8n)\nreturn {\n  json: {\n    message: `✅ Extraction terminée ! ${lignesExcel.length} lignes générées`,\n    fournisseur: donnees.fournisseur,\n    facture: donnees.numero_facture,\n    bons: (donnees.bons_livraison || []).length\n  },\n  binary: {\n    data: Buffer.from(csvContent, 'utf8'),\n    mimeType: 'application/vnd.ms-excel',\n    fileName: `${filename}.csv`,\n    fileExtension: 'csv'\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        32
+      ],
+      "id": "c6446eb7-2293-46a5-9417-bfd3a13a2040",
+      "name": "Formater Excel ATARYS"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# EXPERT COMPTABLE ATARYS - EXTRACTION FACTURES PDF\n\nTu es un expert comptable pour ATARYS Construction (35410 NOUVOITOU).\n\n## CONTENU PDF À ANALYSER\nFichier: {{ $json.filename }}\nContenu PDF extrait: {{ $('Extract from File').first().json.text }}\n\n## FOURNISSEURS ATARYS RECONNUS\n\n### MBR (Matériaux)\n- Noms : \"M.B.R\", \"MBR\", \"SA M.B.R\", \"METIERS DU BOIS\"\n- Adresse : \"Route de l'Artipôle\", \"ZA Artipôle\", \"35220 ST DIDIER\", \"ARTIPOLE\"\n- Identifiants : \"481 220 309\", \"FR45481220309\", \"02 99 05 35 76\"\n\n### DELAIRE (Métaux)\n- Noms : \"DELAIRE\", \"DELAIRE FERS ET MÉTAUX\"\n- Adresse : \"7-9, rue de l'Erbonière\", \"35518 CESSON SEVIGNE\"\n- Identifiants : \"FR 01 500 453 907\", \"50045390700015\"\n\n### FOUSSIER (Outillage)\n- Noms : \"FOUSSIER\", \"S.A.S. FOUSSIER\"\n- Adresse : \"Z.A. du Monné\", \"CS20008\", \"72705 Allonnes\"\n- Identifiants : \"329 681 340\", \"FR 22 329 681 340\"\n\n### CREAMETAL\n- Noms : \"CREAMETAL\"\n- Adresse : \"35 rue Edison\"\n- Identifiants : \"509 610 242 00018\", \"FR61509610242\"\n\n### ECO SAIN HABITAT\n- Noms : \"ECO SAIN HABITAT\", \"ECO SAIN\", \"BIOSFAIRE\"\n- Adresse : \"Z.A. de Biardel\"\n- Identifiants : \"51226619800013\", \"FR76 3004 7140 1900 0219 0610 191\"\n\n### RUBION\n- Noms : \"RUBION\"\n- Adresse : \"Rue des Maréchales\"\n- Identifiants : \"37867045900023\", \"FR60378670459\"\n\n### WELLJOB\n- Noms : \"WELLJOB\"\n- Adresse : \"123 Rue de Nantes\"\n- Identifiants : \"0230710140\", \"FR52 804898609\"\n\n### ORLO (Bois)\n- Noms : \"ORLO\", \"Industrie du bois\"\n- Adresse : \"ZA LA PERRIERE\", \"35341 LIFFRE\"\n- Identifiants : \"39815482300023\", \"FR79398154823\", \"02 99 68 34 34\"\n\n### LTM\n- Noms : \"LTM\"\n\n### ASTURIENNE\n- Noms : \"ASTURIENNE\"\n- Adresse : \"10 rue de la Cerisaie\"\n- Identifiants : \"02.99.84.80.20\", \"777346099\"\n\n### LOXAM SCAN\n- Noms : \"LOXAM scan\", \"LOXAM\", \"SCAN\"\n\n### COCERTO ENTREPRISE (Comptabilité)\n- Noms : \"COCERTO ENTREPRISE\", \"COCERTO\"\n- Adresse : \"1 RUE EDOUARD NIGNON\", \"44300 NANTES\"\n- Identifiants : \"871 800 751\", \"FR 92 871 800 751\", \"FR76 3004 7141 2100 0217 3060 197\"\n\n### KILOUTOU\n- Noms : \"KILOUTOU\"\n- Identifiants : \"31768606101652\", \"SAS au capital de 10 441 555\"\n\n### BRETAGNE MATERIAUX\n- Noms : \"BRETAGNE MATERIAUX\"\n\n### CRIT (Intérim)\n- Noms : \"CRIT\", \"CRIT SAS\"\n- Adresse : \"2 RUE D'ESPAGNE\", \"35000 RENNES\"\n- Identifiants : \"451329908\", \"FR07451329908\"\n\n### GEDIMO\n- Noms : \"GEDIMO\"\n- Adresse : \"CARQUEFOU\"\n- Identifiants : \"gedimo-sas.odoo.com\"\n\n### STATION RENNAISE D'AFFUTAGE\n- Noms : \"STATION RENNAISE D'AFFUTAGE\", \"STATION RENNAISE\", \"RENNAISE AFFUTAGE\"\n- Adresse : \"5, rue Charles Jourde\", \"CHARLES JOURDE\"\n- Identifiants : \"02 99 35 30 30\", \"324 970 425 00025\", \"FR 80 32 49 70 4\"\n\n### LEROY MERLIN\n- Noms : \"LEROY MERLIN\"\n\n### BRICODEPOT\n- Noms : \"BRICODEPOT\"\n\n### SCAN\n- Noms : \"SCAN\"\n\n## EXTRACTION OBLIGATOIRE\n\n### 1. DONNÉES FACTURE PRINCIPALE\n- **numero_facture** : Numéro exact (ex: CA000190)\n- **date_facture** : Format DD/MM/YYYY (ex: 30/06/2025)\n- **fournisseur** : Nom identifié (ex: MBR)\n- **total_ht** : Montant HT total en euros (ex: 6984.74)\n- **total_ttc** : Montant TTC total en euros (ex: 8367.87)\n- **reference_chantier** : Référence trouvée (ex: MO/190DEBOIS/2829)\n### GESTION DES FRAIS GÉNÉRAUX ET EXCLUSIONS\n\n**RÈGLE CRITIQUE** : Exclure systématiquement les frais généraux non affectables à un chantier.\n\n#### FRAIS À EXCLURE (NE PAS inclure dans les bons_livraison) :\n\n**MBR :**\n- ❌ \"ZAVM Compte courant\" → Frais de gestion général\n- ❌ \"Frais de dossier\" \n- ❌ \"Frais de port\"\n\n**FOUSSIER :**\n- ❌ \"Eco-contribution\" → Taxe environnementale\n- ❌ \"Frais de livraison\"\n- ❌ \"Assurance transport\"\n\n**TOUS FOURNISSEURS :**\n- ❌ Comptes courants\n- ❌ Frais de gestion\n- ❌ Frais administratifs  \n- ❌ Eco-contributions\n- ❌ Assurances\n- ❌ Remises globales\n- ❌ Escomptes\n\n#### MÉTHODE D'EXTRACTION AFFINÉE :\n\n1. **Identifier TOUTE référence chantier/client/projet** (flexible sur le vocabulaire)\n2. **Associer chaque référence à son montant spécifique** \n3. **Exclure automatiquement les frais généraux listés ci-dessus**\n4. **S'adapter au format de chaque fournisseur**\n\n#### EXEMPLES CONCRETS :\n\n**MBR - À extraire :**\n```\nBL n° 351020 - MO/190DEBOIS → 65.09€ ✅\nBL n° 351022 - BESCOND → 1118.25€ ✅\n```\n\n**MBR - À exclure :**\n```\nZAVM Compte courant → 69.08€ ❌ (frais général)\n```\n\n**FOUSSIER - À extraire :**\n```\nRéf : CARIOU du 03/06/2025 → 130.30€ ✅\nRéf : DUPONCEL du 06/06/2025 → 703.93€ ✅\n```\n\n**FOUSSIER - À exclure :**\n```\nEco-contribution → 0.90€ ❌ (taxe générale)\n```\n\nCette règle garantit que seuls les montants affectables à des chantiers sont extraits.\n\n### 2. EXTRACTION DES BONS DE LIVRAISON\n**RÈGLE CRITIQUE** : Chercher TOUS les \"BL n°\" ou \"Bon de livraison\" dans le texte.\n\nPour CHAQUE bon trouvé, extraire :\n- **numero_bon** : Numéro exact du BL (ex: 351020, 351022, 351023, etc.)\n- **montant_ht** : Montant HT du bon (ex: 65.09, 1118.25, etc.)\n- **reference_client** : Référence associée si trouvée\n\n### 3. PATTERNS À CHERCHER OBLIGATOIREMENT\n\n#### Numéros de factures MBR :\n- \"CA000190\", \"FBRU066543\", etc.\n\n#### Bons de livraison :\n- \"BL n° 351020 du 16/06/2025\"\n- \"BL n° 351022 du 16/06/2025\" \n- \"BL n° 351023 du 16/06/2025\"\n- \"Total Bon de livraison 65.09\"\n- \"Total Bon de livraison 1 118.25\"\n\n#### Montants :\n- \"Total HT 6 984,74\"\n- \"Net à payer 8 367,87 EUR\"\n- Montants individuels par bon\n\n## EXEMPLE CONCRET DE RÉPONSE ATTENDUE\n\n```json\n{\n  \"nom_fichier\": \"{{ $json.filename }}\",\n  \"numero_facture\": \"CA000190\",\n  \"date_facture\": \"30/06/2025\",\n  \"fournisseur\": \"MBR\",\n  \"total_ht\": 6984.74,\n  \"total_ttc\": 8367.87,\n  \"reference_chantier\": \"MO/190DEBOIS/2829\",\n  \"bons_livraison\": [\n    {\n      \"numero_bon\": \"351020\",\n      \"montant_ht\": 65.09,\n      \"reference_client\": \"MO/190DEBOIS/282963/S24\"\n    },\n    {\n      \"numero_bon\": \"351022\", \n      \"montant_ht\": 1118.25,\n      \"reference_client\": \"BESCOND\"\n    },\n    {\n      \"numero_bon\": \"351023\",\n      \"montant_ht\": 66.54,\n      \"reference_client\": \"PASCOT\"\n    }\n  ],\n  \"statut_extraction\": \"OK\",\n  \"fournisseur_reconnu\": true\n}\n```\n\n## INSTRUCTIONS CRITIQUES\n\n1. **LIRE TOUT LE TEXTE** - Ne pas s'arrêter à la première page\n2. **CHERCHER TOUS LES \"BL n°\"** - Il peut y en avoir 10-15 par facture\n3. **EXTRAIRE LES VRAIS MONTANTS** - Pas d'invention\n4. **VÉRIFIER LA COHÉRENCE** - Somme des bons ≈ Total facture\n5. **RÉPONDRE UNIQUEMENT EN JSON** valide\n\n**IMPORTANT** : Cette facture contient de nombreux bons de livraison. Il faut TOUS les extraire avec leurs montants réels.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        -144,
+        32
+      ],
+      "id": "3b79dc32-25a7-4bc3-8830-363b6ba78f8e",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-sonnet-4-20250514",
+          "mode": "list",
+          "cachedResultName": "Claude Sonnet 4"
+        },
+        "options": {
+          "maxTokensToSample": 8000
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        -144,
+        288
+      ],
+      "id": "6e4185d5-185b-4cd7-b4e5-548499d48f2e",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "x99XlKIFmRibMe3u",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code Node - Transmission fichiers pour Extract from File\nconst input = $input.first();\n\nconsole.log(\"=== TRANSMISSION FICHIERS ===\");\nconsole.log(\"Input structure:\", Object.keys(input));\n\n// Cas principal: Fichier uploadé via chat trigger\nif (input.json?.files?.[0]) {\n  const file = input.json.files[0];\n  console.log(`✅ Fichier: ${file.filename || file.fileName}`);\n  console.log(`Taille: ${file.fileSize} octets`);\n  console.log(\"Propriétés du fichier:\", Object.keys(file));\n  \n  // Le problème: file.data n'existe pas !\n  // Les données sont probablement ailleurs dans l'input\n  \n  // Chercher les données binaires dans input.binary\n  if (input.binary && Object.keys(input.binary).length > 0) {\n    console.log(\"✅ Données trouvées dans input.binary\");\n    console.log(\"Binary keys:\", Object.keys(input.binary));\n    \n    // Prendre la première donnée binaire disponible\n    const binaryKey = Object.keys(input.binary)[0];\n    const binaryData = input.binary[binaryKey];\n    \n    return {\n      json: {\n        filename: file.filename || file.fileName,\n        mimeType: file.mimeType\n      },\n      binary: {\n        data: binaryData\n      }\n    };\n  }\n  \n  // Si pas de données binaires, essayer autre chose\n  console.log(\"❌ Aucune donnée binaire trouvée\");\n  console.log(\"Input.binary keys:\", Object.keys(input.binary || {}));\n  \n  return {\n    json: { \n      error: \"File metadata found but no binary data\",\n      filename: file.filename || file.fileName \n    },\n    binary: {}\n  };\n}\n\n// Fallback si pas de fichier\nconsole.log(\"❌ Aucun fichier trouvé\");\nreturn {\n  json: { error: \"No file found\" },\n  binary: {}\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        32
+      ],
+      "id": "8a64d0ba-e8b6-4573-b5f1-44088f38cce1",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {
+          "maxPages": 50
+        }
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -352,
+        32
+      ],
+      "id": "7384a6ca-70c8-4b51-9bac-9ccf12d39bf4",
+      "name": "Extract from File"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Parser réponse Claude": {
+      "main": [
+        [
+          {
+            "node": "Formater Excel ATARYS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formater Excel ATARYS": {
+      "main": [
+        []
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Parser réponse Claude",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "013b232e-0eea-4fce-bcd1-f779fcbf3ebc",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "54c672276e8355fdce25ea3b42cb6a4f453ee223c9c11b9d42824af13b8b48c8"
+  },
+  "id": "KOatvNyVZIFOd6R0",
+  "tags": []
+}

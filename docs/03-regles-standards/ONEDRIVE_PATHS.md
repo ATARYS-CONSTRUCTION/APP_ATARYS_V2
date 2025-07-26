@@ -1,4 +1,156 @@
-# 📁 GESTION DES CHEMINS ONEDRIVE - ATARYS V2
+# 📁 GESTION DES CHEMINS ONEDRIVE → HOSTINGER - ATARYS V2
+
+> **⚠️ ARCHITECTURE HYBRIDE 2025** : Migration expérimentale vers stockage serveur centralisé
+
+## 🎯 **NOUVELLE STRATÉGIE DE STOCKAGE**
+
+### **📊 Architecture Hybride OneDrive ↔ Hostinger**
+
+#### **🌐 Principe :**
+1. **Fichiers synchronisés** → Hostinger File Manager (serveur)
+2. **Fichiers non synchronisés** → OneDrive local (poste de travail)
+3. **Détection automatique** → Redirection transparente selon disponibilité
+
+#### **🔧 Workflow utilisateur :**
+```
+1. Clic bouton "OneDrive" dans ATARYS
+2. Système vérifie si dossier synchronisé Hostinger
+3. SI OUI → Ouvre Hostinger File Manager (navigateur)
+4. SI NON → Ouvre OneDrive local (explorateur)
+```
+
+#### **✅ Avantages migration :**
+- **Centralisation** : App + fichiers sur même serveur
+- **Performance** : Accès direct sans OneDrive local
+- **Collaboration** : URLs partageables Hostinger
+- **Sauvegarde** : Fichiers sur infrastructure contrôlée
+
+#### **⚠️ Phase d'évaluation :**
+- **Statut** : Expérimental (2025)
+- **Durée** : 3-6 mois de test
+- **Rollback** : Possible vers OneDrive si nécessaire
+
+---
+
+## 📊 NOMENCLATURE COMPLÈTE ONEDRIVE (89 GB total)
+
+### **📁 STRUCTURE PRINCIPALE**
+```
+C:\Users\Dell15\OneDrive\
+├── 🏢 Administration (1.95 GB) ⭐ SYNC HOSTINGER
+├── 💼 Bureau (0.01 GB) ⚠️ OPTIONNEL
+├── 🏗️ Chantiers (35.16 GB) ⭐ SYNC HOSTINGER - CRITIQUE
+├── 💰 Comptabilité 2024 (0.13 GB) ⭐ SYNC HOSTINGER
+├── 💰 Comptabilité 2025 (0.36 GB) ⭐ SYNC HOSTINGER
+├── 📄 Documents (31.05 GB) ❌ TROP VOLUMINEUX - EXCLU
+├── 📋 Documents commerciaux (4.63 GB) ⚠️ OPTIONNEL
+├── 📑 Documents Types (5 GB) ⭐ SYNC HOSTINGER
+├── 🖼️ Images (4.66 GB) ⚠️ OPTIONNEL
+├── 📥 Numérisations (0 GB)
+├── 🏗️ Organisation ATARYS (0.14 GB) ⭐ SYNC HOSTINGER
+├── 📎 Pièces jointes (0 GB)
+└── 🏗️ Stavařina (4 GB) ⚠️ OPTIONNEL
+```
+
+### **🎯 STRATÉGIE DE SYNCHRONISATION HOSTINGER**
+
+#### **✅ DOSSIERS SYNCHRONISÉS (Total: ~51 GB)**
+- **Administration (1.95 GB)** : Données RH, contrats, administratif
+- **Comptabilité 2025 (0.36 GB)** : Données comptables critiques
+- **Organisation ATARYS (0.14 GB)** : Structure et organisation projet
+- **Documents Types (5 GB)** : Templates, modèles, formulaires
+- **Images (4.66 GB)** : Photos chantiers, visuels projet
+- **Stavařina (4 GB)** : Projet spécifique important
+- **Chantiers (35.16 GB)** : **CRITIQUE - Base de l'activité**
+
+#### **🏗️ STRUCTURE TYPE CHANTIERS**
+Chaque chantier suit le pattern : `ANNÉE-NUMÉRO NOM_CLIENT/`
+```
+├── 01 Documentation clients/
+├── 02 Devis/
+├── 03 Demande de devis-Commande/
+├── 04 Plan/
+├── 05 Envoi/
+├── 06 Photos/
+├── 07 BdE/
+└── 08 Administration/
+```
+
+#### **🚀 OPTIMISATIONS POUR CHANTIERS**
+- **Priorité sync** : Chantiers 2024-2025 en premier
+- **Compression photos** : Réduction automatique des images lourdes
+- **Sync différée** : Archives anciennes synchronisées en arrière-plan
+- **Filtres intelligents** : Exclusion des fichiers temporaires (.tmp, ~$)
+
+#### **❌ DOSSIERS EXCLUS**
+- **Documents (31.05 GB)** : Trop volumineux, sync manuelle si besoin
+
+## 📋 NOMENCLATURE DÉTAILLÉE
+
+### **🏗️ DOSSIER CHANTIERS (Structure détaillée)**
+
+#### **Exemples de chantiers identifiés :**
+```
+Chantiers/
+├── 2024-10 VANROYEN (0.22 GB)
+│   ├── 01 Documentation clients (0.07 GB)
+│   ├── 02 Devis (0 GB)
+│   ├── 03 Demande de devis-Commande (0.01 GB)
+│   ├── 04 Plan (0.06 GB)
+│   ├── 05 Envoi (0.01 GB)
+│   ├── 06 Photos (0.06 GB)
+│   ├── 07 BdE (0 GB)
+│   └── 08 Administration (0.01 GB)
+├── 2024-11 FOUQUERES OLLIVIER (0.36 GB)
+│   ├── 01 Documentation clients (0.06 GB)
+│   ├── 02 Devis (0.01 GB)
+│   ├── 03 Demande de devis-Commande (0.02 GB)
+│   ├── 04 Plan (0.08 GB)
+│   ├── 05 Envoi (0 GB)
+│   ├── 06 Photos (0.17 GB)
+│   ├── 07 BdE (0 GB)
+│   └── 08 Administration (0.02 GB)
+├── 2024-11 GAEC du Temple (0.03 GB)
+└── ... (autres chantiers)
+```
+
+#### **📊 ANALYSE CHANTIERS :**
+- **Structure standardisée** : 8 sous-dossiers par chantier
+- **Nomenclature** : `ANNÉE-NUMÉRO NOM_CLIENT`
+- **Taille moyenne** : 0.1 à 0.4 GB par chantier
+- **Répartition** : Photos et Plans représentent le plus de volume
+
+### **🏢 DOSSIER ADMINISTRATION**
+```
+Administration/
+├── Volet social/
+│   └── 0-Dossier salarié/
+├── Contrats/
+├── Correspondances/
+├── Documents officiels/
+└── Archives administratives/
+```
+
+### **💰 DOSSIERS COMPTABILITÉ**
+```
+Comptabilité 2024/ & Comptabilité 2025/
+├── Factures/
+├── Devis validés/
+├── Relevés bancaires/
+├── TVA/
+├── Déclarations/
+└── Bilans/
+```
+
+### **📑 DOSSIER DOCUMENTS TYPES**
+```
+Documents Types/
+├── Modèles contrats/
+├── Templates devis/
+├── Formulaires administratifs/
+├── Modèles lettres/
+└── Charte graphique/
+```
 
 ## 🎯 **OBJECTIF**
 

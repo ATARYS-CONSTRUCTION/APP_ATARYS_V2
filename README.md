@@ -72,9 +72,13 @@ ATARYS V2/
 
 ### Prérequis
 
+**Langages et Runtime :**
 - Node.js 18+ et npm
 - Python 3.9+
 - Git
+
+**Outils Externes :**
+- rclone v1.70.3+ (synchronisation fichiers) - Emplacement : `C:\DEV\ATARYS_TOOLS\rclone.exe`
 
 ### Installation Frontend
 
