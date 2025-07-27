@@ -14,7 +14,7 @@
 ### **URLs de Développement**
 ```
 Backend Flask : http://localhost:5000
-Frontend React : http://localhost:3001  
+Frontend React : http://localhost:3000  
 ```
 
 ---
@@ -22,7 +22,7 @@ Frontend React : http://localhost:3001
 ## 🏗️ **Architecture & Technique**
 
 ### **Architecture System**
-- **[Architecture Complète](02-architecture/ARCHITECTURE.md)** - Vue d'ensemble technique
+- **[Architecture Complète](02-architecture/00-overview/ATARYS_ARCHITECTURE.md)** - Vue d'ensemble technique
 - **[APIs REST](02-architecture/API_ENDPOINTS.md)** - 30+ endpoints documentés
 - **[Base de Données](02-architecture/DATABASE_SCHEMA.md)** - Schéma SQLAlchemy complet
 
@@ -40,7 +40,7 @@ Frontend React : http://localhost:3001
 
 ### **Outils Développement**
 - **[Template Nouvelle Page](04-outils-templates/TEMPLATE_NOUVELLE_PAGE.md)** - Template complet
-- **[Nomenclature ATARYS](04-outils-templates/NOMENCLATURE.txt)** - Structure 13 modules
+- **[Modules ATARYS](02-architecture/00-overview/ATARYS_MODULES.md)** - Structure 13 modules
 
 ---
 

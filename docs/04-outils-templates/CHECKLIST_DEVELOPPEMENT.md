@@ -8,12 +8,12 @@
 ## 🔍 **PHASE 1 : CONSULTATION DOCUMENTATION OBLIGATOIRE**
 
 ### **Documents à consulter AVANT de coder :**
-- [ ] `docs/DEV_MASTER.md` - Document central (Vision globale)
-- [ ] `docs/CONSIGNES.md` - Standards et workflow
-- [ ] `docs/REGLES METIERS.md` - Règles business
-- [ ] `docs/API_ENDPOINTS.md` - APIs existantes
-- [ ] `docs/DATABASE_SCHEMA.md` - Structure BDD
-- [ ] `docs/ATARYS_ARCHITECTURE.md` - Architecture technique
+- [ ] `docs/01-guides-principaux/DEV_MASTER.md` - Document central (Vision globale)
+- [ ] `docs/03-regles-standards/WORKFLOWS.md` - Standards et workflow
+- [ ] `docs/03-regles-standards/REGLES METIERS.md` - Règles business
+- [ ] `docs/02-architecture/00-overview/API_ENDPOINTS.md` - APIs existantes
+- [ ] `docs/02-architecture/01-database/DATABASE_SCHEMA.md` - Structure BDD
+- [ ] `docs/02-architecture/00-overview/ATARYS_ARCHITECTURE.md` - Architecture technique
 
 ### **Questions à se poser OBLIGATOIREMENT :**
 - [ ] Cette fonctionnalité existe-t-elle déjà ?
@@ -50,9 +50,9 @@
 - [ ] **Frontend** : Valider dans navigateur
 
 ### **Documentation à mettre à jour :**
-- [ ] `docs/INDEX.md` si nouveau module
-- [ ] `docs/API_ENDPOINTS.md` si nouvelle API
-- [ ] `docs/DATABASE_SCHEMA.md` si nouveau modèle
+- [ ] `docs/README.md` si nouveau module
+- [ ] `docs/02-architecture/00-overview/API_ENDPOINTS.md` si nouvelle API
+- [ ] `docs/02-architecture/01-database/DATABASE_SCHEMA.md` si nouveau modèle
 - [ ] `README.md` du module concerné
 
 ---

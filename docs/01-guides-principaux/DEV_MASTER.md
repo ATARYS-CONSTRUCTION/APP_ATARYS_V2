@@ -45,7 +45,7 @@ Entreprise charpente-couverture-menuiserie de 10 personnes. Valeurs : technicit�
 #### **✅ ÉLÉMENTS 100% OPÉRATIONNELS V2**
 - **Frontend React** - Structure complète fonctionnelle (port 3000)
 - **Backend Flask** - API REST opérationnelle (port 5000)
-- **Base de données** - SQLite V2 avec tables de test (TestAuditTable, TestCle2)
+- **Base de données** - SQLite V2 avec 13 modèles SQLAlchemy créés
 - **API REST** - Interface d'administration (port 5000)
 - **Documentation** - Architecture complète et cohérente
 - **Nomenclature** - 13 modules ATARYS avec sous-modules définis
@@ -81,7 +81,7 @@ Entreprise charpente-couverture-menuiserie de 10 personnes. Valeurs : technicit�
 
 ---
 
-## 🌐 **Migration Hostinger 2025 (Phase Expérimentale)**
+## 🌐 **Migration Hostinger 2025 (EXPÉRIMENTAL - En évaluation)**
 
 ### **📊 Changement Architectural Majeur :**
 - **Stockage centralisé** : Fichiers entreprise sur serveur applicatif
@@ -162,14 +162,14 @@ frontend/src/
 └── api/               # Services API centralisés
 
 data/
-└── atarys_data.db     # Base SQLite V2 (176 lignes articles)
+└── atarys_data.db     # Base SQLite V2 (structure complète)
 ```
 
 ### **Fonctionnalités Avancées Implémentées**
 - **Création Dynamique de Tables** : Interface utilisateur intuitive
 - **Import Excel Intelligent** : Collage direct depuis Excel
 - **Logique UPSERT** : Création/mise à jour automatique
-- **Compteur de Lignes** : Affichage dynamique (176 lignes)
+- **Compteur de Lignes** : Affichage dynamique en temps réel
 - **Validation Marshmallow** : Intégrité des données
 - **Communication CORS** : Frontend-backend configuré
 
@@ -191,7 +191,7 @@ data/
 - ✅ **Augmenter** la rentabilité par une meilleure organisation
 
 **FICHIER "Atarys 2025.xlsx" (10 onglets) À REMPLACER :**
-- ✅ **Articles ATARYS** → Module 5.1 (FAIT 100% - 176 lignes)
+- 🔄 **Articles ATARYS** → Module 5.1 (STRUCTURE CRÉÉE - données à importer)
 - 🔄 **LISTE DES TACHES** → Module 3.1 Liste Chantiers (EN COURS)
 - 🔄 **PrévisionneL** → Module 7.1 Tableaux de bord financiers
 - 🔄 **Synthèse Prévisionnel** → Module 7.2 KPIs temps réel  
@@ -249,7 +249,7 @@ data/
 - ✅ Source : Fichier Excel propre préparé par l'utilisateur (FAIT)
 - ✅ Standards V2 : SQLAlchemy 2.0+ avec `db.Numeric(10, 2)` pour montants (FAIT)
 - ✅ Scripts d'import : Créer outils d'import Excel → SQLite V2 (FAIT)
-- ✅ Base SQLite V2 selon modules ATARYS prioritaires (FAIT - 176 lignes)
+- ✅ Base SQLite V2 selon modules ATARYS prioritaires (FAIT - structure complète)
 
 ### **🔄 PRIORITÉ 3 : DÉVELOPPER MODULE 3.1** (EN COURS)
 **Remplace :** "LISTE DES TACHES" + "Liste_Chantiers"
@@ -292,7 +292,7 @@ data/
 - **Documentation complète** : Chaque aspect documenté
 - **Standards techniques** : BaseModel, SQLAlchemy 2.0+, Factory pattern
 - **Fonctionnalités avancées** : Création dynamique, import Excel, UPSERT
-- **Performance** : < 100ms response time, 176 lignes gérées
+- **Performance** : < 100ms response time, architecture optimisée
 
 ---
 
@@ -370,7 +370,7 @@ cd backend; python run_flask_admin.py
 - **Logique UPSERT** : Création/mise à jour automatique
 
 #### **Interface Utilisateur**
-- **Compteur de lignes** : Affichage dynamique (176 lignes)
+- **Compteur de lignes** : Affichage dynamique en temps réel
 - **Boutons d'action** : Ajouter ligne, créer table
 - **Gestion d'erreurs** : Messages explicites
 - **Responsive** : Adaptation mobile/desktop

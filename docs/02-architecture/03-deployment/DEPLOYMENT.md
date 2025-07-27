@@ -109,8 +109,86 @@ python run.py
 ```bash
 cd frontend
 npm run dev
-# ✅ Interface sur http://localhost:3001
+# ✅ Interface sur http://localhost:3000
 ```
+
+### **🔧 Configuration des Ports ATARYS**
+
+#### **Stratégie de Ports Standard**
+```bash
+# Ports recommandés ATARYS
+FLASK_PORT=5000  # Backend Flask (standard)
+VITE_PORT=3000   # Frontend Vite (évite conflit avec React 3001)
+```
+
+**Avantages :**
+- ✅ **Simplicité** : Configuration standard, pas de conflit
+- ✅ **Compatibilité** : Flask 5000 et Vite 3000 sont les ports par défaut
+- ✅ **Évite collisions** : Pas de conflit avec d'autres services
+
+#### **Gestion des Conflits de Ports**
+
+##### **Vérification Ports Libres**
+```bash
+# Vérifier si ports disponibles
+netstat -tulpn | grep :5000  # Backend
+netstat -tulpn | grep :3000  # Frontend
+
+# Alternative Windows
+netstat -an | findstr :5000
+netstat -an | findstr :3000
+```
+
+##### **Si Ports Occupés**
+```bash
+# Option 1: Modifier dans .env
+FLASK_PORT=5001
+VITE_PORT=3001
+
+# Option 2: Arrêter service conflictuel
+# Identifier le processus
+lsof -i :5000
+kill -9 [PID]
+```
+
+##### **Déploiement Production**
+```bash
+# Production: Nginx reverse proxy
+Frontend: Port 80/443 (public)
+Backend: Port 5000 (interne, derrière Nginx)
+
+# Variables production
+FLASK_PORT=5000  # Port interne
+PUBLIC_URL=https://atarys.com
+```
+
+#### **Configuration Nginx Production**
+```nginx
+# Adaptation pour ports configurables
+server {
+    listen 443 ssl http2;
+    server_name atarys.com;
+    
+    # Frontend statique
+    location / {
+        root /opt/atarys/frontend/dist;
+        try_files $uri $uri/ /index.html;
+    }
+    
+    # API Backend (port configurable)
+    location /api/ {
+        proxy_pass http://127.0.0.1:5000;  # FLASK_PORT
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+#### **Bonnes Pratiques ATARYS**
+- ✅ **Garder les ports standards** : 5000/3000 sauf conflit
+- ✅ **Documenter les changements** : Si modification nécessaire
+- ✅ **Tester après changement** : Vérifier frontend → backend
+- ✅ **Synchroniser équipe** : Même config pour tous
 
 ### **Variables d'Environnement Dev**
 
@@ -122,12 +200,16 @@ SECRET_KEY=dev-secret-key-change-in-production
 DATABASE_PATH=../data/atarys_data.db
 LOG_LEVEL=DEBUG
 CORS_ORIGINS=http://localhost:3000,http://localhost:3001
+
+# Configuration des ports
+FLASK_PORT=5000
 ```
 
 #### **Frontend (`.env.local`)**
 ```env
 VITE_API_URL=http://localhost:5000
 VITE_ENV=development
+VITE_PORT=3000
 ```
 
 ---
@@ -802,11 +884,16 @@ sudo ufw enable
 - [ ] ✅ Tests passent (unitaires + intégration)
 - [ ] ✅ Build frontend réussi
 - [ ] ✅ Variables d'environnement configurées
+- [ ] ✅ **Ports disponibles et configurés (FLASK_PORT, VITE_PORT)**
+- [ ] ✅ **Configuration Nginx adaptée aux ports**
 - [ ] ✅ Base de données migrée
 - [ ] ✅ Sauvegarde effectuée
 
 ### **Après Déploiement**
 - [ ] ✅ Application accessible
+- [ ] ✅ **Ports corrects dans les logs (vérifier démarrage)**
+- [ ] ✅ **Frontend accessible sur port configuré**
+- [ ] ✅ **API backend répond depuis frontend**
 - [ ] ✅ APIs fonctionnelles
 - [ ] ✅ Logs sans erreurs
 - [ ] ✅ Monitoring actif
@@ -815,5 +902,17 @@ sudo ufw enable
 ### **En Cas de Problème**
 1. **Vérifier les logs** : `/opt/atarys/logs/`
 2. **Status services** : `systemctl status atarys-prod`
-3. **Rollback** : `git checkout previous-commit && redeploy`
-4. **Restauration DB** : Depuis sauvegarde la plus récente 
+3. **Vérifier les ports** : `netstat -tulpn | grep -E ":(5000|3000|80|443)"`
+4. **Problèmes de connexion frontend ↔ backend** :
+   ```bash
+   # Tester API depuis serveur
+   curl http://localhost:5000/api/health
+   
+   # Vérifier configuration CORS
+   grep CORS_ORIGINS /opt/atarys/backend/.env
+   
+   # Vérifier proxy Nginx
+   nginx -t && systemctl reload nginx
+   ```
+5. **Rollback** : `git checkout previous-commit && redeploy`
+6. **Restauration DB** : Depuis sauvegarde la plus récente 
